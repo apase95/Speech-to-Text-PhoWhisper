@@ -178,3 +178,4 @@ wheel==0.48.0
 widgetsnbextension==4.0.16
 xxhash==4.0.1
 yarl==1.25.1
+gradio==6.29.1

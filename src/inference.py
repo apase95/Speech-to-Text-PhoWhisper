@@ -1,5 +1,6 @@
 import argparse
 import logging
+from functools import lru_cache
 from pathlib import Path
 
 import torch
@@ -12,19 +13,22 @@ logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 transformers_logging.set_verbosity_error()
 
 
-def transcribe(audio_path: str) -> str:
-    device = 0 if torch.cuda.is_available() else -1
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-
-    pipe = pipeline(
+@lru_cache(maxsize=1)
+def get_pipeline():
+    use_cuda = torch.cuda.is_available()
+    return pipeline(
         task="automatic-speech-recognition",
         model=MODEL_NAME,
-        device=device,
-        dtype=dtype,
+        device=0 if use_cuda else -1,
+        dtype=torch.float16 if use_cuda else torch.float32,
     )
 
-    result = pipe(audio_path, generate_kwargs={"language": "vi", "task": "transcribe"})
 
+def transcribe(audio_path: str) -> str:
+    result = get_pipeline()(
+        audio_path,
+        generate_kwargs={"language": "vi", "task": "transcribe"},
+    )
     return result["text"]
 
 

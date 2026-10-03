@@ -37,6 +37,16 @@ Trong VS Code có thể dùng `Run and Debug` -> `Run PhoWhisper Inference`.
 
 Mở `notebooks/01_smoke_test.ipynb`, chọn kernel `.venv`, chạy cell đầu để kiểm tra model config. Cell thứ hai chỉ chạy khi đã có audio test.
 
+## Local web demo
+
+Start the Gradio interface:
+
+```bash
+python -m src.app
+```
+
+Open the local URL shown in the terminal, choose a WAV file, inspect its log-Mel spectrogram, and click **Transcribe**.
+
 ## Fine-tuning trên Kaggle
 
 Trên Kaggle nên bật GPU T4/P100, upload notebook/dataset, rồi cài các package chính:
