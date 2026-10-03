@@ -12,6 +12,19 @@ from src.app import build_app, clear_outputs, render_spectrogram, run_transcript
 
 
 class AppTests(unittest.TestCase):
+    def test_audio_accepts_upload_and_microphone(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", ResourceWarning)
+            app = build_app()
+        self.addCleanup(app.close)
+
+        audio = next(
+            component
+            for component in app.get_config_file()["components"]
+            if component["type"] == "audio"
+        )
+        self.assertEqual(audio["props"]["sources"], ["upload", "microphone"])
+
     def test_transcribe_button_uses_blue_primary_theme(self):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", ResourceWarning)

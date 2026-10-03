@@ -49,9 +49,13 @@ def clear_outputs():
 def build_app() -> gr.Blocks:
     with gr.Blocks(title="PhoWhisper Vietnamese STT") as app:
         gr.Markdown(
-            "Choose a WAV file to view its log-Mel spectrogram and transcript"
+            "Upload or drop a WAV file, or record audio with your microphone"
         )
-        audio = gr.Audio(label="WAV audio", sources=["upload"], type="filepath")
+        audio = gr.Audio(
+            label="Upload WAV or record audio",
+            sources=["upload", "microphone"],
+            type="filepath",
+        )
         spectrogram = gr.Plot(label="Log-Mel Spectrogram")
         transcribe_button = gr.Button("Transcribe", variant="primary")
         transcript = gr.Textbox(label="Transcript", interactive=False, lines=5)
