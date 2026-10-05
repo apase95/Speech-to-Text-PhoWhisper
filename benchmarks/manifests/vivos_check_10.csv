@@ -1,0 +1,11 @@
+id,audio_path,reference,split
+VIVOSDEV01_R002,data/benchmark/vivos-check/audio/VIVOSDEV01_R002.wav,tiếng cọc cạch khựng lại của những khớp sắt,test
+VIVOSDEV01_R003,data/benchmark/vivos-check/audio/VIVOSDEV01_R003.wav,cũng lên tiếng ủng hộ các kiến nghị này,test
+VIVOSDEV01_R012,data/benchmark/vivos-check/audio/VIVOSDEV01_R012.wav,những cơn gió mạnh và mưa đóng băng gây trơn trợt,test
+VIVOSDEV01_R027,data/benchmark/vivos-check/audio/VIVOSDEV01_R027.wav,di tích có bảy phỗng ông và hai phỗng bà được làm bằng gỗ mít,test
+VIVOSDEV01_R028,data/benchmark/vivos-check/audio/VIVOSDEV01_R028.wav,các chú cũng thoải mái phóng uế giữa chốn đông người mà không sợ,test
+VIVOSDEV01_R034,data/benchmark/vivos-check/audio/VIVOSDEV01_R034.wav,người ta nói,test
+VIVOSDEV01_R043,data/benchmark/vivos-check/audio/VIVOSDEV01_R043.wav,anh phú chưa bú được sữa mẹ lần nào,test
+VIVOSDEV01_R044,data/benchmark/vivos-check/audio/VIVOSDEV01_R044.wav,ngọn lửa bạo động ở trung đông và phá vỡ lộ trình hòa bình,test
+VIVOSDEV01_R055,data/benchmark/vivos-check/audio/VIVOSDEV01_R055.wav,và rất sáng tạo,test
+VIVOSDEV01_R057,data/benchmark/vivos-check/audio/VIVOSDEV01_R057.wav,nhưng giấc ngủ chập chờn,test

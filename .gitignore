@@ -3,6 +3,8 @@ __pycache__/
 .pytest_cache/
 *.pyc
 data/raw/
+data/benchmark/
+outputs/benchmarks/
 models/*.pt
 models/*.safetensors
 models/*.bin

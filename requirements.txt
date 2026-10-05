@@ -6,3 +6,5 @@ librosa>=0.10
 matplotlib>=3.8
 numpy>=1.26
 soundfile>=0.12
+jiwer>=4.0
+kaggle>=2.2
