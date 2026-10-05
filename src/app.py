@@ -48,9 +48,7 @@ def clear_outputs():
 
 def build_app() -> gr.Blocks:
     with gr.Blocks(title="PhoWhisper Vietnamese STT") as app:
-        gr.Markdown(
-            "Upload or drop a WAV file, or record audio with your microphone"
-        )
+        gr.Markdown("Upload or drop a WAV file, or record audio with your microphone")
         audio = gr.Audio(
             label="Upload WAV or record audio",
             sources=["upload", "microphone"],
@@ -61,9 +59,7 @@ def build_app() -> gr.Blocks:
         transcript = gr.Textbox(label="Transcript", interactive=False, lines=5)
 
         audio.change(
-            clear_outputs,
-            outputs=[spectrogram, transcript],
-            queue=False,
+            clear_outputs, outputs=[spectrogram, transcript], queue=False
         ).then(render_spectrogram, inputs=audio, outputs=spectrogram)
         transcribe_button.click(run_transcription, inputs=audio, outputs=transcript)
     return app

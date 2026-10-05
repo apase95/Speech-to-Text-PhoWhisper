@@ -1,13 +1,9 @@
 .venv/
 __pycache__/
-.ipynb_checkpoints/
+.pytest_cache/
 *.pyc
-
 data/raw/
-data/processed/
-
-outputs/checkpoints/
-outputs/finetuned/
-*.safetensors
-*.bin
+models/*.pt
+models/*.safetensors
+models/*.bin
 .env
