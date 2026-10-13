@@ -15,7 +15,20 @@ python tools/download_viet_bud500_subset.py
 
 Downloader hỗ trợ resume và kiểm tra mỗi WAV bằng libsndfile. Manifest lưu SHA-256 của từng file; không chỉnh sửa test set hoặc dùng các mẫu này để fine-tune.
 
+Dev set cố định gồm 250 ID tiếp theo, `audio1001.wav` đến `audio1250.wav`, không trùng với benchmark 1.000 mẫu:
+
+```bash
+python tools/download_viet_bud500_subset.py \
+  --count 250 \
+  --start-id 1001 \
+  --manifest benchmarks/manifests/viet_bud500_dev_250.csv
+```
+
+Chọn cấu hình decoding trên dev set này trước khi chạy lại test set. Không dùng kết quả test để chọn beam size hoặc siêu tham số khác.
+
 ## Chạy benchmark
+
+Cấu hình mặc định được khuyến nghị cho utterance ngắn là greedy, `without_timestamps=True`, `condition_on_previous_text=False` và không silence padding. Không truyền `--beam-size` để giữ greedy decoding.
 
 Smoke test 10 file:
 
@@ -33,6 +46,19 @@ python -m benchmarks.run \
   --manifest benchmarks/manifests/viet_bud500_1000.csv \
   --name baseline
 ```
+
+Thử silence padding ở mỗi biên sau khi audio được resample về 16 kHz:
+
+```bash
+python -m benchmarks.run \
+  --manifest benchmarks/manifests/viet_bud500_dev_250.csv \
+  --name dev250-greedy-padding200 \
+  --without-timestamps \
+  --no-condition-on-previous-text \
+  --silence-padding-ms 200
+```
+
+RTF vẫn được tính theo thời lượng file gốc để so sánh nhất quán giữa các mức padding.
 
 Mỗi run tạo thư mục riêng trong `outputs/benchmarks/` gồm:
 

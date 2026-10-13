@@ -9,12 +9,20 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
+import numpy as np
 import soundfile as sf
 import torch
 import whisper
 
 from benchmarks.metrics import corpus_error_rates, normalize_vietnamese
 from src.inference import get_model, model_path
+
+
+def add_silence_padding(audio: np.ndarray, milliseconds: int) -> np.ndarray:
+    if milliseconds < 0:
+        raise ValueError("Silence padding must be non-negative")
+    padding_samples = round(whisper.audio.SAMPLE_RATE * milliseconds / 1000)
+    return np.pad(audio, (padding_samples, padding_samples))
 
 
 def file_sha256(path: Path) -> str:
@@ -53,9 +61,13 @@ def main() -> None:
     parser.add_argument("--name", default="phowhisper-base")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--beam-size", type=int)
-    parser.add_argument("--without-timestamps", action=argparse.BooleanOptionalAction, default=False)
-    parser.add_argument("--condition-on-previous-text", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--without-timestamps", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--condition-on-previous-text", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--silence-padding-ms", type=int, default=0)
     args = parser.parse_args()
+
+    if args.silence_padding_ms < 0:
+        parser.error("--silence-padding-ms must be non-negative")
 
     rows = read_manifest(args.manifest, args.limit)
     missing = [row["audio_path"] for row in rows if not Path(row["audio_path"]).is_file()]
@@ -82,6 +94,7 @@ def main() -> None:
         "fp16": torch.cuda.is_available(),
         "condition_on_previous_text": args.condition_on_previous_text,
         "without_timestamps": args.without_timestamps,
+        "silence_padding_ms": args.silence_padding_ms,
     }
     if args.beam_size is not None:
         decode_options["beam_size"] = args.beam_size
@@ -100,7 +113,13 @@ def main() -> None:
                 torch.cuda.synchronize()
             started = time.perf_counter()
             try:
-                prediction = model.transcribe(str(audio_path), **decode_options)["text"].strip()
+                transcription_input = str(audio_path)
+                model_options = decode_options.copy()
+                model_options.pop("silence_padding_ms")
+                if args.silence_padding_ms:
+                    audio = whisper.load_audio(str(audio_path))
+                    transcription_input = add_silence_padding(audio, args.silence_padding_ms)
+                prediction = model.transcribe(transcription_input, **model_options)["text"].strip()
                 error = None
             except Exception as exc:
                 prediction = ""

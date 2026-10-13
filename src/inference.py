@@ -7,12 +7,8 @@ import torch
 import whisper
 
 DEFAULT_MODEL_PATH = Path("models/phowhisper-base.pt")
-
-
 def model_path() -> Path:
     return Path(os.environ.get("PHOWHISPER_MODEL_PATH", DEFAULT_MODEL_PATH))
-
-
 @lru_cache(maxsize=1)
 def get_model():
     path = model_path()
@@ -32,6 +28,8 @@ def transcribe(audio_path: str) -> str:
         language="vi",
         task="transcribe",
         fp16=use_fp16,
+        without_timestamps=True,
+        condition_on_previous_text=False,
     )
     return result["text"].strip()
 

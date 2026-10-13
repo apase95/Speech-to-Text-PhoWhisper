@@ -24,7 +24,12 @@ class InferenceTests(unittest.TestCase):
 
         self.assertEqual(inference.transcribe("sample.wav"), "xin chào")
         get_model.return_value.transcribe.assert_called_once_with(
-            "sample.wav", language="vi", task="transcribe", fp16=False
+            "sample.wav",
+            language="vi",
+            task="transcribe",
+            fp16=False,
+            without_timestamps=True,
+            condition_on_previous_text=False,
         )
 
 
