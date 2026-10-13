@@ -9,3 +9,4 @@ models/*.pt
 models/*.safetensors
 models/*.bin
 .env
+.opencode
