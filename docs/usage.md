@@ -166,3 +166,4 @@ python -m unittest discover tests
 - [Nhật ký Nâng cấp & Tối ưu hóa](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/docs/upgrade.md): Bảng tổng hợp 11 cải tiến kỹ thuật so với bản gốc.
 - [Báo cáo Kiểm chứng Rescoring Đối chứng](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-controlled-rescoring-benchmark-check.md): Phân tích thực nghiệm 3 nhánh A / B / C trên 1.000 mẫu test.
 - [Báo cáo Conservative Rescoring & Thống kê](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-conservative-rescoring-report.md): Chi tiết cơ chế Acoustic Margin $\gamma$ và Paired Bootstrap Significance test.
+- [Báo cáo PhoBERT Challenger vs GPT-2](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-phobert-vs-gpt2-report.md): Đánh giá mô hình ngôn ngữ 2 chiều (PLL), giảm lỗi Deletion và so sánh toàn diện.

@@ -47,3 +47,7 @@ Sử dụng GPT-2 tiếng Việt chấm điểm chùm tia 5-best với acoustic 
 ### 11. Chế độ suy luận kép linh hoạt (Dual Fast vs Accurate Inference)
 Cung cấp lựa chọn `--rescore` trong CLI và web UI: mặc định Fast (Greedy) và Accurate (Beam 5 + LM).
 Đảm bảo luồng mặc định không tốn thêm bộ nhớ, tự động lazy load và có fallback an toàn khi thiếu tài nguyên.
+
+### 12. Thử nghiệm PhoBERT Challenger (Bidirectional Masked LM)
+Sử dụng `vinai/phobert-base-v2` chấm điểm Pseudo-Log-Likelihood (PLL) dạng batch kết hợp tách từ `pyvi`.
+Giảm lỗi Deletion từ 160 xuống 139 (-21 lỗi mất từ), hạ CER xuống **5,31%** và nâng số câu đúng hoàn hảo lên **52,00%**.

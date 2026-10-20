@@ -15,9 +15,13 @@ logger = logging.getLogger(__name__)
 
 # Default locked parameters from 5-fold cross-validation on Dev 250
 DEFAULT_LM_MODEL = "NlpHUST/gpt2-vietnamese"
-DEFAULT_ALPHA = 0.200
-DEFAULT_BETA = -0.020
-DEFAULT_GAMMA = -0.20
+DEFAULT_ALPHA_GPT2 = 0.200
+DEFAULT_BETA_GPT2 = -0.020
+DEFAULT_GAMMA_GPT2 = -0.20
+
+DEFAULT_ALPHA_PHOBERT = 0.130
+DEFAULT_BETA_PHOBERT = -0.008
+DEFAULT_GAMMA_PHOBERT = -0.20
 
 
 def extract_standard_mel(audio_input: str | Path | np.ndarray, model: whisper.Whisper) -> torch.Tensor:
@@ -83,11 +87,11 @@ class NBestDecodingTask(whisper.decoding.DecodingTask):
         return results
 
 
-@lru_cache(maxsize=1)
+@lru_cache(maxsize=2)
 def get_lm_model(model_name: str = DEFAULT_LM_MODEL) -> tuple[Any, Any]:
     """Lazy-load and cache the language model and tokenizer for rescoring."""
     try:
-        from transformers import AutoModelForCausalLM, AutoTokenizer
+        from transformers import AutoModelForCausalLM, AutoModelForMaskedLM, AutoTokenizer
     except ImportError as exc:
         raise ImportError(
             "Transformers is required for LM rescoring. "
@@ -96,7 +100,10 @@ def get_lm_model(model_name: str = DEFAULT_LM_MODEL) -> tuple[Any, Any]:
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+    if "phobert" in model_name.lower():
+        model = AutoModelForMaskedLM.from_pretrained(model_name).to(device)
+    else:
+        model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
     model.eval()
     return model, tokenizer
 
@@ -106,11 +113,19 @@ def rescore_audio(
     whisper_model: whisper.Whisper,
     lm_model_name: str = DEFAULT_LM_MODEL,
     beam_size: int = 5,
-    alpha: float = DEFAULT_ALPHA,
-    beta: float = DEFAULT_BETA,
-    gamma: float = DEFAULT_GAMMA,
+    alpha: float | None = None,
+    beta: float | None = None,
+    gamma: float | None = None,
 ) -> str:
     """Perform beam search ASR decoding and conservative Language Model rescoring."""
+    is_phobert = "phobert" in lm_model_name.lower()
+    if alpha is None:
+        alpha = DEFAULT_ALPHA_PHOBERT if is_phobert else DEFAULT_ALPHA_GPT2
+    if beta is None:
+        beta = DEFAULT_BETA_PHOBERT if is_phobert else DEFAULT_BETA_GPT2
+    if gamma is None:
+        gamma = DEFAULT_GAMMA_PHOBERT if is_phobert else DEFAULT_GAMMA_GPT2
+
     mel = extract_standard_mel(audio_input, whisper_model)
     use_fp16 = torch.cuda.is_available()
 
@@ -137,15 +152,42 @@ def rescore_audio(
         lm_model, lm_tokenizer = get_lm_model(lm_model_name)
         device = next(lm_model.parameters()).device
 
-        for c in cands:
-            c["normalized_text"] = normalize_vietnamese(c["text"])
-            if not c["normalized_text"]:
-                c["lm_logprob_per_token"] = -20.0
-                continue
-            inp = lm_tokenizer.encode(c["normalized_text"], return_tensors="pt").to(device)
-            with torch.no_grad():
-                loss = lm_model(inp, labels=inp).loss
-                c["lm_logprob_per_token"] = -float(loss.item())
+        if is_phobert:
+            import torch.nn.functional as F
+            from pyvi import ViTokenizer
+
+            for c in cands:
+                c["normalized_text"] = normalize_vietnamese(c["text"])
+                if not c["normalized_text"]:
+                    c["lm_logprob_per_token"] = -20.0
+                    continue
+                segmented = ViTokenizer.tokenize(c["normalized_text"])
+                input_ids = lm_tokenizer.encode(segmented, return_tensors="pt").to(device)[0]
+                L = len(input_ids)
+                if L <= 2:
+                    c["lm_logprob_per_token"] = 0.0
+                    continue
+                T = L - 2
+                batch = input_ids.unsqueeze(0).repeat(T, 1)
+                positions = torch.arange(1, L - 1, device=device)
+                batch[torch.arange(T, device=device), positions] = lm_tokenizer.mask_token_id
+                with torch.no_grad():
+                    logits = lm_model(batch).logits
+                masked_logits = logits[torch.arange(T, device=device), positions]
+                log_probs = F.log_softmax(masked_logits, dim=-1)
+                target_ids = input_ids[positions]
+                token_log_probs = log_probs[torch.arange(T, device=device), target_ids]
+                c["lm_logprob_per_token"] = float(token_log_probs.mean().item())
+        else:
+            for c in cands:
+                c["normalized_text"] = normalize_vietnamese(c["text"])
+                if not c["normalized_text"]:
+                    c["lm_logprob_per_token"] = -20.0
+                    continue
+                inp = lm_tokenizer.encode(c["normalized_text"], return_tensors="pt").to(device)
+                with torch.no_grad():
+                    loss = lm_model(inp, labels=inp).loss
+                    c["lm_logprob_per_token"] = -float(loss.item())
 
         top1_ac = top1["avg_logprob"]
         best_cand = top1
