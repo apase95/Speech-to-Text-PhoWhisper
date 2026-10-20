@@ -12,7 +12,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-34%2F34%20Passing-success.svg)](#-ki%E1%BB%83m-th%E1%BB%AD-t%E1%BB%B1-%C4%91%E1%BB%99ng)
 
-**PhoWhisper + GPT-2** là hệ thống nhận dạng tiếng nói tiếng Việt (ASR) hiệu năng cao, kết hợp đột phá giữa mô hình nhận dạng âm học **PhoWhisper** và mô hình sinh ngôn ngữ **GPT-2 tiếng Việt**. Hệ thống chuyển đổi toàn bộ runtime sang **Native OpenAI Whisper C++/CUDA PyTorch**, kết hợp cơ chế tái xếp hạng chùm tia **Conservative N-best Language Model Rescoring** (hỗ trợ cả **GPT-2** và **PhoBERT**), màng chắn bảo vệ âm học **Acoustic Safety Margin ($\gamma$)**, và cơ chế ngắt sớm thông minh **Dynamic Acoustic Confidence Gating ($\theta$)**.
+**PhoWhisper + GPT-2** là hệ thống nhận dạng tiếng nói tiếng Việt (ASR) hiệu năng cao, kết hợp mô hình nhận dạng âm học **PhoWhisper** và mô hình sinh ngôn ngữ **GPT-2 tiếng Việt**. Hệ thống chuyển đổi toàn bộ runtime sang **Native OpenAI Whisper C++/CUDA PyTorch**, kết hợp cơ chế tái xếp hạng chùm tia **Conservative N-best Language Model Rescoring** (hỗ trợ cả **GPT-2** và **PhoBERT**), màng chắn bảo vệ âm học **Acoustic Safety Margin ($\gamma$)**, và cơ chế ngắt sớm thông minh **Dynamic Acoustic Confidence Gating ($\theta$)**.
 
 [🚀 Cài Đặt Nhanh](#-c%C3%A0i-%C4%91%E1%BA%B7t) • [📊 Điểm Số Benchmark](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark) • [💻 Hướng Dẫn Sử Dụng](#-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-s%E1%BB%AD-d%E1%BB%A5ng) • [📖 Tài Liệu Chi Tiết](docs/usage.md) • [⚖️ So Sánh Toàn Diện](docs/comparison.md)
 
@@ -20,29 +20,29 @@
 
 ---
 
-## 💡 Đột Phá Mới: Tại Sao Lại Là "PhoWhisper + GPT-2"?
+## 💡 Cơ Chế Hoạt Động Của PhoWhisper + GPT-2
 
 > [!NOTE]
-> **Giải pháp tiên phong tại Việt Nam:** Trong các hệ thống ASR tiếng Việt hiện nay, đa phần các giải pháp chỉ dừng lại ở việc chạy PhoWhisper đơn lẻ (vốn dễ mắc lỗi sai dấu, đồng âm dị nghĩa ở các từ khó) hoặc dùng mô hình n-gram cổ điển (KenLM). 
+> **Mục tiêu kỹ thuật:** Trong xử lý tiếng nói tiếng Việt, mô hình âm học thuần túy (như PhoWhisper) dễ gặp các lỗi thay thế từ đồng âm, gần âm hoặc sai dấu thanh ở các từ hiếm. 
 > 
-> **PhoWhisper + GPT-2** là dự án mã nguồn mở **đầu tiên** tích hợp chặt chẽ mô hình ASR âm học tiên tiến với một **Causal Transformer Language Model (GPT-2 tiếng Việt)** theo cơ chế chùm tia 5-best:
-> - **PhoWhisper:** Đảm nhiệm vai trò *"đôi tai"* (acoustic modeling) trích xuất chính xác âm thanh và tạo ra 5 giả thuyết tiềm năng nhất.
-> - **GPT-2:** Đóng vai trò *"bộ não ngôn ngữ"* (linguistic scoring) đánh giá mức độ tự nhiên, đúng ngữ pháp và ngữ cảnh câu tiếng Việt.
-> - **Acoustic Safety Margin ($\gamma = -0.20$):** Đóng vai trò *"màng lọc an toàn"* đảm bảo GPT-2 chỉ sửa lỗi ngữ nghĩa mà không bao giờ bóp méo âm học gốc.
-> - **Dynamic Confidence Gating ($\theta = -0.020$):** Tự động bỏ qua GPT-2 trên ~30% câu thoại mà PhoWhisper đã giải mã tự tin, vừa tăng tốc tối đa vừa triệt tiêu lỗi mất từ.
+> Hệ thống kết hợp mô hình âm học với **Causal Transformer Language Model (GPT-2 tiếng Việt)** theo cơ chế chùm tia 5-best:
+> - **PhoWhisper:** Trích xuất đặc trưng âm học và tạo ra 5 giả thuyết tiềm năng nhất (N-best candidates).
+> - **GPT-2:** Đánh giá mức độ tự nhiên, đúng ngữ pháp và tính tương thích ngữ cảnh câu tiếng Việt.
+> - **Acoustic Safety Margin ($\gamma = -0.20$):** Ràng buộc khoảng cách âm học nhằm ngăn LM hoán đổi sang candidate khác nếu điểm âm học của nó quá xa rời Top-1 Whisper.
+> - **Dynamic Confidence Gating ($\theta = -0.020$):** Tự động bỏ qua GPT-2 trên ~30% câu thoại mà PhoWhisper đã giải mã tự tin, vừa tăng tốc độ xử lý vừa giảm thiểu lỗi mất từ (deletion).
 
 ---
 
-## ⚡ Các Chỉ Số Nổi Bật (Key Highlights)
+## ⚡ Các Chỉ Số Đánh Giá (Key Metrics)
 
 > [!TIP]
 > Toàn bộ các kết quả dưới đây được kiểm chứng độc lập trên tập **Viet-BUD500** thông qua kiểm định thống kê **Paired Bootstrap Test ($N=2.000$ resamples, $p = 0.00000$)** đảm bảo **Zero Data Leakage**.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────┐
-│  🔥 WER KỶ LỤC TRÊN HOLDOUT 500      :  8.07% (Giảm ròng -17.4% so với Baseline) │
+│  📊 WER TRÊN HOLDOUT 500 (UNSEEN)    :  8.07% (Giảm -17.4% tương đối so với Base) │
 │  🎯 EXACT MATCH (ĐÚNG HOÀN TOÀN 100%):  50.0% – 51.4% (Hơn 1/2 số câu chuẩn 100%)│
-│  ⚡ TIÊU THỤ VRAM CỰC NHẸ            :  ~560 MB (Giảm 70% VRAM so với HuggingFace)│
+│  ⚡ TIÊU THỤ VRAM                    :  ~560 MB (Giảm 70% VRAM so với HuggingFace)│
 │  🚀 TỐC ĐỘ XỬ LÝ (RTF)               :  ~0.18x – 0.25x (Nhanh gấp 4x–5x thời gian thực)
 │  🛡️ TIẾT KIỆM LM NHỜ DYNAMIC GATING  :  29.4% số câu không cần LM (Tiết kiệm ~30% compute)
 │  🔒 BẢO TOÀN TỪ NGỮ PHỦ ĐỊNH         :  100% từ "không, chưa, chẳng" không bị mất│

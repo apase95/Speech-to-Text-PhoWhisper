@@ -86,14 +86,14 @@ flowchart TD
 | | **Số phép thay thế sai (S)** | 678 | 670 | **495** | **Giảm 175 lỗi** (-26,1%) |
 | | **Số phép xóa từ (D)** | 1.318 *(gốc)* / 99 | 102 | 165 *(được kiểm soát bởi gate)* | Giảm mạnh so với unconstrained (178) |
 | | **Tỷ lệ bỏ qua LM (Skip Rate)** | 0% | 0% | **29,4%** (294/1.000 câu) | Tiết kiệm ~30% thời gian LM |
-| | **Kiểm định Paired Bootstrap** | — | Baseline | **$p = 0.00000$** | **Có ý nghĩa thống kê vượt trội** |
+| | **Kiểm định Paired Bootstrap** | — | Baseline | **$p = 0.00000$** | **Có ý nghĩa thống kê ($p < 0.001$)** |
 | **Holdout 500**<br/>*(100% Unseen, Zero Leakage)* | **WER Chuẩn (%)** | — | 9,77% | **8,07%** *(Chuẩn hóa: **8,02%**)* | **-1,70% tuyệt đối**<br/>(**-17,4% tương đối**) |
 | | **Exact Match (Câu đúng 100%)** | — | 211 / 500 (42,2%) | **250 / 500 (50,0%)** | **+39 câu đúng** (+18,5%) |
 | | **Số phép thay thế sai (S)** | — | 360 | **264** | **Giảm 96 lỗi** (-26,7%) |
 | | **Hoán đổi thành công (Wins/Losses)** | — | 0W / 0L | **89 Wins / 27 Losses** | **Net cải thiện: +62 câu** |
 | | **Tỷ lệ bỏ qua LM (Skip Rate)** | — | 0% | **25,4%** (127/500 câu) | Tiết kiệm 1/4 tài nguyên LM |
-| | **Mất từ phủ định (`không, chưa`)** | — | 0 / 105 từ | **0 / 105 từ (0,0%)** | Bảo toàn tuyệt đối từ phủ định |
-| | **Kiểm định Paired Bootstrap** | — | Baseline | **$p = 0.00000$** | **Tổng quát hóa hoàn hảo** |
+| | **Mất từ phủ định (`không, chưa`)** | — | 0 / 105 từ | **0 / 105 từ (0,0%)** | Bảo toàn từ phủ định |
+| | **Kiểm định Paired Bootstrap** | — | Baseline | **$p = 0.00000$** | **Khả năng tổng quát hóa tốt ($p < 0.001$)** |
 | **Dev 250**<br/>*(Tập Cross-Validation)* | **OOF WER Chuẩn (%)** | 10,80% | 10,32% | **7,87%** | **-2,45% tuyệt đối** (-23,7% tương đối) |
 | | **OOF Exact Match** | 98 / 250 (39,2%) | 101 / 250 (40,4%) | **121 / 250 (48,4%)** | **+20 câu đúng** |
 
@@ -112,8 +112,8 @@ flowchart TD
 
 ## 5. Tổng Kết
 
-Mô hình hiện tại (**PhoWhisper + GPT-2**) vượt trội toàn diện so với mô hình ban đầu:
-1. **Chính xác hơn rõ rệt:** Giảm ròng **13% đến 17,4% WER** trên dữ liệu test và holdout; tăng tỷ lệ câu nhận dạng đúng hoàn toàn lên mốc **50% – 51,4%**.
-2. **An toàn và ổn định hơn:** Loại bỏ hoàn toàn ảo giác (hallucination), kiểm soát lỗi Deletion bằng Acoustic Margin ($\gamma=-0.20$), và bảo toàn 100% từ khóa phủ định.
-3. **Nhanh và nhẹ hơn:** Tiết kiệm 70% VRAM, tốc độ RTF ~0,2x, và tự động bỏ qua tính toán LM cho ~30% câu thoại tự tin nhờ Dynamic Gating.
-4. **Phương pháp luận chặt chẽ:** Đạt kiểm định Paired Bootstrap $p = 0.00000$, chứng minh tính tổng quát hóa tuyệt đối trên tập Holdout 500 mẫu hoàn toàn độc lập mà không cần tinh chỉnh bất kỳ tham số nào.
+Mô hình hiện tại (**PhoWhisper + GPT-2**) mang lại các cải thiện rõ rệt so với mô hình ban đầu:
+1. **Chính xác hơn:** Giảm ròng **13% đến 17,4% WER tương đối** trên dữ liệu test và holdout; tăng tỷ lệ câu nhận dạng đúng hoàn toàn lên mốc **50% – 51,4%**.
+2. **An toàn và ổn định hơn:** Hạn chế ảo giác (hallucination), kiểm soát lỗi Deletion bằng Acoustic Margin ($\gamma=-0.20$), và bảo toàn từ khóa phủ định.
+3. **Nhanh và nhẹ hơn:** Giảm khoảng 70% VRAM, tốc độ RTF ~0,2x, và tự động bỏ qua tính toán LM cho ~30% câu thoại tự tin nhờ Dynamic Gating.
+4. **Phương pháp luận chặt chẽ:** Đạt kiểm định Paired Bootstrap $p = 0.00000$, chứng minh tính tổng quát hóa trên tập Holdout 500 mẫu hoàn toàn độc lập mà không cần tinh chỉnh lại siêu tham số.

@@ -6,7 +6,7 @@ Tổng hợp các cải tiến kỹ thuật và tối ưu decoding so với mô 
 
 ### 1. Chuyển đổi sang Native PyTorch Whisper Runtime
 Chuyển đổi trọng số sang định dạng native OpenAI Whisper (`.pt`), chạy FP16 trực tiếp trên GPU.
-Giảm tiêu thụ VRAM xuống chỉ ~560 MB và cải thiện tốc độ suy luận vượt trội (RTF ~0.2x).
+Giảm tiêu thụ VRAM xuống chỉ ~560 MB và tăng tốc độ suy luận (RTF ~0.2x).
 
 ### 2. Tắt dự đoán mốc thời gian (`without_timestamps=True`)
 Tắt sinh token timestamp cho các đoạn câu thoại ngắn (utterance-level ASR).

@@ -35,7 +35,7 @@
    - Giảm WER từ **9.77% xuống 8.07%** (giảm 1.70% điểm phần trăm tuyệt đối, tương đối giảm 17.4%).
    - Số phép thay thế sai (Substitution) giảm ròng từ 360 xuống **264**.
    - Số câu đúng 100% (Exact Match) tăng từ 211 lên **250 câu** (tăng ròng +39 câu).
-   - Kiểm định Paired Bootstrap: $\Delta \text{WER} = -1.707\%$ [95% CI: $[-2.271\%, -1.122\%]$, $p = 0.00000$]. Kết quả **có ý nghĩa thống kê vượt trội**.
+   - Kiểm định Paired Bootstrap: $\Delta \text{WER} = -1.707\%$ [95% CI: $[-2.271\%, -1.122\%]$, $p = 0.00000$]. Kết quả **có ý nghĩa thống kê ($p < 0.001$)**.
 
 2. **Mức độ Cải thiện của PhoBERT Rescoring:**
    - Giảm WER xuống **8.48%**, Exact Match đạt **242 câu**.
@@ -51,5 +51,5 @@
 ## 4. Kết luận Chung
 
 Thực nghiệm trên tập Holdout 500 mẫu hoàn toàn độc lập chứng minh:
-- Pipeline Rescoring kết hợp Acoustic Gate ($\gamma = -0.20$) và Dynamic Gating ($\theta = -0.020$) có **khả năng tổng quát hóa hoàn hảo**, không hề bị overfit vào tập Test 1.000 trước đó.
+- Pipeline Rescoring kết hợp Acoustic Gate ($\gamma = -0.20$) và Dynamic Gating ($\theta = -0.020$) có **khả năng tổng quát hóa ổn định**, không hề bị overfit vào tập Test 1.000 trước đó.
 - Tỷ lệ cải thiện WER (~12–13% tương đối) và tỷ lệ tăng Exact Match nhất quán tuyệt đối giữa Dev 250, Test 1.000 và Holdout 500.
