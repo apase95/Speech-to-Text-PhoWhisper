@@ -42,9 +42,19 @@ python tools/convert_phowhisper.py \
 
 ## Chạy
 
+Xem hướng dẫn chi tiết các chế độ suy luận (Fast vs Accurate Rescoring) tại [docs/usage.md](docs/usage.md) và nhật ký nâng cấp tại [docs/upgrade.md](docs/upgrade.md).
+
 ```bash
+# Kiểm tra môi trường
 python -m src.check_environment
+
+# Nhận dạng âm thanh (Fast mode mặc định)
 python -m src.inference --audio data/raw/test/sample.wav
+
+# Nhận dạng chính xác cao (Accurate mode với LM Rescoring)
+python -m src.inference --audio data/raw/test/sample.wav --rescore
+
+# Khởi động Web UI Gradio
 python -m src.app
 ```
 
