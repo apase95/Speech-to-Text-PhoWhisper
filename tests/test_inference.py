@@ -60,6 +60,20 @@ class InferenceTests(unittest.TestCase):
             condition_on_previous_text=False,
         )
 
+    @patch("src.rescorer.rescore_audio", return_value="xin chào rescored")
+    @patch("src.inference.get_model")
+    def test_transcribe_with_rescore_enabled(self, get_model, rescore_audio):
+        get_model.return_value = Mock()
+        result = inference.transcribe("sample.wav", rescore=True, beam_size=5)
+
+        self.assertEqual(result, "xin chào rescored")
+        rescore_audio.assert_called_once_with(
+            audio_input="sample.wav",
+            whisper_model=get_model.return_value,
+            beam_size=5,
+        )
+        get_model.return_value.transcribe.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

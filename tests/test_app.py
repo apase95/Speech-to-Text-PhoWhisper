@@ -32,7 +32,15 @@ class AppTests(unittest.TestCase):
             path = Path(directory) / "sample.wav"
             sf.write(path, np.zeros(160, dtype=np.float32), 16_000)
             self.assertEqual(run_transcription(str(path)), "xin chào")
-        transcribe.assert_called_once_with(str(path))
+        transcribe.assert_called_once_with(str(path), rescore=False)
+
+    @patch("src.app.transcribe", return_value="xin chào chính xác")
+    def test_transcription_callback_with_rescore(self, transcribe):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.wav"
+            sf.write(path, np.zeros(160, dtype=np.float32), 16_000)
+            self.assertEqual(run_transcription(str(path), rescore=True), "xin chào chính xác")
+        transcribe.assert_called_once_with(str(path), rescore=True)
 
 
 if __name__ == "__main__":

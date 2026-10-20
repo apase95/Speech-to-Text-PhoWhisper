@@ -40,6 +40,10 @@ Loại bỏ các sai số giả định do định dạng chính tả của bộ
 Sửa lỗi đệm số 0 trên waveform làm rò rỉ phổ biên FFT; chuyển sang reflect padding và slice frame thực.
 Đảm bảo chất lượng âm học nhất quán 100% giữa pipeline sinh candidate N-best và inference gốc.
 
-### 10. Tái xếp hạng N-best bằng Vietnamese LM (`NlpHUST/gpt2-vietnamese`)
-Sử dụng GPT-2 tiếng Việt chấm điểm ngữ nghĩa cho chùm tia 5-best với bộ tham số khóa qua 5-Fold CV.
-Sửa 168 lỗi nhầm lẫn từ vựng, hạ WER test xuống mức kỷ lục **8,36%** và tăng số câu đúng hoàn toàn lên **50,90%**.
+### 10. Tái xếp hạng N-best với biên an toàn âm học (Conservative LM Rescoring)
+Sử dụng GPT-2 tiếng Việt chấm điểm chùm tia 5-best với acoustic margin $\gamma^*=-0.20$ khóa qua 5-Fold CV.
+Ổn định cả 5 fold (OOF WER 8,00%), hạ WER test xuống kỷ lục **8,32%** và số câu đúng đạt **51,40%**.
+
+### 11. Chế độ suy luận kép linh hoạt (Dual Fast vs Accurate Inference)
+Cung cấp lựa chọn `--rescore` trong CLI và web UI: mặc định Fast (Greedy) và Accurate (Beam 5 + LM).
+Đảm bảo luồng mặc định không tốn thêm bộ nhớ, tự động lazy load và có fallback an toàn khi thiếu tài nguyên.

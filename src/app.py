@@ -33,10 +33,10 @@ def render_spectrogram(audio_path: str | None):
         raise gr.Error("Could not create spectrogram") from None
 
 
-def run_transcription(audio_path: str | None) -> str:
+def run_transcription(audio_path: str | None, rescore: bool = False) -> str:
     path = _require_wav(audio_path)
     try:
-        return transcribe(path)
+        return transcribe(path, rescore=rescore)
     except Exception:
         logger.exception("Transcription failed: %s", path)
         raise gr.Error("Transcription failed") from None
@@ -55,13 +55,22 @@ def build_app() -> gr.Blocks:
             type="filepath",
         )
         spectrogram = gr.Plot(label="Log-Mel Spectrogram")
+        rescore_checkbox = gr.Checkbox(
+            label="Bật Rescoring LM (Chế độ Accurate - Beam 5 + GPT-2)",
+            value=False,
+            info="Tăng độ chính xác ngữ nghĩa bằng cách tái xếp hạng giả thuyết N-best qua mô hình ngôn ngữ tiếng Việt.",
+        )
         transcribe_button = gr.Button("Transcribe", variant="primary")
         transcript = gr.Textbox(label="Transcript", interactive=False, lines=5)
 
         audio.change(
             clear_outputs, outputs=[spectrogram, transcript], queue=False
         ).then(render_spectrogram, inputs=audio, outputs=spectrogram)
-        transcribe_button.click(run_transcription, inputs=audio, outputs=transcript)
+        transcribe_button.click(
+            run_transcription,
+            inputs=[audio, rescore_checkbox],
+            outputs=transcript,
+        )
     return app
 
 

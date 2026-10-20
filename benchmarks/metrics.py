@@ -64,3 +64,69 @@ def corpus_error_rates(references: list[str], hypotheses: list[str]) -> dict[str
         "wer": wer(normalized_references, normalized_hypotheses),
         "cer": cer(normalized_references, normalized_hypotheses),
     }
+
+
+def paired_bootstrap_test(
+    references: list[str],
+    hypotheses_a: list[str],
+    hypotheses_b: list[str],
+    n_bootstraps: int = 2000,
+    seed: int = 42,
+    harmonized: bool = False,
+) -> dict[str, float | bool]:
+    """Perform paired bootstrap significance test between System A and System B on WER."""
+    import jiwer
+    import numpy as np
+
+    if not (len(references) == len(hypotheses_a) == len(hypotheses_b)):
+        raise ValueError("References and all hypotheses must have the same length")
+    if not references:
+        raise ValueError("At least one prediction is required")
+
+    norm_fn = normalize_vietnamese_harmonized if harmonized else normalize_vietnamese
+    norm_refs = [norm_fn(r) for r in references]
+    norm_a = [norm_fn(h) for h in hypotheses_a]
+    norm_b = [norm_fn(h) for h in hypotheses_b]
+
+    n = len(norm_refs)
+    ref_lens = np.array([max(1, len(r.split())) for r in norm_refs])
+    errs_a = np.array([
+        jiwer.process_words(r, h).substitutions
+        + jiwer.process_words(r, h).deletions
+        + jiwer.process_words(r, h).insertions
+        for r, h in zip(norm_refs, norm_a)
+    ])
+    errs_b = np.array([
+        jiwer.process_words(r, h).substitutions
+        + jiwer.process_words(r, h).deletions
+        + jiwer.process_words(r, h).insertions
+        for r, h in zip(norm_refs, norm_b)
+    ])
+
+    total_words = float(ref_lens.sum())
+    base_wer_a = float(errs_a.sum()) / total_words
+    base_wer_b = float(errs_b.sum()) / total_words
+
+    rng = np.random.default_rng(seed)
+    indices = rng.integers(0, n, size=(n_bootstraps, n))
+
+    sampled_errs_a = errs_a[indices].sum(axis=1)
+    sampled_errs_b = errs_b[indices].sum(axis=1)
+    sampled_lens = ref_lens[indices].sum(axis=1)
+
+    wer_diffs = ((sampled_errs_b / sampled_lens) - (sampled_errs_a / sampled_lens)) * 100.0
+
+    p_value = float(np.mean(wer_diffs >= 0.0))
+    ci_lower = float(np.percentile(wer_diffs, 2.5))
+    ci_upper = float(np.percentile(wer_diffs, 97.5))
+    mean_diff = float(np.mean(wer_diffs))
+
+    return {
+        "wer_a": base_wer_a,
+        "wer_b": base_wer_b,
+        "mean_diff": mean_diff,
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper,
+        "p_value": p_value,
+        "statistically_significant": bool(p_value < 0.05),
+    }
