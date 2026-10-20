@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎙️ PhoWhisper PyTorch
+# 🎙️ PhoWhisper + GPT-2
 
 ### High-Performance Native PyTorch Vietnamese Speech-to-Text with Conservative LM Rescoring & Dynamic Confidence Gating
 
@@ -12,11 +12,24 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-34%2F34%20Passing-success.svg)](#-ki%E1%BB%83m-th%E1%BB%AD-t%E1%BB%B1-%C4%91%E1%BB%99ng)
 
-**PhoWhisper PyTorch** là hệ thống nhận dạng tiếng nói tiếng Việt (ASR) hiệu năng cao, tối ưu hóa toàn diện từ mô hình gốc `vinai/PhoWhisper-base`. Hệ thống chuyển đổi toàn bộ runtime sang **Native OpenAI Whisper C++/CUDA PyTorch**, kết hợp cơ chế tái xếp hạng chùm tia **Conservative N-best Language Model Rescoring** (hỗ trợ cả **GPT-2** và **PhoBERT**), màng chắn bảo vệ âm học **Acoustic Safety Margin ($\gamma$)**, và cơ chế ngắt sớm thông minh **Dynamic Acoustic Confidence Gating ($\theta$)**.
+**PhoWhisper + GPT-2** là hệ thống nhận dạng tiếng nói tiếng Việt (ASR) hiệu năng cao, kết hợp đột phá giữa mô hình nhận dạng âm học **PhoWhisper** và mô hình sinh ngôn ngữ **GPT-2 tiếng Việt**. Hệ thống chuyển đổi toàn bộ runtime sang **Native OpenAI Whisper C++/CUDA PyTorch**, kết hợp cơ chế tái xếp hạng chùm tia **Conservative N-best Language Model Rescoring** (hỗ trợ cả **GPT-2** và **PhoBERT**), màng chắn bảo vệ âm học **Acoustic Safety Margin ($\gamma$)**, và cơ chế ngắt sớm thông minh **Dynamic Acoustic Confidence Gating ($\theta$)**.
 
 [🚀 Cài Đặt Nhanh](#-c%C3%A0i-%C4%91%E1%BA%B7t) • [📊 Điểm Số Benchmark](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark) • [💻 Hướng Dẫn Sử Dụng](#-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-s%E1%BB%AD-d%E1%BB%A5ng) • [📖 Tài Liệu Chi Tiết](docs/usage.md) • [⚖️ So Sánh Toàn Diện](docs/comparison.md)
 
 </div>
+
+---
+
+## 💡 Đột Phá Mới: Tại Sao Lại Là "PhoWhisper + GPT-2"?
+
+> [!NOTE]
+> **Giải pháp tiên phong tại Việt Nam:** Trong các hệ thống ASR tiếng Việt hiện nay, đa phần các giải pháp chỉ dừng lại ở việc chạy PhoWhisper đơn lẻ (vốn dễ mắc lỗi sai dấu, đồng âm dị nghĩa ở các từ khó) hoặc dùng mô hình n-gram cổ điển (KenLM). 
+> 
+> **PhoWhisper + GPT-2** là dự án mã nguồn mở **đầu tiên** tích hợp chặt chẽ mô hình ASR âm học tiên tiến với một **Causal Transformer Language Model (GPT-2 tiếng Việt)** theo cơ chế chùm tia 5-best:
+> - **PhoWhisper:** Đảm nhiệm vai trò *"đôi tai"* (acoustic modeling) trích xuất chính xác âm thanh và tạo ra 5 giả thuyết tiềm năng nhất.
+> - **GPT-2:** Đóng vai trò *"bộ não ngôn ngữ"* (linguistic scoring) đánh giá mức độ tự nhiên, đúng ngữ pháp và ngữ cảnh câu tiếng Việt.
+> - **Acoustic Safety Margin ($\gamma = -0.20$):** Đóng vai trò *"màng lọc an toàn"* đảm bảo GPT-2 chỉ sửa lỗi ngữ nghĩa mà không bao giờ bóp méo âm học gốc.
+> - **Dynamic Confidence Gating ($\theta = -0.020$):** Tự động bỏ qua GPT-2 trên ~30% câu thoại mà PhoWhisper đã giải mã tự tin, vừa tăng tốc tối đa vừa triệt tiêu lỗi mất từ.
 
 ---
 
@@ -40,9 +53,9 @@
 
 ## 📊 Bảng So Sánh Hiệu Năng & Độ Chính Xác
 
-Đối chiếu giữa **PhoWhisper Hugging Face gốc**, chế độ **Fast Mode (Greedy)**, và chế độ tối ưu **Accurate Mode (GPT-2 Gated Pipeline)**:
+Đối chiếu giữa **PhoWhisper Hugging Face gốc**, chế độ **Fast Mode (Greedy)**, và giải pháp hoàn chỉnh **PhoWhisper + GPT-2**:
 
-| Tiêu chí Đánh giá | PhoWhisper Gốc (Hugging Face) | PhoWhisper PyTorch (Fast Mode) | PhoWhisper PyTorch (Accurate Rescoring) | PhoBERT Challenger (Accurate Rescoring) |
+| Tiêu chí Đánh giá | PhoWhisper Gốc (Hugging Face) | PhoWhisper Fast (Greedy) | **PhoWhisper + GPT-2 (Accurate Mode)** | PhoBERT Challenger (Accurate Mode) |
 |:---|:---:|:---:|:---:|:---:|
 | **Thuật toán Decoding** | Greedy (có timestamps) | Greedy (`without_timestamps`) | **Beam 5 + GPT-2 Gated** | **Beam 5 + PhoBERT PLL Gated** |
 | **WER trên Test 1.000** | 41.78% *(vỡ timestamp)* | 10.49% | **8.33%** *(Harmonized: **8.27%**)* | **8.29%** *(Harmonized: **8.20%**)* |

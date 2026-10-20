@@ -47,7 +47,7 @@ def clear_outputs():
 
 
 def build_app() -> gr.Blocks:
-    with gr.Blocks(title="PhoWhisper Vietnamese STT") as app:
+    with gr.Blocks(title="PhoWhisper + GPT-2 Vietnamese STT") as app:
         gr.Markdown("Upload or drop a WAV file, or record audio with your microphone")
         audio = gr.Audio(
             label="Upload WAV or record audio",
@@ -56,7 +56,7 @@ def build_app() -> gr.Blocks:
         )
         spectrogram = gr.Plot(label="Log-Mel Spectrogram")
         rescore_checkbox = gr.Checkbox(
-            label="Bật Rescoring LM (Chế độ Accurate - Beam 5 + GPT-2)",
+            label="Bật Rescoring LM (PhoWhisper + GPT-2 Accurate Mode)",
             value=False,
             info="Tăng độ chính xác ngữ nghĩa bằng cách tái xếp hạng giả thuyết N-best qua mô hình ngôn ngữ tiếng Việt.",
         )

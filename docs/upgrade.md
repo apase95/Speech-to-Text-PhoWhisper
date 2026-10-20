@@ -1,4 +1,4 @@
-# PhoWhisper PyTorch - Nhật Ký Nâng Cấp & Tối Ưu Hóa
+# PhoWhisper + GPT-2: Nhật Ký Nâng Cấp & Tối Ưu Hóa
 
 Tổng hợp các cải tiến kỹ thuật và tối ưu decoding so với mô hình PhoWhisper gốc trên Hugging Face / GitHub.
 

@@ -60,7 +60,7 @@ def transcribe(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="PhoWhisper Vietnamese Speech-to-Text")
+    parser = argparse.ArgumentParser(description="PhoWhisper + GPT-2: Vietnamese Speech-to-Text")
     parser.add_argument("--audio", required=True, help="Path to input audio file")
     parser.add_argument(
         "--time-stretch-rate",

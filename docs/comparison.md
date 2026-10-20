@@ -1,12 +1,12 @@
-# So Sánh Mô Hình Ban Đầu vs. Mô Hình Hiện Tại (GPT-2 Gated Pipeline)
+# So Sánh PhoWhisper Gốc vs. PhoWhisper + GPT-2 Pipeline
 
-Tài liệu này đối chiếu toàn diện giữa **mô hình PhoWhisper ban đầu** (phiên bản thuần túy trên Hugging Face / GitHub) và **mô hình hiện tại** (phiên bản tối ưu hóa Native PyTorch kết hợp GPT-2 Gated Rescoring Pipeline) trên 4 phương diện: Kiến trúc, Quy trình, Mô hình thành phần, và Kết quả đánh giá thực nghiệm.
+Tài liệu này đối chiếu toàn diện giữa **mô hình PhoWhisper ban đầu** (phiên bản thuần túy trên Hugging Face / GitHub) và **hệ sinh thái PhoWhisper + GPT-2** (phiên bản tối ưu hóa Native PyTorch kết hợp GPT-2 Gated Rescoring Pipeline) trên 4 phương diện: Kiến trúc, Quy trình, Mô hình thành phần, và Kết quả đánh giá thực nghiệm.
 
 ---
 
 ## 1. So Sánh Kiến Trúc Hệ Thống (Architecture)
 
-| Tiêu chí | Mô hình Ban Đầu (Hugging Face) | Mô hình Hiện Tại (GPT-2 Gated Pipeline) | Ưu thế Đạt được |
+| Tiêu chí | Mô hình Ban Đầu (Hugging Face) | PhoWhisper + GPT-2 Pipeline | Ưu thế Đạt được |
 |:---|:---|:---|:---|
 | **Định dạng trọng số** | Hugging Face (`safetensors` / `bin` + config json) | Native OpenAI Whisper PyTorch (`models/phowhisper-base.pt`) | Tải mô hình tức thì, cấu trúc phẳng, không phụ thuộc cache HF phức tạp |
 | **Inference Runtime** | Hugging Face Transformers (`AutoModelForSpeechSeq2Seq`) | PyTorch Native C++/CUDA Whisper Runtime | Tăng tốc độ giải mã ~2x, giảm overhead Python runtime |
@@ -33,7 +33,7 @@ flowchart TD
         G1 --> H1
     end
 
-    subgraph HienTai["Quy trình Hiện Tại (GPT-2 Gated Pipeline)"]
+    subgraph HienTai["Quy trình Hiện Tại (PhoWhisper + GPT-2 Pipeline)"]
         A2["Âm thanh đầu vào"] --> B2["Chuẩn hóa âm thanh / Time-Stretch WSOLA tùy chọn"]
         B2 --> C2["extract_standard_mel (Reflect padding, triệt tiêu rò rỉ phổ biên)"]
         C2 --> D2["Whisper Fast Encoder"]
@@ -63,7 +63,7 @@ flowchart TD
 
 ## 3. So Sánh Mô Hình Thành Phần (Models & Hyperparameters)
 
-| Thành phần | Mô hình Ban Đầu | Mô hình Hiện Tại |
+| Thành phần | Mô hình Ban Đầu | PhoWhisper + GPT-2 Pipeline |
 |:---|:---|:---|
 | **Mô hình ASR chính** | `vinai/phowhisper-base` (chạy qua HF Transformers) | `models/phowhisper-base.pt` (chạy qua Native Whisper Runtime) |
 | **Không gian tìm kiếm ASR** | Greedy Search (1 candidate duy nhất) | **Beam Search (5 candidates đa dạng)** |
@@ -79,7 +79,7 @@ flowchart TD
 
 ### A. Bảng tổng hợp trên 3 tập kiểm chứng độc lập
 
-| Tập Dữ Liệu | Tiêu chí Đánh giá | Mô hình Ban Đầu (Hugging Face Gốc) | Whisper Top-1 (Beam 5 Baseline) | Mô hình Hiện Tại (GPT-2 Gated Pipeline) | Mức Cải thiện Tuyệt đối / Tương đối |
+| Tập Dữ Liệu | Tiêu chí Đánh giá | Mô hình Ban Đầu (Hugging Face Gốc) | Whisper Top-1 (Beam 5 Baseline) | PhoWhisper + GPT-2 Pipeline | Mức Cải thiện Tuyệt đối / Tương đối |
 |:---|:---|:---:|:---:|:---:|:---:|
 | **Test 1.000**<br/>*(Viet-BUD500)* | **WER Chuẩn (%)** | 41,78% *(với timestamps)*<br/>10,49% *(tắt timestamps)* | 9,57% | **8,33%** *(Chuẩn hóa: **8,27%**)* | **-1,24% tuyệt đối**<br/>(**-13,0% tương đối**) |
 | | **Exact Match (Câu đúng 100%)** | 427 / 1.000 (42,7%) | 451 / 1.000 (45,1%) | **514 / 1.000 (51,4%)** | **+63 câu đúng** (+14,0%) |
@@ -101,7 +101,7 @@ flowchart TD
 
 ### B. So sánh Hiệu năng Tính toán (Efficiency & Resources)
 
-| Chỉ số Hiệu năng | Mô hình Ban Đầu | Mô hình Hiện Tại | Ghi chú |
+| Chỉ số Hiệu năng | Mô hình Ban Đầu | PhoWhisper + GPT-2 Pipeline | Ghi chú |
 |:---|:---:|:---:|:---|
 | **Thời gian khởi động mô hình** | ~8 – 12 giây | **~1,2 – 2,0 giây** | Trọng số native `.pt` nạp trực tiếp vào VRAM |
 | **Tốc độ suy luận (RTF - Real Time Factor)** | ~0,45x – 0,60x | **~0,18x – 0,25x** | Nhanh hơn gấp 2 – 3 lần thời gian thực |
@@ -112,7 +112,7 @@ flowchart TD
 
 ## 5. Tổng Kết
 
-Mô hình hiện tại (**PhoWhisper PyTorch + GPT-2 Gated Pipeline**) vượt trội toàn diện so với mô hình ban đầu:
+Mô hình hiện tại (**PhoWhisper + GPT-2**) vượt trội toàn diện so với mô hình ban đầu:
 1. **Chính xác hơn rõ rệt:** Giảm ròng **13% đến 17,4% WER** trên dữ liệu test và holdout; tăng tỷ lệ câu nhận dạng đúng hoàn toàn lên mốc **50% – 51,4%**.
 2. **An toàn và ổn định hơn:** Loại bỏ hoàn toàn ảo giác (hallucination), kiểm soát lỗi Deletion bằng Acoustic Margin ($\gamma=-0.20$), và bảo toàn 100% từ khóa phủ định.
 3. **Nhanh và nhẹ hơn:** Tiết kiệm 70% VRAM, tốc độ RTF ~0,2x, và tự động bỏ qua tính toán LM cho ~30% câu thoại tự tin nhờ Dynamic Gating.

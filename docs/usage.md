@@ -1,6 +1,6 @@
-# Hướng Dẫn Sử Dụng PhoWhisper PyTorch
+# Hướng Dẫn Sử Dụng PhoWhisper + GPT-2
 
-Tài liệu hướng dẫn chi tiết cách cài đặt, cấu hình và sử dụng hệ thống nhận dạng tiếng nói PhoWhisper PyTorch qua dòng lệnh (CLI), giao diện web (Gradio), và lập trình (Python API).
+Tài liệu hướng dẫn chi tiết cách cài đặt, cấu hình và sử dụng hệ thống nhận dạng tiếng nói PhoWhisper + GPT-2 qua dòng lệnh (CLI), giao diện web (Gradio), và lập trình (Python API).
 
 ---
 
