@@ -1,0 +1,15 @@
+{
+  "id": "hngthiduy/phowhisper-diagnostic-gpu-20261015",
+  "title": "PhoWhisper diagnostic GPU 20261015",
+  "code_file": "../diagnostic_gpu_source.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

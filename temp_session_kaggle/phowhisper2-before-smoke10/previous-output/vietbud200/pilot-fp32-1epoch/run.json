@@ -1,0 +1,28 @@
+{
+  "arguments": {
+    "mode": "train",
+    "root": "None",
+    "output": "/kaggle/working/vietbud200/pilot-fp32-1epoch",
+    "exclude_manifest": "[]",
+    "seed": "42",
+    "validation_fraction": "0.05",
+    "train_cap": "2000",
+    "validation_cap": "100",
+    "manifest": "/kaggle/working/vietbud200/manifests/train.json",
+    "validation": "/kaggle/working/vietbud200/manifests/validation.json",
+    "model": "vinai/PhoWhisper-base",
+    "revision": "main",
+    "resume": "None",
+    "max_steps": "180",
+    "save_steps": "60",
+    "batch": "1",
+    "accumulation": "1",
+    "workers": "0",
+    "learning_rate": "1e-05"
+  },
+  "resolved_revision": "7ebdb9e88f5cc5271fb88f4d642c82ff9388650e",
+  "world_size": 1,
+  "manifest_sha256": "4fd31d44b7f3650a47572d387d164516452ccaa4d2a35724decebb8af8d8518c",
+  "validation_sha256": "322852428f369f4570ef8ed75bf75e82e5c3d8f14323046c269c3416abf2f1d7",
+  "torch": "2.11.0+cu128"
+}

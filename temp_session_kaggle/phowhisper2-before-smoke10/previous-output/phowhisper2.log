@@ -1,0 +1,42 @@
+[{"stream_name":"stderr","time":7.462110199,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.462158753,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.462165952,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.462170383,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.078871886,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.07890551,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.078911966,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.078917263,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":9.240983902,"data":"Cloning into '/kaggle/working/Speech-to-Text-PhoWhisper'...\n"}
+,{"stream_name":"stderr","time":9.443429757,"data":"Cloning into '/kaggle/working/Speech-to-Text-PhoWhisper'...\n"}
+,{"stream_name":"stderr","time":9.443459296,"data":"\n"}
+,{"stream_name":"stderr","time":9.443465508,"data":"Cloning into '/kaggle/working/Speech-to-Text-PhoWhisper'...\n"}
+,{"stream_name":"stdout","time":10.235617952,"data":"Đã clone repo thành công.\n"}
+,{"stream_name":"stdout","time":13.732373431,"data":"\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/3.2 MB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m \u001b[32m3.2/3.2 MB\u001b[0m \u001b[31m105.0 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m3.2/3.2 MB\u001b[0m \u001b[31m58.8 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\r\n"}
+,{"stream_name":"stdout","time":33.898863565,"data":"\u001b[?25hTorch: 2.11.0+cu128 | CUDA: True (2 GPUs)\n"}
+,{"stream_name":"stdout","time":33.898901082,"data":"Transformers: 5.16.1\n"}
+,{"stream_name":"stdout","time":35.09295779,"data":"Tìm thấy dataset ngay lập tức tại: /kaggle/input/datasets/tuandaodev/viet-bud500-formatted\n"}
+,{"stream_name":"stdout","time":40.843817376,"data":"HOÀN TẤT: Đã tạo 180 train, 20 validation (8.65 phút).\n"}
+,{"stream_name":"stdout","time":40.855383857,"data":"Đã tạo script huấn luyện FP32 tại: /kaggle/working/vietbud200/train_fp32.py\n"}
+,{"stream_name":"stdout","time":40.870095967,"data":"1. Đang chạy đánh giá Baseline... (chi tiết ghi vào training.log)\n"}
+,{"stream_name":"stdout","time":76.607576225,"data":"   -\u003e Hoàn tất Baseline!\n"}
+,{"stream_name":"stdout","time":76.60761903,"data":"2. Đang huấn luyện Pilot 1 Epoch... (mất khoảng 50s)\n"}
+,{"stream_name":"stdout","time":143.041827333,"data":"   -\u003e Hoàn tất huấn luyện Pilot!\n"}
+,{"stream_name":"stdout","time":143.056395429,"data":"Chỉ số          | Baseline (Gốc)     | Sau 1 Epoch Fine-tune \n"}
+,{"stream_name":"stdout","time":143.056422219,"data":"------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":143.056428867,"data":"Loss            | 1.3646             | 0.3573                \n"}
+,{"stream_name":"stdout","time":143.056445495,"data":"WER (%)         | 23.63              | 14.84                 \n"}
+,{"stream_name":"stdout","time":143.056449711,"data":"CER (%)         | 15.11              | 9.18                  \n"}
+,{"stream_name":"stdout","time":143.056453309,"data":"\n"}
+,{"stream_name":"stdout","time":143.056456564,"data":"=== CHI TIẾT VALIDATION THEO TỪNG MỐC STEP ===\n"}
+,{"stream_name":"stdout","time":143.056460149,"data":"Step  60 (Epoch 0.33) -\u003e eval_loss: 0.3640 | WER: 15.38% | CER: 9.99%\n"}
+,{"stream_name":"stdout","time":143.056463893,"data":"Step 120 (Epoch 0.67) -\u003e eval_loss: 0.3562 | WER: 14.29% | CER: 8.91%\n"}
+,{"stream_name":"stdout","time":143.056467562,"data":"Step 180 (Epoch 1.00) -\u003e eval_loss: 0.3573 | WER: 14.84% | CER: 9.18%\n"}
+,{"stream_name":"stderr","time":146.334778546,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":146.334813303,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":146.512549271,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":146.512583343,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":147.611796631,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":147.690858187,"data":"[NbConvertApp] Writing 17021 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":150.283692657,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":150.874731526,"data":"[NbConvertApp] Writing 318649 bytes to __results__.html\n"}
+]

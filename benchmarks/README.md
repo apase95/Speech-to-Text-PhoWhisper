@@ -58,7 +58,18 @@ python -m benchmarks.run \
   --silence-padding-ms 200
 ```
 
-RTF vẫn được tính theo thời lượng file gốc để so sánh nhất quán giữa các mức padding.
+Thử time-stretching (co dãn tốc độ phát âm không đổi cao độ) trước khi inference:
+
+```bash
+python -m benchmarks.run \
+  --manifest benchmarks/manifests/viet_bud500_dev_250.csv \
+  --name dev250-greedy-stretch09 \
+  --without-timestamps \
+  --no-condition-on-previous-text \
+  --time-stretch-rate 0.9
+```
+
+RTF vẫn được tính theo thời lượng file gốc để so sánh nhất quán giữa các mức padding và stretch rate.
 
 Mỗi run tạo thư mục riêng trong `outputs/benchmarks/` gồm:
 

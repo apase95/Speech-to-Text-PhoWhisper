@@ -2,6 +2,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import platform
 import resource
 import subprocess
@@ -15,6 +16,7 @@ import torch
 import whisper
 
 from benchmarks.metrics import corpus_error_rates, normalize_vietnamese
+from src.audio_utils import apply_time_stretch
 from src.inference import get_model, model_path
 
 
@@ -64,10 +66,13 @@ def main() -> None:
     parser.add_argument("--without-timestamps", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--condition-on-previous-text", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--silence-padding-ms", type=int, default=0)
+    parser.add_argument("--time-stretch-rate", type=float, default=1.0)
     args = parser.parse_args()
 
     if args.silence_padding_ms < 0:
         parser.error("--silence-padding-ms must be non-negative")
+    if args.time_stretch_rate <= 0:
+        parser.error("--time-stretch-rate must be positive")
 
     rows = read_manifest(args.manifest, args.limit)
     missing = [row["audio_path"] for row in rows if not Path(row["audio_path"]).is_file()]
@@ -95,6 +100,7 @@ def main() -> None:
         "condition_on_previous_text": args.condition_on_previous_text,
         "without_timestamps": args.without_timestamps,
         "silence_padding_ms": args.silence_padding_ms,
+        "time_stretch_rate": args.time_stretch_rate,
     }
     if args.beam_size is not None:
         decode_options["beam_size"] = args.beam_size
@@ -116,9 +122,15 @@ def main() -> None:
                 transcription_input = str(audio_path)
                 model_options = decode_options.copy()
                 model_options.pop("silence_padding_ms")
-                if args.silence_padding_ms:
+                model_options.pop("time_stretch_rate")
+                needs_stretch = not math.isclose(args.time_stretch_rate, 1.0, rel_tol=1e-5)
+                if args.silence_padding_ms or needs_stretch:
                     audio = whisper.load_audio(str(audio_path))
-                    transcription_input = add_silence_padding(audio, args.silence_padding_ms)
+                    if needs_stretch:
+                        audio = apply_time_stretch(audio, args.time_stretch_rate)
+                    if args.silence_padding_ms:
+                        audio = add_silence_padding(audio, args.silence_padding_ms)
+                    transcription_input = audio
                 prediction = model.transcribe(transcription_input, **model_options)["text"].strip()
                 error = None
             except Exception as exc:

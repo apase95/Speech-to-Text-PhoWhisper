@@ -1,0 +1,12 @@
+{
+  "test_loss": 1.3646153211593628,
+  "test_model_preparation_time": 0.0033,
+  "test_wer": 0.23626373626373626,
+  "test_cer": 0.15114709851551958,
+  "test_substitutions": 28,
+  "test_deletions": 2,
+  "test_insertions": 13,
+  "test_runtime": 6.3376,
+  "test_samples_per_second": 3.156,
+  "test_steps_per_second": 3.156
+}

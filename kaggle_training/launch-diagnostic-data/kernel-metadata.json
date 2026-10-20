@@ -1,0 +1,15 @@
+{
+  "id": "hngthiduy/phowhisper-diagnostic-data-20261015",
+  "title": "PhoWhisper diagnostic data 20261015",
+  "code_file": "../diagnostic_data_source.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": ["tuandaodev/viet-bud500-formatted"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

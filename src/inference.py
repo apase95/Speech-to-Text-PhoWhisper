@@ -1,8 +1,10 @@
 import argparse
+import math
 import os
 from functools import lru_cache
 from pathlib import Path
 
+import numpy as np
 import torch
 import whisper
 
@@ -21,10 +23,17 @@ def get_model():
     return whisper.load_model(str(path), device=device)
 
 
-def transcribe(audio_path: str) -> str:
+def transcribe(audio_path: str, time_stretch_rate: float = 1.0) -> str:
     use_fp16 = torch.cuda.is_available()
+    audio_input: str | np.ndarray = audio_path
+    if not math.isclose(time_stretch_rate, 1.0, rel_tol=1e-5):
+        from src.audio_utils import apply_time_stretch
+
+        audio = whisper.load_audio(audio_path)
+        audio_input = apply_time_stretch(audio, time_stretch_rate)
+
     result = get_model().transcribe(
-        audio_path,
+        audio_input,
         language="vi",
         task="transcribe",
         fp16=use_fp16,
@@ -37,6 +46,7 @@ def transcribe(audio_path: str) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--audio", required=True)
+    parser.add_argument("--time-stretch-rate", type=float, default=1.0)
     args = parser.parse_args()
 
     audio_path = Path(args.audio)
@@ -44,7 +54,7 @@ def main() -> None:
         raise FileNotFoundError(f"Không tìm thấy file: {audio_path}")
 
     print("Transcript:")
-    print(transcribe(str(audio_path)))
+    print(transcribe(str(audio_path), time_stretch_rate=args.time_stretch_rate))
 
 
 if __name__ == "__main__":

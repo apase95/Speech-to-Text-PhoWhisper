@@ -1,3 +1,5 @@
+import math
+import subprocess
 from pathlib import Path
 
 import librosa
@@ -6,6 +8,63 @@ import matplotlib.pyplot as plt
 import numpy as np
 import soundfile as sf
 from matplotlib.figure import Figure
+
+
+def _build_atempo_filter(rate: float) -> str:
+    filters = []
+    current = rate
+    while current < 0.5:
+        filters.append("atempo=0.5")
+        current /= 0.5
+    while current > 2.0:
+        filters.append("atempo=2.0")
+        current /= 2.0
+    filters.append(f"atempo={current}")
+    return ",".join(filters)
+
+
+def apply_time_stretch(
+    audio: np.ndarray, rate: float, sr: int = 16_000
+) -> np.ndarray:
+    """Time-stretch an audio waveform without pitch alteration.
+
+    rate > 1.0 speeds up the audio (shortens duration).
+    rate < 1.0 slows down the audio (lengthens duration).
+    Uses ffmpeg's atempo filter (WSOLA) for speech quality and phase preservation.
+    """
+    if rate <= 0:
+        raise ValueError("Time-stretch rate must be positive")
+    if math.isclose(rate, 1.0, rel_tol=1e-5):
+        return audio
+    if audio.size == 0:
+        return audio
+
+    pcm_bytes = (np.clip(audio, -1.0, 1.0) * 32767.0).astype(np.int16).tobytes()
+    cmd = [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-f",
+        "s16le",
+        "-ar",
+        str(sr),
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-filter:a",
+        _build_atempo_filter(rate),
+        "-f",
+        "s16le",
+        "-ar",
+        str(sr),
+        "-ac",
+        "1",
+        "pipe:1",
+    ]
+    proc = subprocess.run(cmd, input=pcm_bytes, capture_output=True, check=True)
+    return np.frombuffer(proc.stdout, np.int16).flatten().astype(np.float32) / 32768.0
 
 
 def convert_to_16khz_mono(input_path: str, output_path: str) -> None:

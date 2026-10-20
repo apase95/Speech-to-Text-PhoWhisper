@@ -8,6 +8,61 @@ import random
 import re
 import unicodedata
 from pathlib import Path
+import time
+from contextlib import contextmanager
+from datetime import datetime, timezone
+
+
+class Progress:
+    def __init__(self, path=None, current=None):
+        self.path = Path(path) if path else None
+        self.current = Path(current) if current else None
+        self.last_progress = None
+
+    def update(self, stage, status='running', **values):
+        record = dict(stage=stage, status=status, time=datetime.now(timezone.utc).isoformat(), **values)
+        if 'processed' in values:
+            self.last_progress = dict(stage=stage, time=record['time'], **values)
+        record['last_progress'] = self.last_progress
+        print(json.dumps(record), flush=True)
+        for path in (self.path, self.current):
+            if path:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                temporary = path.with_name(path.name + f'.{os.getpid()}.tmp')
+                temporary.write_text(json.dumps(record, indent=2), encoding='utf-8')
+                os.replace(temporary, path)
+
+    @contextmanager
+    def stage(self, name):
+        started = time.monotonic()
+        self.update(name, 'start')
+        try:
+            yield
+        except BaseException as exc:
+            self.update(name, 'failed', elapsed_seconds=time.monotonic() - started,
+                        error_type=type(exc).__name__)
+            raise
+        else:
+            self.update(name, 'done', elapsed_seconds=time.monotonic() - started)
+
+
+class StepProgress:
+    def __init__(self, progress, clock=time.monotonic):
+        self.progress, self.clock = progress, clock
+
+    def on_train_begin(self, args, state, control, **kwargs):
+        self.warm_time, self.warm_step = None, None
+        self.progress.update('optimizer', processed=state.global_step, total=state.max_steps)
+
+    def on_step_end(self, args, state, control, **kwargs):
+        now = self.clock()
+        if self.warm_time is None and state.global_step >= 5:
+            self.warm_time, self.warm_step = now, state.global_step
+        eta = None
+        if self.warm_time is not None and state.global_step > self.warm_step:
+            eta = (now - self.warm_time) / (state.global_step - self.warm_step) * max(0, state.max_steps - state.global_step)
+        self.progress.update('optimizer', processed=state.global_step, total=state.max_steps,
+            eta_seconds=eta, eta_scope='training optimizer steps only; excludes evaluation/save/reporting')
 
 
 def normalize(text):
@@ -140,18 +195,26 @@ class Collator:
 
 
 def run(args):
+    progress = Progress(os.environ.get('PILOT_PROGRESS'), os.environ.get('PILOT_CURRENT_PROGRESS'))
+    progress.update('training_dependency_imports', 'start')
     import numpy as np
     import torch
     import jiwer
     from huggingface_hub import model_info
     from transformers import (WhisperProcessor, WhisperForConditionalGeneration,
-                              Seq2SeqTrainer, Seq2SeqTrainingArguments, set_seed)
+                              Seq2SeqTrainer, Seq2SeqTrainingArguments, TrainerCallback, set_seed)
     set_seed(args.seed)
+    progress.update('training_dependency_imports', 'done')
     source = args.model
-    revision = args.revision if Path(source).is_dir() else model_info(source, revision=args.revision).sha
-    processor = WhisperProcessor.from_pretrained(source, revision=revision, language='vi', task='transcribe')
+    with progress.stage('training_hf_metadata'):
+        revision = args.revision if Path(source).is_dir() else model_info(source, revision=args.revision, timeout=60).sha
+    with progress.stage('training_processor_load'):
+        processor = WhisperProcessor.from_pretrained(source, revision=revision, language='vi', task='transcribe')
     processor.tokenizer.set_prefix_tokens(language='vi', task='transcribe', predict_timestamps=False)
-    model = WhisperForConditionalGeneration.from_pretrained(source, revision=revision)
+    with progress.stage('training_model_load'):
+        model = WhisperForConditionalGeneration.from_pretrained(source, revision=revision)
+    if args.precision == 'fp32':
+        model.float()
     model.config.use_cache = False
     model.config.forced_decoder_ids = None
     model.generation_config.forced_decoder_ids = None
@@ -174,7 +237,9 @@ def run(args):
     options = Seq2SeqTrainingArguments(output_dir=str(args.output), seed=args.seed,
         per_device_train_batch_size=args.batch, per_device_eval_batch_size=1,
         gradient_accumulation_steps=args.accumulation, learning_rate=args.learning_rate,
-        max_steps=args.max_steps, fp16=torch.cuda.is_available(), gradient_checkpointing=True,
+        max_steps=args.max_steps, fp16=(args.precision == 'fp16' or
+            (args.precision == 'auto' and torch.cuda.is_available())),
+        bf16=args.precision == 'bf16', gradient_checkpointing=True,
         gradient_checkpointing_kwargs={'use_reentrant': False},
         eval_strategy='steps' if training else 'no', eval_steps=args.save_steps,
         save_steps=args.save_steps, save_total_limit=2, logging_steps=1,
@@ -184,6 +249,19 @@ def run(args):
     trainer = Seq2SeqTrainer(model=model, args=options, train_dataset=dataset if training else None,
         eval_dataset=validation, data_collator=Collator(processor, model.config.decoder_start_token_id),
         processing_class=processor, compute_metrics=metrics)
+    class OptimizerProgress(StepProgress, TrainerCallback):
+        pass
+    trainer.add_callback(OptimizerProgress(progress))
+    if args.require_finite_training:
+        class FiniteTraining(TrainerCallback):
+            def on_pre_optimizer_step(self, args, state, control, model=None, **kwargs):
+                if any(p.grad is not None and not torch.isfinite(p.grad).all() for p in model.parameters()):
+                    raise ValueError('Nonfinite gradient; pilot aborted')
+
+            def on_step_end(self, args, state, control, model=None, **kwargs):
+                if any(not torch.isfinite(p).all() for p in model.parameters()):
+                    raise ValueError('Nonfinite model parameter; pilot aborted')
+        trainer.add_callback(FiniteTraining())
     if trainer.is_world_process_zero():
         processor.save_pretrained(args.output)
         (args.output / 'run.json').write_text(json.dumps(dict(arguments={k: str(v) for k, v in vars(args).items()},
@@ -191,10 +269,12 @@ def run(args):
             manifest_sha256=digest(args.manifest), validation_sha256=digest(args.validation) if args.validation else None,
             torch=torch.__version__), indent=2))
     if training:
-        trainer.train(resume_from_checkpoint=args.resume or None)
+        with progress.stage('trainer_train'):
+            trainer.train(resume_from_checkpoint=args.resume or None)
         trainer.save_model()
         trainer.save_state()
-    prediction = trainer.predict(validation)
+    with progress.stage('trainer_prediction'):
+        prediction = trainer.predict(validation)
     if trainer.is_world_process_zero():
         (args.output / 'metrics.json').write_text(json.dumps(prediction.metrics, indent=2))
         hyp = processor.batch_decode(prediction.predictions, skip_special_tokens=True)
@@ -227,6 +307,8 @@ def main():
     p.add_argument('--accumulation', type=int, default=4)
     p.add_argument('--workers', type=int, default=0)
     p.add_argument('--learning-rate', type=float, default=1e-5)
+    p.add_argument('--precision', choices=['auto', 'fp32', 'fp16', 'bf16'], default='auto')
+    p.add_argument('--require-finite-training', action='store_true')
     args = p.parse_args()
     if min(args.train_cap, args.validation_cap, args.workers) < 0 or min(args.max_steps, args.save_steps, args.batch, args.accumulation) <= 0:
         p.error('caps/workers must be nonnegative; steps/batch/accumulation positive')
