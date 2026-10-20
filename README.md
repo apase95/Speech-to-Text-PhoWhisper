@@ -39,14 +39,14 @@
 > Toàn bộ các kết quả dưới đây được kiểm chứng độc lập trên tập **Viet-BUD500** thông qua kiểm định thống kê **Paired Bootstrap Test ($N=2.000$ resamples, $p = 0.00000$)** đảm bảo **Zero Data Leakage**.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────────────────┐
-│  📊 WER TRÊN HOLDOUT 500 (UNSEEN)    :  8.07% (Giảm -17.4% tương đối so với Base) │
-│  🎯 EXACT MATCH (ĐÚNG HOÀN TOÀN 100%):  50.0% – 51.4% (Hơn 1/2 số câu chuẩn 100%)│
-│  ⚡ TIÊU THỤ VRAM                    :  ~560 MB (Giảm 70% VRAM so với HuggingFace)│
-│  🚀 TỐC ĐỘ XỬ LÝ (RTF)               :  ~0.18x – 0.25x (Nhanh gấp 4x–5x thời gian thực)
-│  🛡️ TIẾT KIỆM LM NHỜ DYNAMIC GATING  :  29.4% số câu không cần LM (Tiết kiệm ~30% compute)
-│  🔒 BẢO TOÀN TỪ NGỮ PHỦ ĐỊNH         :  100% từ "không, chưa, chẳng" không bị mất│
-└──────────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│  📊 WER TRÊN HOLDOUT 500 (UNSEEN)    :  8.07% (Giảm -17.4% tương đối so với Base)         │
+│  🎯 EXACT MATCH (ĐÚNG HOÀN TOÀN 100%):  50.0% – 51.4% (Hơn 1/2 số câu chuẩn 100%)         │
+│  ⚡ TIÊU THỤ VRAM                    :  ~560 MB (Giảm 70% VRAM so với HuggingFace)         │
+│  🚀 TỐC ĐỘ XỬ LÝ (RTF)               :  ~0.18x – 0.25x (Nhanh gấp 4x–5x thời gian thực)   │
+│  🛡️ TIẾT KIỆM LM NHỜ DYNAMIC GATING  :  29.4% số câu không cần LM (Tiết kiệm ~30% compute)│
+│  🔒 BẢO TOÀN TỪ NGỮ PHỦ ĐỊNH         :  100% từ "không, chưa, chẳng" không bị mất         │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -72,28 +72,28 @@
 
 ## 🏗️ Kiến Trúc Quy Trình Xử Lý (Pipeline Architecture)
 
-Hệ thống kết hợp bộ đôi ASR âm học mạnh mẽ và mô hình ngôn ngữ chuyên sâu theo quy trình khép kín:
+Hệ thống kết hợp bộ đôi ASR âm học và mô hình ngôn ngữ theo quy trình chuẩn hóa:
 
 ```mermaid
-flowchart TD
-    Audio["🎵 Âm thanh đầu vào (WAV / MP3)"] --> Pre["Tiền xử lý âm thanh & WSOLA Time-Stretch tùy chọn"]
-    Pre --> Mel["extract_standard_mel (Reflect padding, triệt tiêu rò rỉ phổ biên)"]
+graph TD
+    Audio["Âm thanh đầu vào (WAV / MP3)"] --> Pre["Tiền xử lý và Time-Stretch WSOLA"]
+    Pre --> Mel["extract_standard_mel (Reflect padding)"]
     Mel --> Enc["Whisper Audio Encoder (FP16 Native CUDA)"]
     Enc --> Dec["NBestDecodingTask (Beam Search = 5)"]
-    Dec --> NBest["5-Best Hypotheses (Normalized text & avg_logprob)"]
+    Dec --> NBest["5-Best Hypotheses (Normalized text và avg_logprob)"]
     
-    NBest --> Gate{"Dynamic Acoustic Confidence Gate<br/>avg_logprob(Top-1) >= -0.020?"}
+    NBest --> Gate{"Dynamic Acoustic Confidence Gate: avg_logprob >= -0.020"}
     
-    Gate -- "Tự tin cao (25% - 30% mẫu)" --> FastOut["Bỏ qua LM, xuất ngay Top-1<br/>(Tiết kiệm 100% tài nguyên LM)"]
+    Gate -->|"Tự tin cao (25% - 30% mẫu)"| FastOut["Bỏ qua LM, xuất ngay Top-1 (Tiết kiệm 100% compute LM)"]
+    Gate -->|"Cần tinh chỉnh (Câu khó, lướt âm)"| LM["Chấm điểm Language Model (GPT-2 hoặc PhoBERT PLL)"]
     
-    Gate -- "Chưa tự tin (Câu khó, lướt âm)" --> LM["Chấm điểm Language Model<br/>(GPT-2 Causal hoặc PhoBERT PLL)"]
-    LM --> Safety["Lọc biên an toàn âm học (Acoustic Safety Margin):<br/>(avg_lp - top1_ac) >= gamma (-0.20)"]
-    Safety --> Objective["Tối ưu hàm mục tiêu:<br/>Score = ASR_lp + 0.200*LM - 0.020*Len"]
+    LM --> Safety["Lọc biên an toàn: (avg_lp - top1_ac) >= -0.20"]
+    Safety --> Objective["Tối ưu hàm mục tiêu Score"]
     Objective --> BestCand["Chọn ứng viên N-best tối ưu nhất"]
     
-    FastOut --> Harm["Chuẩn hóa chính tả & Dấu thanh (Tone Harmonization)"]
+    FastOut --> Harm["Chuẩn hóa chính tả và dấu thanh (Tone Harmonization)"]
     BestCand --> Harm
-    Harm --> Final["📝 Transcript tiếng Việt chính xác cao"]
+    Harm --> Final["Transcript tiếng Việt chuẩn hóa"]
 ```
 
 ---
@@ -108,10 +108,12 @@ flowchart TD
 - Tái xếp hạng chùm tia 5-best bằng mô hình ngôn ngữ tiếng Việt chuyên biệt (`NlpHUST/gpt2-vietnamese` hoặc `vinai/phobert-base-v2`).
 - **Acoustic Safety Margin ($\gamma = -0.20$):** Ràng buộc khoảng cách âm học không cho phép LM hoán đổi sai nếu ứng viên đó có điểm âm học quá xa rời so với Top-1 Whisper.
 - Khóa cứng siêu tham số tối ưu qua **5-Fold Cross Validation trên Dev 250**:
-  $$\text{Score} = \text{ASR\_logprob} + 0.200 \times \text{LM\_logprob} - 0.020 \times \text{Word\_Count}$$
+  ```text
+  Score = ASR_logprob + 0.200 * LM_logprob - 0.020 * Word_Count
+  ```
 
 ### 3. Dynamic Acoustic Confidence Gating (Ngắt Điểm Âm Học Động)
-- Khi Whisper có điểm âm học $\text{avg\_logprob}(c_1) \ge -0.020$, hệ thống tự động nhận diện đây là câu thoại rõ ràng và **ngắt sớm, không gọi mô hình ngôn ngữ**.
+- Khi Whisper có điểm âm học `avg_logprob(c_1) >= -0.020`, hệ thống tự động nhận diện đây là câu thoại rõ ràng và **ngắt sớm, không gọi mô hình ngôn ngữ**.
 - Giúp **tiết kiệm gần 30% thời gian chạy LM**, giảm lỗi Deletion và đạt **0.0% tỷ lệ xóa nhầm từ phủ định** (`không, chưa, chẳng, đâu`).
 
 ### 4. Hỗ trợ PhoBERT Challenger (Bidirectional Masked LM)
@@ -230,6 +232,19 @@ Dự án duy trì hệ thống tài liệu và báo cáo kiểm chứng phương
 - 📊 **[Báo Cáo Kiểm Chứng Holdout 500 (holdout-report.md)](outputs/viet-bud500-holdout-validation-report.md)**: Xác thực độc lập trên 500 mẫu âm thanh mới (WER đạt 8.07%, $p=0.00000$).
 - 🛡️ **[Báo Cáo Dynamic Acoustic Confidence Gating](outputs/dynamic-acoustic-confidence-gating-report.md)**: Khảo sát ngưỡng $\theta$, tiết kiệm 30% tài nguyên và giảm thiểu lỗi Deletion.
 - 🔬 **[Báo Cáo Phân Tích Tách Biệt LM vs. Acoustic Gate](outputs/matched-rescoring-disentanglement-report.md)**: Bóc tách vai trò của mô hình ngôn ngữ và biên an toàn âm học $\gamma$.
+
+---
+
+## 🔗 Mô Hình Nền Tảng & Liên Kết (Foundation Models)
+
+Dự án kế thừa và kết hợp 2 mô hình nền tảng:
+
+| Mô hình | Nền tảng | Liên kết chính thức |
+|:---|:---:|:---|
+| **PhoWhisper-base** *(VinAI Research)* | 🤗 Hugging Face | [huggingface.co/vinai/phowhisper-base](https://huggingface.co/vinai/phowhisper-base) |
+| | 🐙 GitHub | [github.com/VinAIResearch/PhoWhisper](https://github.com/VinAIResearch/PhoWhisper) |
+| **GPT-2 Vietnamese** *(NlpHUST)* | 🤗 Hugging Face | [huggingface.co/NlpHUST/gpt2-vietnamese](https://huggingface.co/NlpHUST/gpt2-vietnamese) |
+| | 🐙 GitHub | [github.com/bino282/ViNLP](https://github.com/bino282/ViNLP) *(Tác giả: [bino282](https://github.com/bino282))* |
 
 ---
 

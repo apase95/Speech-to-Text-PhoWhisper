@@ -21,7 +21,7 @@ Tài liệu này đối chiếu toàn diện giữa **mô hình PhoWhisper ban �
 ### Sơ đồ luồng xử lý:
 
 ```mermaid
-flowchart TD
+graph TD
     subgraph BanDau["Quy trình Ban Đầu (Hugging Face)"]
         A1["Âm thanh đầu vào"] --> B1["Resample torchaudio"]
         B1 --> C1["Trích xuất Mel (Đệm Zero padding làm rò rỉ phổ biên)"]
@@ -34,13 +34,13 @@ flowchart TD
     end
 
     subgraph HienTai["Quy trình Hiện Tại (PhoWhisper + GPT-2 Pipeline)"]
-        A2["Âm thanh đầu vào"] --> B2["Chuẩn hóa âm thanh / Time-Stretch WSOLA tùy chọn"]
+        A2["Âm thanh đầu vào"] --> B2["Chuẩn hóa âm thanh và Time-Stretch WSOLA"]
         B2 --> C2["extract_standard_mel (Reflect padding, triệt tiêu rò rỉ phổ biên)"]
         C2 --> D2["Whisper Fast Encoder"]
         D2 --> E2["NBestDecodingTask (Beam 5, without_timestamps=True, no_context)"]
-        E2 --> F2{"Dynamic Acoustic Confidence Gate<br/>avg_logprob >= -0.020?"}
-        F2 -- "Có (25-30% câu thoại)" --> G2["Xuất ngay Top-1 (Tiết kiệm 100% thời gian LM)"]
-        F2 -- "Không (Câu khó, lướt âm)" --> H2["Chấm điểm LM GPT-2 (lm_logprob_per_token)"]
+        E2 --> F2{"Dynamic Acoustic Confidence Gate: avg_logprob >= -0.020"}
+        F2 -->|"Có (25-30% câu thoại)"| G2["Xuất ngay Top-1 (Tiết kiệm 100% thời gian LM)"]
+        F2 -->|"Không (Câu khó, lướt âm)"| H2["Chấm điểm LM GPT-2 (lm_logprob_per_token)"]
         H2 --> I2["Lọc biên an toàn: (avg_lp - top1_ac) >= gamma (-0.20)"]
         I2 --> J2["Tối ưu hàm mục tiêu: Score = ac + alpha*lm + beta*len"]
         J2 --> K2["Chọn ứng viên tối ưu"]
@@ -55,7 +55,7 @@ flowchart TD
 2. **Cấu hình giải mã ASR chuẩn hóa:**
    - `without_timestamps=True`: Loại bỏ hoàn toàn 1.318 lỗi mất từ do cơ chế timestamp gây ra trên câu thoại ngắn.
    - `condition_on_previous_text=False`: Chặn đứng hiện tượng ảo giác (hallucination) và lặp lại câu văn của các file âm thanh trước đó.
-3. **Cơ chế ngắt sớm động (Dynamic Acoustic Confidence Gating):** Tự động phát hiện các câu thoại Whisper đã giải mã với độ tự tin cao ($\text{avg\_logprob} \ge -0.020$) để bỏ qua bước rescoring, tiết kiệm ~30% thời gian tính toán và triệt tiêu nguy cơ Deletion trên các câu này.
+3. **Cơ chế ngắt sớm động (Dynamic Acoustic Confidence Gating):** Tự động phát hiện các câu thoại Whisper đã giải mã với độ tự tin cao (`avg_logprob >= -0.020`) để bỏ qua bước rescoring, tiết kiệm ~30% thời gian tính toán và triệt tiêu nguy cơ Deletion trên các câu này.
 4. **Biên an toàn âm học (Acoustic Safety Margin $\gamma = -0.20$):** Chặn LM ghi đè lên các dự đoán âm học vững chắc của Whisper, loại bỏ 5–8 câu bị rescorer làm hỏng (Losses).
 5. **Chuẩn hóa vị trí dấu thanh (Tone Harmonization):** Đồng nhất quy tắc bỏ dấu kiểu mới và kiểu cũ, loại trừ sai số đánh giá giả định do bộ gõ.
 
