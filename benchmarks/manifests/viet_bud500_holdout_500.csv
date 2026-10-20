@@ -1,0 +1,501 @@
+id,audio_path,reference,split,sha256
+audio1251,data/benchmark/viet-bud500/audio/audio1251.wav,nói vàng ngọc để ví vậy vì quá ngon nên,test,bebc250d3fc65d5b24f0824c3431f33c6b8e59a53914d117d92c55f03f0138a2
+audio1252,data/benchmark/viet-bud500/audio/audio1252.wav,đơn giản quá bịt kín lỗ thủng là xong,test,cdb26c63d07ee3c6e66e780040df74e6fefaad3d1c54d8d639e8df7f8bacdf31
+audio1253,data/benchmark/viet-bud500/audio/audio1253.wav,cầm lấy cốc cà phê sữa nhâm nhi một lúc,test,41860c6c3f17303752c7657641126424b16a84804ba759cb47d6bff1d77e1574
+audio1254,data/benchmark/viet-bud500/audio/audio1254.wav,cứ lần lượt cái điệp khúc véo tài khám,test,4988901b13876efcfcccc198e9263557eb0c705e1e8fe17af8ce6541c435874b
+audio1255,data/benchmark/viet-bud500/audio/audio1255.wav,xuống thì mới cất bước đi vào bên trong,test,84fe68fe10c061dd008934e34871f261d20310ab942c6c99d8aac3e35f0453db
+audio1256,data/benchmark/viet-bud500/audio/audio1256.wav,quá ngột ngạt định hỏi anh ta trước thì,test,6ce3171b12dc982404e9e83da2f31f02ddf1a1f688bf57370da38623298181c5
+audio1257,data/benchmark/viet-bud500/audio/audio1257.wav,chịu cô luôn đó có con nhỏ không muốn bà,test,ee572ec6abbf0d413ae740b5080800d752d93462cba9ba189010feb1e4d9a154
+audio1258,data/benchmark/viet-bud500/audio/audio1258.wav,chị muốn và nó rất là rõ nó hình thành,test,f26041e13cab773f4c53abc6c889bd70c275d8d72ba7f03d499d2ed8c53f388b
+audio1259,data/benchmark/viet-bud500/audio/audio1259.wav,mạt sát năng lực của chị nếu mà tôi đoán,test,74e33c0b4f49f6a6efa916e67b53f281bcfb67388467d1951ad92e383c2cd193
+audio1260,data/benchmark/viet-bud500/audio/audio1260.wav,để lấp đầy khoảng thời gian nhàn tản này,test,854cd27dc409986c486bed75ecba9cce19456f9839e324a5a21cecfb8f80352d
+audio1261,data/benchmark/viet-bud500/audio/audio1261.wav,mẹ hiếu nãy giờ vẫn giữ được bình tĩnh,test,9dcf78e045a439f0a53c21435d36f7cb8b0d0c7439f81ebbda5358242f317489
+audio1262,data/benchmark/viet-bud500/audio/audio1262.wav,quan sát và bên cạnh những người đó khi,test,8b7e43c8e5877dd504eb5209aae80e2fcfa075ea552c84b8830d5031df765012
+audio1263,data/benchmark/viet-bud500/audio/audio1263.wav,bức xúc với anh từ lâu rồi nên mẹ mới,test,9ff4c759549396d5ece80549baa6dd37cc6c0480cfd6fc4227d8b99995160f9d
+audio1264,data/benchmark/viet-bud500/audio/audio1264.wav,bước vào năm học mới nhiều đứa lên tình,test,9b312b209b88b623725172317eb53554a27a1f8129c2d28e9d5ff19688eabb51
+audio1265,data/benchmark/viet-bud500/audio/audio1265.wav,làm đời chúng ta sống động thêm dù chỉ,test,b7c48e082e79b22dfe588c598f0597c85914b9967c9f3392d8fa76f89fa520e6
+audio1266,data/benchmark/viet-bud500/audio/audio1266.wav,điều đó họ lạc lối trong đó thế nhưng,test,2946acf4a2f1231ec3bae1eec25a6ee74e5dcccac56d7e8db72e474d12fbbf5d
+audio1267,data/benchmark/viet-bud500/audio/audio1267.wav,con với chả cái ương bướng quá thể bảo,test,b82bc8838789c5d0cb72135361e89adcb8bd95ff1850ad64306fe6edf3aac8e2
+audio1268,data/benchmark/viet-bud500/audio/audio1268.wav,trong những ngày như thế này nên là mình,test,77bf3283d9dea4f22dd3b95afb9be2e12f260879b63e12dc9db8c2ba00fce5d4
+audio1269,data/benchmark/viet-bud500/audio/audio1269.wav,lại phải tính đến việc lên đường làm ăn,test,df2d491369389773be13b2ed1972a65dbcde004c1d32d2d57a6b73fd895f328c
+audio1270,data/benchmark/viet-bud500/audio/audio1270.wav,được trong lòng người ta những cảm xúc,test,2b6e05e2e62d7e9c8f946fdafc062012efce437e9d8ba9ff7f2d771c48ecb153
+audio1271,data/benchmark/viet-bud500/audio/audio1271.wav,ta cũng nên tránh xa ra,test,a3fccaa3227a9e14fade780ad364c06727504539f950bd81cef95a0c43441fe8
+audio1272,data/benchmark/viet-bud500/audio/audio1272.wav,lại cứ sợ là anh không dám ăn,test,00782ce80deaaa9ade17b3a29f008c35e8dde26d60eb31ff07e7911c6a0fa750
+audio1273,data/benchmark/viet-bud500/audio/audio1273.wav,kèm theo một giọng nói mà đã mấy năm nay,test,51e48a3bf42deab2fa4c991b332a1d3c26fba7ae8804ed39b9b953a599c46334
+audio1274,data/benchmark/viet-bud500/audio/audio1274.wav,ít nhất là bao nhiêu tiền,test,682533cca19cee6b27151361d6fcb568b0252deea4ce409ad703e5152836647e
+audio1275,data/benchmark/viet-bud500/audio/audio1275.wav,cùng nhìn thấy cùng phân tích sự khác,test,5fb5c93c71f37179c2952802dc919cef08762a95f85908a12cd556f62f7477fc
+audio1276,data/benchmark/viet-bud500/audio/audio1276.wav,từ đây xuống đấy xa lắm thằng tùng nó để,test,b8e512d192eb33f8dd455b01e8d2159ea091c6721729def6a4578182173021fe
+audio1277,data/benchmark/viet-bud500/audio/audio1277.wav,thì cô lên tiếng gọi tuấn anh tuấn anh,test,fc3269bc052363e426af5d501a54f34b81298176e650cd5e1e07f666cd9552e6
+audio1278,data/benchmark/viet-bud500/audio/audio1278.wav,cứ chửi đi anh không tự ái đâu,test,e6f58dcfcbd2b625d7333c221044736207a127e084a44993e09c015f6a8f551a
+audio1279,data/benchmark/viet-bud500/audio/audio1279.wav,lần sau mất những thứ khác giá trị to,test,2d0a7c59560e0f43a694836ad31e88729c0a752efecc36cdf38271c8e77dccac
+audio1280,data/benchmark/viet-bud500/audio/audio1280.wav,lực lượng biệt kích gài thuốc nổ khắp giàn khoan  ,test,a00d271e33a572fd9a93dd8e09ca1c0e9728aace9e5ceb1fb59a572318ac38d9
+audio1281,data/benchmark/viet-bud500/audio/audio1281.wav,tôi với đàn ông buông xuống lúc đó tôi,test,7873c7ac606b850fe83fffa5dce406def19dc03b53313f8bb832e7d700197a63
+audio1282,data/benchmark/viet-bud500/audio/audio1282.wav,này quá cao gây khó khăn cho nguồn ngân,test,7c200b2924b9fc6a7d93d875b2d81cb1d014445760703c0c49d8f1a05636ce94
+audio1283,data/benchmark/viet-bud500/audio/audio1283.wav,cuối cùng thì tôi cũng phải chào thua,test,1640cf3b1bf3f6bdf2035901995d043c2d5fc75a7e705c0c91551dbeb523e087
+audio1284,data/benchmark/viet-bud500/audio/audio1284.wav,cột nhà bên cạnh anh ta là hai đứa trẻ,test,325a746d18855892b1657e9ca7fe7ab8f195315b9441cfd44dde3cdf09113224
+audio1285,data/benchmark/viet-bud500/audio/audio1285.wav,em này bố mẹ ở quê vừa gọi điện bảo vợ,test,586cdb1d5544ad5b39763f7fae105073a50cd4be8479b10658148657a02e4c8b
+audio1286,data/benchmark/viet-bud500/audio/audio1286.wav,để rồi sau đó tôi và các bạn vẫn có thể,test,82d5adc9f8d3645957a8150c8e68791079b8018b092e89995046f94553e32663
+audio1287,data/benchmark/viet-bud500/audio/audio1287.wav,nếu mọi chuyện xảy ra theo đúng kế hoạch,test,25c6949b0d91eb7443de9ca2d12e31e418610cfb740966480cd8a6f888182348
+audio1288,data/benchmark/viet-bud500/audio/audio1288.wav,mình và hãy thực sự mở lòng cho việc,test,5db5318062b5e92a76ea7921ca49dbf1d0800abc689d18c4fc183cdfce6aafdf
+audio1289,data/benchmark/viet-bud500/audio/audio1289.wav,trong khi ra vi còn chưa để ý thì cậu,test,86aff2eefcd0ddbbe5dd47573da2a0464e9b512b03b423aa8a5062ac2ee20100
+audio1290,data/benchmark/viet-bud500/audio/audio1290.wav,rất là nghiêm túc bởi vì là cũng nhiều,test,a1a489b122fab203043034ea596372340216b94ee8bce5bdfee46bfdd083c3d0
+audio1291,data/benchmark/viet-bud500/audio/audio1291.wav,vẫn chẳng yêu ai lại phải lòng đứa bé mà,test,567d51071787aa8b74a9f9fe7a8f1b3b9e5f4a4060c1425821aa8f25e42a99f2
+audio1292,data/benchmark/viet-bud500/audio/audio1292.wav,lãng quên bị bỏ phí nếu ai đó cứ mù,test,c014fc347ef1087605fe7142e817efc798a9c1d8b5fc038a9b82335414fe7b63
+audio1293,data/benchmark/viet-bud500/audio/audio1293.wav,một khó coi hiếm khi anh ấy thể hiện cảm,test,4a14d10892e534e230413bebedf89732a4ae65ebe5ae1efb834c6b74eb963483
+audio1294,data/benchmark/viet-bud500/audio/audio1294.wav,bị làm sao để mà để mình có một cái diện,test,b473e6b7de8388bb08ca08eb2cb7d1671b8b8e692411bd5297e3b2e1dfa0dcf9
+audio1295,data/benchmark/viet-bud500/audio/audio1295.wav,ông bàn ông nói hổng phải đâu vợ mày,test,e4b8e60a830a6ed60baad0625de1b018bbfff549980955114f79a6b4d5c94a76
+audio1296,data/benchmark/viet-bud500/audio/audio1296.wav,ngày hôm sau tôi đang ở viện chăm con,test,b627a405705b3085a969850b823fe364363dacc3b8ca0f54e95885f20f2c11b7
+audio1297,data/benchmark/viet-bud500/audio/audio1297.wav,rất nhiều đối thủ đối thủ tức là đối lập,test,6668d7de0dc7e9b1cb35feea51727d97163f87aaba7f4f445058110fe3faa837
+audio1298,data/benchmark/viet-bud500/audio/audio1298.wav,này cô có muốn tham gia dạy bổ túc cho,test,698a8046f3c955266cbe3ea065a0e8bcb77ebc596393308af0a4380495ced6e3
+audio1299,data/benchmark/viet-bud500/audio/audio1299.wav,so với các xe chiến đấu đổ bộ bánh lốp  ,test,16f34e74d3871607a228468ae85eaa7a169b4bd4889aa8267337cc263146bf5d
+audio1300,data/benchmark/viet-bud500/audio/audio1300.wav,đã nằm đó lạnh ngắt tâm an và lưu tuấn,test,790ea8316f7edb65a6c7292fa4368cf1b683f0e6f87f07ee422d09dabfe9011c
+audio1301,data/benchmark/viet-bud500/audio/audio1301.wav,yêu thích của mình ngồi phi cơ hạng sang,test,412c61f7fb710179249ec6257cddfddc0262635abc843ff8e904bde0d25d1c57
+audio1302,data/benchmark/viet-bud500/audio/audio1302.wav,ngày lễ ngày hội các gia đình vẫn bày,test,53b2101874509220155960a46598ed0a0b934a34a79aa011cf6f6d3daa789f0e
+audio1303,data/benchmark/viet-bud500/audio/audio1303.wav,nó khá là khó cho những cái người du,test,b23fa5cfdb09fd312b04d3a8cbb171bfb7eecaf76a457deef896488fce7cef14
+audio1304,data/benchmark/viet-bud500/audio/audio1304.wav,trên thế giới rồng nằm hay rồng cuộn là,test,9d099c572e1a4579cf4f6eb572cea4720a35ab569cb15c0991ebc0ab34767064
+audio1305,data/benchmark/viet-bud500/audio/audio1305.wav,điều khoản hợp đồng xem có sai sót nào,test,69ec82e95c79873868d541688056ea1298ae054a3b575392236cc3684966f14e
+audio1306,data/benchmark/viet-bud500/audio/audio1306.wav,nếu đàn ông sinh ra được làm đàn ông rồi,test,9493db54159f671b602050c7fa83f62f5b9baa899426017833b2de75115f18f0
+audio1307,data/benchmark/viet-bud500/audio/audio1307.wav,trong lòng hắn lúc này chỉ muốn được,test,71bb92e178a32ba993cc1a2d97daab71d8711cfc7e756001a89191c0871a105a
+audio1308,data/benchmark/viet-bud500/audio/audio1308.wav,mặc dù bị vùi chôn dưới đống phế tích,test,bde7ae6ce5293259e294ad347162b6bf1c6abc355fc50dd189a82e704b38420c
+audio1309,data/benchmark/viet-bud500/audio/audio1309.wav,hãy tiếp tục đồng hành cùng mình trên,test,b9bdc78887a799361fe65f4850baa9b7bc07c63f12e224dd0e5464ae4ce18ff8
+audio1310,data/benchmark/viet-bud500/audio/audio1310.wav,cho bố mẹ còn bên nhà bảo an thì cứ như,test,eebdb8367170e7879209d5a72b95280bed6009106a50c779bc76c1a2ee6a9ba8
+audio1311,data/benchmark/viet-bud500/audio/audio1311.wav,em là một cô gái cũng điêu ngoa ngang,test,7fc34a23efe8acaa60c8f5d22965de3b3a16ade694282aaeac28bc5da50ab0aa
+audio1312,data/benchmark/viet-bud500/audio/audio1312.wav,cảm thấy mình không giỏi mình không tự,test,57186c6d0ee2c12f4181cc9c2c0592c3ba8861a4ea5234055832ef28852004b8
+audio1313,data/benchmark/viet-bud500/audio/audio1313.wav,nghĩa là em có thể yêu mà kiểu vô tư,test,9b6325019db728e2db22620ee40e97dd85659ec665fecbe972191b0214d120e9
+audio1314,data/benchmark/viet-bud500/audio/audio1314.wav,mà chính em tự nguyện có hai triệu thôi,test,ae8f4846b35685c4a57538d6542dab4a6e6bd9905501ee4b7d1c6487089d5032
+audio1315,data/benchmark/viet-bud500/audio/audio1315.wav,có cô ở bên cạnh đôi lúc tôi giật mình,test,f88c1bf4bff35c2653a0f03e09989f9999dfdc362e7bde1922a564ab956dac25
+audio1316,data/benchmark/viet-bud500/audio/audio1316.wav,cũng bất ngờ không kém tuyến kể lại cuộc,test,1b651a57bae750eefd982796b4934f158230707415ec5edc17fb15498e977631
+audio1317,data/benchmark/viet-bud500/audio/audio1317.wav,tất cả quyết không chịu làm nô lệ thì,test,0894c7885afee4d844db571d63876c737b2beb56342b2892d8dd011a5977688f
+audio1318,data/benchmark/viet-bud500/audio/audio1318.wav,họ bình tĩnh đối phó với nghịch cảnh và,test,bfd28ebde2f20ec3033c6ce9482d67485c9aa408a63f513ee3cbd662605d48b5
+audio1319,data/benchmark/viet-bud500/audio/audio1319.wav,tạo ra cái cảm giác trơn mượt cho tóc,test,65ca9a28e2f6a5dd1f74032399eff731e0fa668815fbbae010d3ec0fa821eb9a
+audio1320,data/benchmark/viet-bud500/audio/audio1320.wav,làm sao mà cô lại được chứ anh mà làm gì,test,93c0ab65927b95283e5c9ca5effe82957e4462850ed5f9f5907826d2f4c4bb09
+audio1321,data/benchmark/viet-bud500/audio/audio1321.wav,thế thì tùy cô anh bỏ đi,test,f5f430ea97c2436e8bcffacbcea62b3672d19057ed08767b591e0eb08760bd01
+audio1322,data/benchmark/viet-bud500/audio/audio1322.wav,những tiềm năng của chính mình và với,test,b93ca86d5cf6ce77de2c8e123f528b1d0e833423d14c5ef3eef274d75c942a98
+audio1323,data/benchmark/viet-bud500/audio/audio1323.wav,em ba mẹ nuôi vợ chồng anh dương còn nữa,test,6cc027c93e55a52aaecd0dd8e16fe55a5e6351c02a6e1ca2cd6f5f8d8d19f501
+audio1324,data/benchmark/viet-bud500/audio/audio1324.wav,thời điểm bắt đầu chỉ là giờ chúng ta,test,71a90d5330e90c36257e5455859eda1925b5fe6ee6c862396cd6aba351299495
+audio1325,data/benchmark/viet-bud500/audio/audio1325.wav,biết thời thế đã thay đổi cuộc sống của,test,d39fd4910dbad27fabab7aef7b8838acd5d190c8f53035939228def9db75353f
+audio1326,data/benchmark/viet-bud500/audio/audio1326.wav,ta ngồi xuống cái đã nói rồi tôn thái,test,05a4ae648175177df865f7952814638d52652370cc0578352aaaa5bde585b3e0
+audio1327,data/benchmark/viet-bud500/audio/audio1327.wav,mẹ vinh xin được làm dâu,test,249b6caf4b829525384c5779d41bafdc19b6d83a6814e138e17fa68c7d28242f
+audio1328,data/benchmark/viet-bud500/audio/audio1328.wav,kỷ mà giữ lấy tình yêu của đời mình sẽ,test,abfce6a4737921da61e0190a3b960456da121216c90412a17fffd1600eb7684f
+audio1329,data/benchmark/viet-bud500/audio/audio1329.wav,kể ra những câu chuyện khiến lòng người,test,56218f70deca38bf8a5fd7b45ca9d4f5c20740ec42a29929330d7155bb4eac00
+audio1330,data/benchmark/viet-bud500/audio/audio1330.wav,trong căn phòng nhỏ huệ cũng đau khổ tới,test,b973df4a288b6b271cdb6b530aab6865abaeb3cc0565e2483af6af8648d4abeb
+audio1331,data/benchmark/viet-bud500/audio/audio1331.wav,khẩn cấp gọi bác sĩ bác sĩ nhanh chóng,test,c801dc316568fc92c08c2a7bbf564ac82eb62dccfe65f1e7a8e2511b85d696c0
+audio1332,data/benchmark/viet-bud500/audio/audio1332.wav,một chàng trai giàu có ở thành phố lại,test,f527ede90c807a20ef2774b63ab713f496a014a2486953c3db1cdc42f688e7d7
+audio1333,data/benchmark/viet-bud500/audio/audio1333.wav,khi một người chồng người cha mãi rơi,test,2d00b4ecd2fc2ab4fd34b868a51ee120d45a144aede7fc7a80bac81a4616a714
+audio1334,data/benchmark/viet-bud500/audio/audio1334.wav,dọc đường về chị nghĩ nhiều đến viễn,test,39af59973a529240ca6f07c6e7e8af4ca8bb4130b92723155b07ffd4520b6ce9
+audio1335,data/benchmark/viet-bud500/audio/audio1335.wav,lòng và gật đầu đồng ý còn cô thầm nghĩ,test,3968d3bf93f19cb2a0c06acfc974664ebe9b256b86a3e04afadff1389207999a
+audio1336,data/benchmark/viet-bud500/audio/audio1336.wav,phòng khám gần đó kịp thời kỳ thi năm đó,test,81f51fb80c1ec4b2efaced0d11a7dce8083587bae2e7983dc40b72d20e179bc5
+audio1337,data/benchmark/viet-bud500/audio/audio1337.wav,câu hỏi chưa được trả lời thì tàu điện,test,bbaf98fa42be253b2bd5737ca64d1b6c5d22ddec15534a1c0311f24c3f0cbd61
+audio1338,data/benchmark/viet-bud500/audio/audio1338.wav,có giải thích thế nào thì mẹ tôi cũng,test,07754283ce92659affb3efc2ff76e3f51572748c34276bba1abae6fb9a3a29fe
+audio1339,data/benchmark/viet-bud500/audio/audio1339.wav,định chấm dứt của tôi cũng sẽ tôn trọng,test,88466e208f862991169dadfa7c72762fe10eda2bf26c375b1e9e8b2e96f7605a
+audio1340,data/benchmark/viet-bud500/audio/audio1340.wav,cô về con gái bé bỏng kết tinh tình yêu,test,502e6215f165f904066ac680d8d365fee2e7457e83bbe3a257bea729f8eec0ec
+audio1341,data/benchmark/viet-bud500/audio/audio1341.wav,không đi nằm mà trên giường đắp chăn ngủ,test,00733500e592297d320a9847a17be5f4832f53db752ca6b254ac529a10717fa7
+audio1342,data/benchmark/viet-bud500/audio/audio1342.wav,cũng nói cái trong xóm đó có ông già ông,test,15448f2fef7c46488b7cd1abb18e3fb80c0acf208dec91375d03e5eec200fc78
+audio1343,data/benchmark/viet-bud500/audio/audio1343.wav,thế cũng lại nhớ ngày chiều hôm qua thôi,test,64d871c7aa59e6d727bb5d87787579b8a43cebcdf1feac4ce4480f81a33c6b76
+audio1344,data/benchmark/viet-bud500/audio/audio1344.wav,thị trường lao động đồng thời các bạn,test,476ad4a7fe2f0929cad9afed59184dc99f24cfd39bac8fe82ac743765242363b
+audio1345,data/benchmark/viet-bud500/audio/audio1345.wav,ấn tượng nhất chính là phong cách của,test,f93395bc13974a3aa3eb8c64895e2f093a4936bb9129d8bc16f662b03d425e60
+audio1346,data/benchmark/viet-bud500/audio/audio1346.wav,chính là bước đầu tiên đi đến đồng tâm,test,228c4f935cb03d78a7b8557bbec70c746703f556bb6b4a8c87d9bb56f2af7824
+audio1347,data/benchmark/viet-bud500/audio/audio1347.wav,bạn có thể chú ý đến chiếc váy vóc của,test,c6e9699ee10cc889f1c2588353f5e015621c6dea4891de1faf5481f43dc7803b
+audio1348,data/benchmark/viet-bud500/audio/audio1348.wav,sinh học và vũ khí hạt nhân của nước này,test,c019ac394ce728da557281bceb00622a912873e28e65e3e5bc96974982f29cc7
+audio1349,data/benchmark/viet-bud500/audio/audio1349.wav,mỗi ngày á các bạn sẽ cảm thấy cái điện,test,cf3d05d7ae53aee7be7e576ddd3137d1775ffd85b65f76cade6bf03d6cc36bc9
+audio1350,data/benchmark/viet-bud500/audio/audio1350.wav,bằng lòng với mọi thứ mà thôi,test,640a0634a238a12248d4dc2f1f04f298cd1306d006d6b3656cd523abf84d2b4c
+audio1351,data/benchmark/viet-bud500/audio/audio1351.wav,học của mình bài tập khá dài để đưa vào,test,92e945dbdfc6aaff89a7a6868452a9ad3e14bd4a60b7fd6e78243232d12e1275
+audio1352,data/benchmark/viet-bud500/audio/audio1352.wav,cuộc và không thể nào là một sự trùng,test,bd15b62c3ede53f9de0340df3b1573a3a79a32fb58c049972c081af76e937ecc
+audio1353,data/benchmark/viet-bud500/audio/audio1353.wav,túy đó là sự san sẻ với tình yêu khác mà,test,e223183cd7638d50928ae84c369394c78abf41d54b3a3c6dea5fe66b1e25fa18
+audio1354,data/benchmark/viet-bud500/audio/audio1354.wav,không gian có mùi ngát thơm của hóa chất,test,9cb4a3d6d3ee3cf7c1ca5dc6c51949e52bea549d8a31b04cd5c2ae2c3062f2bb
+audio1355,data/benchmark/viet-bud500/audio/audio1355.wav,nào tôi không cho rằng người viết muốn,test,f35a59339867d04f49712870c5607e9acae59f39ec5d19d3cdba8db674703449
+audio1356,data/benchmark/viet-bud500/audio/audio1356.wav,dẫn mang tính thực tiễn cao và toàn diện,test,16cbfc69715f90d19cce4a7bbbc50d0184a2a10af438c29f96c2f8cc0f70bc0a
+audio1357,data/benchmark/viet-bud500/audio/audio1357.wav,đều mất tiền mà không được nhận vào làm,test,d75a44d52fb3eddbb698b9766e218c2ebf636bc066870ec6395e3b8d6de976fa
+audio1358,data/benchmark/viet-bud500/audio/audio1358.wav,mời sau khi cùng nhau thực hiện bước sau,test,15e4a349adb592fd73cbb7de8c19bc34861bf4d384d4a9ae876b35be0fa0e6a6
+audio1359,data/benchmark/viet-bud500/audio/audio1359.wav,thấy mình không rời xa cái cộng đồng mà,test,567fefa3522d6833badcb1b39e0d1f8340ee950f0214fe9426c293719ee5683d
+audio1360,data/benchmark/viet-bud500/audio/audio1360.wav,nhưng khi chúng ta trưởng thành,test,0180a0e5c764de7ae8ab13d5977d7a4ca433af69ace8a2680cfa0fa2298cc090
+audio1361,data/benchmark/viet-bud500/audio/audio1361.wav,tôi vẫn rất căng thẳng khi xe dừng lại,test,3d4b240ff1258103d1fedd6adcb541d01612e6f3a7f00737cd1f2275a87d9bea
+audio1362,data/benchmark/viet-bud500/audio/audio1362.wav,cũng là tội của cái thằng khang này nó,test,4d4b394eb4d93afea7b49bd155bd036e598dc4a9eec60bab5180ee9009e95b2f
+audio1363,data/benchmark/viet-bud500/audio/audio1363.wav,dạo này có thể cho học hành căng thẳng,test,13164c06fc1004f15d083cdb93a069ed6551a9e2f6bb52a412eb1c379a681730
+audio1364,data/benchmark/viet-bud500/audio/audio1364.wav,nước chân ngoài dài hơn chân trong nhưng,test,110d11ca425d7091fee9d465812ddccbcf064bf90e43a77ebef016f28ed4f430
+audio1365,data/benchmark/viet-bud500/audio/audio1365.wav,tâm sự cùng ông trước khi tôi đi siêu,test,65f38d762c838a8044910d9228117b67672174b0925f768855639b2c00756e37
+audio1366,data/benchmark/viet-bud500/audio/audio1366.wav,khi tôi nhìn thấy bức hình của em trên,test,9a2fbcc4a575f40cf8f8a663899695d8a4f8c4566d5a162c439670f268a6b0a4
+audio1367,data/benchmark/viet-bud500/audio/audio1367.wav,của nhau hay không có thể cùng nhau đi,test,b7573d939914fdfd844bb00ecfc738c17e819a03457d48b3332dd0265fa8cea6
+audio1368,data/benchmark/viet-bud500/audio/audio1368.wav,vui như mẹ mà không con không cần búp bê,test,d4e7863dae388e773a24185e344d26bd33e3ce8e136c759fac388d824063f2bc
+audio1369,data/benchmark/viet-bud500/audio/audio1369.wav,là người đã giúp đỡ họ,test,bdc54191aa0ad28188eba4441c78477e362bcf454cd726bb7e170fac905c4588
+audio1370,data/benchmark/viet-bud500/audio/audio1370.wav,đều sống ở một thành bang của vàng ròng,test,12ca5a60c5e138e3b276d6ad7c89982b41c29f2cf968e1165b90fbc5f7013f93
+audio1371,data/benchmark/viet-bud500/audio/audio1371.wav,anh còn chưa có bạn gái lấy đâu ra người,test,57509596548b7d9cd1eb2d1ec502e41dc618733609474ac5b65367ad457e6e89
+audio1372,data/benchmark/viet-bud500/audio/audio1372.wav,chỉ mỗi tử vong nhẹ nhàng nhưng cũng đủ,test,6e2f0d106980bd29fa60cbe67ac9ed11608bf8f770f86391e57eda34f6b963f4
+audio1373,data/benchmark/viet-bud500/audio/audio1373.wav,mà muốn thôi là thôi còn con bé hạ nữa,test,a97640acd54c80b1f3b737e9c755bf768fcc1eeb0947a5cc4c225a911e0cbc72
+audio1374,data/benchmark/viet-bud500/audio/audio1374.wav,nắm cát đang cầm trên tay vào người của,test,db1ed1a52183296a77101b7d28d603d73886eff15e5db4e4e3bd2c0c7c36ee83
+audio1375,data/benchmark/viet-bud500/audio/audio1375.wav,cho mình khi bị nhà cầm quyền pháp gắn,test,97043347644b7110ec94345477ffc0b98a2b1982ffc005319274298e85129a55
+audio1376,data/benchmark/viet-bud500/audio/audio1376.wav,linh con đi đâu con đứng lại,test,bd2b8ca00c989855514dc2187d202d6aa0ebd70aedb350ed436f82cf92063283
+audio1377,data/benchmark/viet-bud500/audio/audio1377.wav,lại càng hơn thế người ta thường nói một,test,b547decde72b28f47122c55acb708c37c065c9c295f072e23583d471f9c00417
+audio1378,data/benchmark/viet-bud500/audio/audio1378.wav,lòng về mình nữa họ ở đây nhưng mà tâm,test,2c53d80d9e5088d27a443dd81fd1945513dd0dd159020af9bfe6fbf75de78b9c
+audio1379,data/benchmark/viet-bud500/audio/audio1379.wav,là có lý do đắt hơn ví dụ đi bạn cứ thử,test,9033cc5c2cbd04ff825020f26ce452dc12185ae37c5c49b10c13987aaee0e889
+audio1380,data/benchmark/viet-bud500/audio/audio1380.wav,họ sẽ đôi khi còn hay mang câu chuyện,test,a1665e30c48fead362e231fa54088844ef347bf80feb6c3948a25b9837af55a5
+audio1381,data/benchmark/viet-bud500/audio/audio1381.wav,phải tương tư hoài như thế anh bảo bên,test,e35d1a18f97a91b80bf9a058bdfd9fdd3138dbb5ea8e7fcb23ef409850d11ca9
+audio1382,data/benchmark/viet-bud500/audio/audio1382.wav,trong nhà bắt đầu khoe khoang đủ thứ với,test,53f6f915728fb4adf481e35c20bee061b9239eff0facda740af0da475608eaf9
+audio1383,data/benchmark/viet-bud500/audio/audio1383.wav,vâng tôi là mẹ của bảo trâm đi,test,a3e3e49e3cf7c54c33759ba13bf1186fc789f0749d58f5f599a5b362ece5f71f
+audio1384,data/benchmark/viet-bud500/audio/audio1384.wav,chỉ là một vài lần sau những lần ấy,test,3f610a5fcb5ad4e184953c54257eef923d3fa90eb5d5bae810c145a4c426048b
+audio1385,data/benchmark/viet-bud500/audio/audio1385.wav,cần câu cơm quay lại về cái mệnh đề của,test,c3624692d4f7e1b6805551de817646adeba4ac50a978777f869f3cb684dcb225
+audio1386,data/benchmark/viet-bud500/audio/audio1386.wav,này tu luyện cũng nhiều năm lắm cũng là,test,33e0fc9c152a4763a9a7a57bbb7ca4af7bbd85334bb2a4a04374e356ff7fff4c
+audio1387,data/benchmark/viet-bud500/audio/audio1387.wav,còn lan sang ướt cả quần của anh nữa,test,87a617d9921676339612b430e5e840b7a82aa8a8798303c53e5d1eb523152d11
+audio1388,data/benchmark/viet-bud500/audio/audio1388.wav,nghiêm khắc lẽ đương nhiên tôi không cho,test,c2c6e17ce67086888e538e0f40a456500d8c1856a2e25af546a566399370a50c
+audio1389,data/benchmark/viet-bud500/audio/audio1389.wav,nhìn vào bản thân nhưng mà chị nghĩ là ở,test,1c985206df3d39add002ac1f136a8c36830dfe85e590948c5ee6198cbf55b3e2
+audio1390,data/benchmark/viet-bud500/audio/audio1390.wav,vị của dịch giả châu hải đường sẽ gợi mở,test,7295160f0367b9f32971074e982186fdfcff0b0899311358840fc31659503f79
+audio1391,data/benchmark/viet-bud500/audio/audio1391.wav,khi nhận được số lượng đáng kể vũ khí từ,test,bbcf30f5bc7bc4db615e20f9173ed4a1c9b2aee72b465720c168e6123967193c
+audio1392,data/benchmark/viet-bud500/audio/audio1392.wav,lợi ích tích cực từ việc chúng ta,test,09d12e442fffe171b21898b7a2852a306b2fb4c238ac7322583a6616e62ba818
+audio1393,data/benchmark/viet-bud500/audio/audio1393.wav,những lời tự hạ thấp bản thân của bạn,test,fdcd124efda304ae0994acf6a2add69822021416509c3c3310e0c6d62e4fd462
+audio1394,data/benchmark/viet-bud500/audio/audio1394.wav,nhưng tôi vẫn phải làm thêm để kiếm tiền,test,d9aaaa8ee87924d5e490bf80569b9efce0d5bec5e83a502de30880bc47bad6d8
+audio1395,data/benchmark/viet-bud500/audio/audio1395.wav,muốn người yêu mới của người yêu cũ phải,test,bdb0ba7c5a8dc284d6a75a052af9d6bd62a860b4887109be3ca54014667cffec
+audio1396,data/benchmark/viet-bud500/audio/audio1396.wav,tình yêu của phương oanh và lưu tuấn,test,2b7e2949ffdebd0242932961f96608035d26379eae6c62625b771b971917d7a6
+audio1397,data/benchmark/viet-bud500/audio/audio1397.wav,liên kết với nhau sự biến mất của các,test,5f9e0fdb08ae43f89b62ef5123dacf50105d3f80e2f202b541f7b91c1a0455f6
+audio1398,data/benchmark/viet-bud500/audio/audio1398.wav,xem ra con gái khi xác nhận thương rồi,test,fa9d3762fa98328ae232cc8cb43c2ec3c55ac4206b354c33125c45e595adbf62
+audio1399,data/benchmark/viet-bud500/audio/audio1399.wav,vào là trận đầu chạm mặt trực tiếp với,test,26db84479b2bcdd0b3086f44b1ea35af9c58f72d20758e67028d011bdab72eef
+audio1400,data/benchmark/viet-bud500/audio/audio1400.wav,mọi người hãy đừng cảm thấy rằng nó là,test,23e0fea8da05ca8a66e77e916836ae9f89058f342c2e1748fe1851d826addd3c
+audio1401,data/benchmark/viet-bud500/audio/audio1401.wav,trình lên quốc hội nước này họ sẽ tăng,test,a43fe4d33f92838d8bae4c413018f2c87d8a5cc45c882080e748c9f915f7574d
+audio1402,data/benchmark/viet-bud500/audio/audio1402.wav,kiểu băng sợ hãi nhắm tịt hai mắt lại,test,5536e0e6727d9fdcf4b2f751888be9c16a819a2369da4341258b2ae48dd0c86d
+audio1403,data/benchmark/viet-bud500/audio/audio1403.wav,vậy tức là cô chứng kiến tất cả rồi sao,test,5b1e16162c086cd323e9025ddac76a2c12f0f3ce5e2caf47f0f9532d1b54bb8b
+audio1404,data/benchmark/viet-bud500/audio/audio1404.wav,hình thù người chẳng ra người vật chẳng,test,b0d7ffb7975b04cd52f4e0e76e3ae19932bfb5ea036f4b511191afadbfd85a67
+audio1405,data/benchmark/viet-bud500/audio/audio1405.wav,trước khi chịu thua lỗ anh đã chuyển,test,43c8e13fb1e5131de73e68900c5c29565f4f495409b899204a5989f955cb16f3
+audio1406,data/benchmark/viet-bud500/audio/audio1406.wav,mới tiến hành một loạt những cuộc cải,test,c60b7480351996f5eb01fabccb96e29bc66820266d85671a92eb5c7cf4edf3c4
+audio1407,data/benchmark/viet-bud500/audio/audio1407.wav,tìm cách hành hạ mẹ kế ở trường tôi giao,test,07ff57b11a7108339dc8da0ae82c2b3adb2f6e739062fa11219f10d99655f490
+audio1408,data/benchmark/viet-bud500/audio/audio1408.wav,người yêu cũ lý do là tại sao kể cả nếu,test,34a0ef8146e8f1f679871af2ad6abdbd28171674eb31a0331cd4eafe26dbe9d7
+audio1409,data/benchmark/viet-bud500/audio/audio1409.wav,rồi hai cha con ì ạch đạp sang khắp các,test,b24efb391b739f1c1ffa193aaf60fcbc298e6def61191ae25001e1a95ca8ebb3
+audio1410,data/benchmark/viet-bud500/audio/audio1410.wav,riêng chỗ cô gái ấy thì không,test,87c538674aeceb58cfa9cba4a7f97db24c86d087d1b0858b5cc5a5ce5e432858
+audio1411,data/benchmark/viet-bud500/audio/audio1411.wav,lời cay nghiệt giống như là với tôi về,test,a740a48b2972b3d81ca862492cce4cda871c7d58ce04e0c083111d7428bb0da6
+audio1412,data/benchmark/viet-bud500/audio/audio1412.wav,người chồng sau khi trở về đã kể lại,test,6890f667f3b38e9f6355126d6f1e7aa9489d1d7314de0753c5caca89970c917a
+audio1413,data/benchmark/viet-bud500/audio/audio1413.wav,kẻ háo sắc nhân viên nữ nào trong công,test,0aa2b2c75597f50326e046e73eb9fd8c675992f25f963e05571e3729d0263343
+audio1414,data/benchmark/viet-bud500/audio/audio1414.wav,tôi gặp một viên chức quản lý giáo dục,test,2c13efdf27d6c21ac437b9fec1d2655f5fca27de9d79de48151a74b18630d326
+audio1415,data/benchmark/viet-bud500/audio/audio1415.wav,nhịp thở và tiếng rên ái ân,test,e8fbac599a15c635570cbd2d473a8359da7fd46ed3cce351537283339c722e81
+audio1416,data/benchmark/viet-bud500/audio/audio1416.wav,thành gửi từ mặt trận về và lá thư sửa,test,34a1f26fc170d345143114559831f208fd4e39c3118e33f611ebe48377fb9695
+audio1417,data/benchmark/viet-bud500/audio/audio1417.wav,thôi để tôi tự giới thiệu qua về tôi cho,test,60da7abcfb1f6f01faed18b30bc818201aa8a871ec2bda9c5b79f70ee81ea5e7
+audio1418,data/benchmark/viet-bud500/audio/audio1418.wav,và nhìn vào chữ viết của người thái lan,test,c098fa2e2edaddf5527a904121beac339e94ca56f86ee313bf93222321dbde71
+audio1419,data/benchmark/viet-bud500/audio/audio1419.wav,văn hóa thì nhiều khi nó lại mâu thuẫn,test,33a31858e1c3966d9438b2f697d64c23b4e468b47680f1d35ebf83c11ed11950
+audio1420,data/benchmark/viet-bud500/audio/audio1420.wav,do mình chủ mưu thậm chí cô còn muốn,test,1e9cad5cc718b4a55f1bee52faba61d70af426b4fbe2ccdaafd186183641b074
+audio1421,data/benchmark/viet-bud500/audio/audio1421.wav,không có một người đàn bà nào có thể,test,1f9b6ec9f3eec8887d04078d1de7dd104bd494713a542db59d12868d0bd036d9
+audio1422,data/benchmark/viet-bud500/audio/audio1422.wav,đó thì cái đấy có thể là mình sẽ khuyên,test,063d30e27a0bd2517e4a0409e874f6347d7165dd9442815865f1f22af4b613c2
+audio1423,data/benchmark/viet-bud500/audio/audio1423.wav,binh nhất trần thế lâm một chiến sĩ,test,06578a867dc468e13b07de6ffe9543d636d6efb3f8879b6199be7c85b2c898b1
+audio1424,data/benchmark/viet-bud500/audio/audio1424.wav,từ bao giờ em cho mình cái kiểu ăn nói,test,7bab672e0c75c92dfef2f82f95d3946ab4adaa3e93383039536785b145fb9852
+audio1425,data/benchmark/viet-bud500/audio/audio1425.wav,quá dày và chị có có dư thời gian để,test,b0468c54750ce862689fb7ba4d06297320ae9f137676eaa4dffb5a428be93324
+audio1426,data/benchmark/viet-bud500/audio/audio1426.wav,người đó như bật lên trên nền màu xám,test,6a5a88119df970e3b8c25339c38bf130c5d43cf918c5cd69d7f50258eba44ca4
+audio1427,data/benchmark/viet-bud500/audio/audio1427.wav,khi bạn nắm chân con chó nếu bạn không,test,3983c32fc8bc0a9bd1bfee61af64ca132179136b4d9b4940d77ce324deb770f9
+audio1428,data/benchmark/viet-bud500/audio/audio1428.wav,khoản chi phí của mình tôi tự phải lo,test,c862f92ae3c1a49846a64fce158438bcf5e5e126b2c920afaf4143ee1222f03a
+audio1429,data/benchmark/viet-bud500/audio/audio1429.wav,mới đó mà đã thay đổi chóng mặt luôn,test,16c908aec132fb720e96dc30f3bfd7afaed15020fcd16f2f19466bd13d767ee8
+audio1430,data/benchmark/viet-bud500/audio/audio1430.wav,cho quý thính giả trên kênh khôi kể,test,ff1b1c3aa4d9aa9ecd9e83179835d47cdc538063e3f0825f4b7ccb0f96bb365f
+audio1431,data/benchmark/viet-bud500/audio/audio1431.wav,cả chục triệu đến trăm triệu tôi bị,test,10b5493cb03e96b96f10c5fe6b099ad3c2ce1b433c639816cea9a19d629a9b16
+audio1432,data/benchmark/viet-bud500/audio/audio1432.wav,ấy con xem nếu rảnh thì mẹ con xin lỗi,test,6933f5e8dc5946c6e6187df28369995b22f5718f465a9ea4ba5e53ede3c6ddf3
+audio1433,data/benchmark/viet-bud500/audio/audio1433.wav,làm bất cứ điều gì để cố gắng nổi tiếng,test,14ac14018f3f035153145cf0976d64fb95143ae875171c2046e179427d9c8e6c
+audio1434,data/benchmark/viet-bud500/audio/audio1434.wav,nữa xem con kìa mẹ đang một chút xíu,test,aa1516fdd0c3532a73f17d51c19bbaee375778f0bbaab8cef298a80f7ba43dee
+audio1435,data/benchmark/viet-bud500/audio/audio1435.wav,mà mình muốn nhìn thấy quen mình có một,test,75c8b2d7504234f66bcc66b10b60e66754fd9a06551dd025fadc12b96b04d162
+audio1436,data/benchmark/viet-bud500/audio/audio1436.wav,vậy ông có dám cho tôi hoảng nước cờ vừa,test,20a2287704487b4e23af7b95df04ecd594bbbaad0b52eff9d8a3eab9e320e8a5
+audio1437,data/benchmark/viet-bud500/audio/audio1437.wav,tiếp tục cho con ăn cháo lúc này cũng,test,7eef500a82d159f2586b1148d6bf4c7bfcb140a43e7c5ea7c30230732d2945dc
+audio1438,data/benchmark/viet-bud500/audio/audio1438.wav,không biết làm những việc kiếm ra tiền,test,6407efae48aea8e216dc07da4355eec5cf0c7a314e06d8434eee8199ad3e442f
+audio1439,data/benchmark/viet-bud500/audio/audio1439.wav,đang vây quanh ngưỡng mộ mình công chúa,test,98fca669e76d6a274d9869e971b8ff9a8d09bd8d575d6a9ac9890a0509415256
+audio1440,data/benchmark/viet-bud500/audio/audio1440.wav,tôi đi thăm thú đám khiếu kiện ông ạ,test,de39d8387b25f05d16d0115594f5adbb37573e2a0782fede1065d0dbd843f4d0
+audio1441,data/benchmark/viet-bud500/audio/audio1441.wav,rất là nhiều chẳng hạn như thế nhưng mà,test,507aa183116bc6ab52f558e2719bd0aefa50304a7f9520b0d3b8c2b0bfd759b2
+audio1442,data/benchmark/viet-bud500/audio/audio1442.wav,thì mẹ sẽ suy sụp tinh thần,test,7e6e102905acfe052a22f8fdd3445bd285cc6cb857c24f40e54cbf985defbcde
+audio1443,data/benchmark/viet-bud500/audio/audio1443.wav,rồi lại vào làm tiếp vì sợ không kịp,test,ff98894162c530d71c24a38bb963957e40629f1ab43eaea5375f5924f56994bf
+audio1444,data/benchmark/viet-bud500/audio/audio1444.wav,thiên long không biết mà là anh không,test,fcc8a7e2f1e98baccb21edb8830455e4f1a04cfbf58f7e578c923f1aa47e6f96
+audio1445,data/benchmark/viet-bud500/audio/audio1445.wav,muốn tới thì tới muốn nói gì thì nói hay,test,5be842417777bdf3cd3438c1b653c2a7ff28cdcb7888a1ae3a9ba6377eb5c5dd
+audio1446,data/benchmark/viet-bud500/audio/audio1446.wav,vậy là rõ rồi tôi nhận ra bản thân mình,test,c4b4318d2a673be16f98eb21b893d7be603af3f1b8ced5de6b2e982bfb828f72
+audio1447,data/benchmark/viet-bud500/audio/audio1447.wav,có khó chịu hay là buồn bã thật không,test,f3511adc7306ca45bf078112b9379aa6ccc399950b824c7b432857201f1fdb93
+audio1448,data/benchmark/viet-bud500/audio/audio1448.wav,những ai đang rơi vào cảnh éo le như,test,3704ce22227b6213c279558fb05b3c2d2fee0b19e14408b73db554f84b3bfc01
+audio1449,data/benchmark/viet-bud500/audio/audio1449.wav,gửi cái lòng biết ơn của mình vào không,test,3a203ffa569c0e799d0635f1dbc6b154349127d2ee84a6607b50fe12e57b86ec
+audio1450,data/benchmark/viet-bud500/audio/audio1450.wav,không quay lại nữa rượu mới có can đảm,test,25d9c591522167ef47595bb9bd313940d7b8f699145318ebfde60a52328ffbf6
+audio1451,data/benchmark/viet-bud500/audio/audio1451.wav,con trai đã tới lúc phải đi rồi,test,e68f1f76a1656b4cb62ede00716fd84eea05523df373b30ddcaee30974e29397
+audio1452,data/benchmark/viet-bud500/audio/audio1452.wav,nhận chuyện tối qua cô tới nhà của hoàng,test,15d321f683dca4be4cfc69b69db163e4cee1f3852a32dcae13ef0c837bfc27e0
+audio1453,data/benchmark/viet-bud500/audio/audio1453.wav,là một thứ mà cứ đi ra ngoài mà mua,test,a49c0ac4e9c49640fb0a2d287fe2ab8437e6dbf3b42de42ac3d15d22bc24e2eb
+audio1454,data/benchmark/viet-bud500/audio/audio1454.wav,nó đang vẫn còn là phát triển trong cộng,test,e25cd9b27cf7e2fab4c74dcb55038f35838800c3d44236cfa53b13dad0316914
+audio1455,data/benchmark/viet-bud500/audio/audio1455.wav,để nhất màn ngọt ngào đi qua khánh huy,test,f37bb7b96611c5dfa96de169604ba76439a86a5d11c27c3809667328a5967ea2
+audio1456,data/benchmark/viet-bud500/audio/audio1456.wav,bây giờ con cái sắp lập gia đình cả rồi,test,aa801288fc7e9f05384e16dc4faf2944a093c8685ed3536606a1abab8c5b2e8c
+audio1457,data/benchmark/viet-bud500/audio/audio1457.wav,gạch một nét lên giấy mà cũng đem đi bán,test,85e2a9f9d57b86fef449c80a2dbf6e6b80113694c0db95cf481c10997cbe23f7
+audio1458,data/benchmark/viet-bud500/audio/audio1458.wav,khắc phục đi các điểm yếu của mình không,test,073946d594c197908b53de95698a20bfdb80f668875ee056dd1f0331b8291bd2
+audio1459,data/benchmark/viet-bud500/audio/audio1459.wav,nhìn thấy không có để lại manh mối gì,test,ea20e1c9eeaeecae94adcee4155c66b166ab44e5cb1ba5f95b9c21795d392866
+audio1460,data/benchmark/viet-bud500/audio/audio1460.wav,bởi đây chính là vũ khí tối tân nhất để,test,14c8ffb565e98dd1658f8ea1a8b993c825a349ad3d7b35c46782fc53cbab2373
+audio1461,data/benchmark/viet-bud500/audio/audio1461.wav,mắt nó đang thấy cái gì vậy trời,test,85154eac90e459dfcee07da2c102181200ed01e66a9c5fbdeed4fb776054ac79
+audio1462,data/benchmark/viet-bud500/audio/audio1462.wav,việc này ra hỏi nó cười thì cứ như bị,test,6f34fc7a737aadcbfce908c40a498bf42d667afa63eb1d84b1ad8a78a79ac38a
+audio1463,data/benchmark/viet-bud500/audio/audio1463.wav,phải đối xử chu đáo với những người thân,test,05d22bf02b23ef2f98380d186c48d534f23ed1aa83d45c84e9ae1cb7da16552f
+audio1464,data/benchmark/viet-bud500/audio/audio1464.wav,bao giờ xếp hoàng mới quay trở về với cô,test,b1e367e6f53dd7d6cd6ab3c79c9a4c9a024c09addc251b28cfc2eddf2cab8fb8
+audio1465,data/benchmark/viet-bud500/audio/audio1465.wav,theo vị trí duy nhất của nó trong ma,test,0d5c915bf494712255fd7ec66180e59cab1437bfad1e223833e71974871550f0
+audio1466,data/benchmark/viet-bud500/audio/audio1466.wav,xong đường ai nấy đi việc ai nấy làm,test,cbf447caa92be3396c35f64136d51ee541e6874e1560afe0c329fa52915a10e5
+audio1467,data/benchmark/viet-bud500/audio/audio1467.wav,dương đi lại sát tôi hai tay ôm và má,test,095c66ef3eb388a59e267d03fe4219349a12ba88debb6c920a17158ac828f9e4
+audio1468,data/benchmark/viet-bud500/audio/audio1468.wav,nhiều hưng phấn trong suy tư và sáng tạo,test,317b3df93037752d365823a759b86d2d0bd2510d9e8cb5ff9d561a7ecd164a64
+audio1469,data/benchmark/viet-bud500/audio/audio1469.wav,tôi từng là một đứa trẻ bị bỏ rơi không,test,551669b216b00661bf40979d0b1c98b52686e03cd06142270ca84017c953220d
+audio1470,data/benchmark/viet-bud500/audio/audio1470.wav,nở gan vì chuyện khó coi bỗng trở nên dễ,test,ada1b79cd8457505331bea4940338711d32c9a49488898a104f76c2a844777f5
+audio1471,data/benchmark/viet-bud500/audio/audio1471.wav,nữa thôi mấy ông tướng đi ngủ hết đi cho,test,57feb00533d3991ffd5dc637775dd144b34393450287d301c5f0a8dd253f3275
+audio1472,data/benchmark/viet-bud500/audio/audio1472.wav,khi mình tách ra như vậy đôi khi mình có,test,cc3c5a31aa687a73c69b2df69fe1a85ca895c039c892f12dc43a058258ae8662
+audio1473,data/benchmark/viet-bud500/audio/audio1473.wav,sặc sỡ những cửa tiệm và thượng hải cũng,test,f47679fe33a87bc417d51a01cb17f5a4c6b287fa4712191b9233fd0ede94fca7
+audio1474,data/benchmark/viet-bud500/audio/audio1474.wav,nhân viên nghiên cứu thị trường của các,test,dcdd2a729b6094cc5735df5b11907c97ad650dfede3e5b8a89f0cdf755f60bfb
+audio1475,data/benchmark/viet-bud500/audio/audio1475.wav,bình yên hạnh phúc còn không thì ly hôn,test,94977998aed1934528515859c6432f27ae9318c0b1db0d689a73ecbedbfef027
+audio1476,data/benchmark/viet-bud500/audio/audio1476.wav,bây giờ khang mới biết ông bà giáo không,test,b9fbd19fb795930e87220ebff857ad0e8e2e5d557c43567b1dcd4edad100a84f
+audio1477,data/benchmark/viet-bud500/audio/audio1477.wav,và dễ dàng chuyển hóa nó,test,2212a334eca6c1d2efde4d7a5734f8c268954b0e313fe2411d068891b525fd01
+audio1478,data/benchmark/viet-bud500/audio/audio1478.wav,chị hà của em lúc nào cũng là tuyệt vời,test,f625903ac43ff2d20b8b7789abbb516b40190bf31aea520adf016f109559a819
+audio1479,data/benchmark/viet-bud500/audio/audio1479.wav,cười nhạt chuyện đó cô không có tư cách,test,2674ac98510bccc80b1ed404cb7f6dcba988c6b6d7f9c20befc3f05a415c8af6
+audio1480,data/benchmark/viet-bud500/audio/audio1480.wav,bây giờ mỗi khi về nhà quà cáp ăn uống,test,63375c4c1cb73b42a7fe865ecad3388386b7f948fe88268a0e299e4a126b7ea3
+audio1481,data/benchmark/viet-bud500/audio/audio1481.wav,cũng không phải là những lời đồng ý,test,ec72fc2c83bdbadb15322cec4ee1eeeb29bb26d98433917dd2a78adddeeeb978
+audio1482,data/benchmark/viet-bud500/audio/audio1482.wav,biết thế nào là đủ có ai ở nhà không ạ,test,c56dc37b703a57dea6fa51365d0ec419bfbe604d2af1c9d8dcf642881f9164f7
+audio1483,data/benchmark/viet-bud500/audio/audio1483.wav,lại nghiện cà phê mới chết chứ hôm nào,test,0c636dea00f82cb7dc097139da344b0401ee40de3128d9b52a86aa2a0af81924
+audio1484,data/benchmark/viet-bud500/audio/audio1484.wav,tôi bước thấp bước cao vào bệnh viện,test,c4aec2ae445b6d97b49f4dc2c42289f388ce454710f3d4364fd8e90e2dbcd9b8
+audio1485,data/benchmark/viet-bud500/audio/audio1485.wav,dù vậy theo khẳng định của nhiều người,test,9e81afb135418df902de2a3b2f0953ea2242a7e9ddcbae5f2295a34366c06b34
+audio1486,data/benchmark/viet-bud500/audio/audio1486.wav,anh cũng bị cuốn hút bởi mùi hương mạnh,test,b8805c7951c88ca0d0238fd7e3d97f72aaa14b577adff66e45c36a381391483a
+audio1487,data/benchmark/viet-bud500/audio/audio1487.wav,người nghèo hai vợ chồng cùng sống cảnh,test,6f248b6eafd2cefc7dc57dd5706f739edb9186f8ace77d348fffe31e2a9aa009
+audio1488,data/benchmark/viet-bud500/audio/audio1488.wav,nói tùy cô nhưng kiên lại cầm cái búa,test,f650420d7dd5d8b9ea0ae88600f52f6acb876b2bcdb85423be583b5ecb04e55f
+audio1489,data/benchmark/viet-bud500/audio/audio1489.wav,ui đau quá xem đánh anh như kẻ thù thế,test,51a309348547ce4f4172ba57ae5a44eb3ccadddcaa0c31b7386812ebcc5cb802
+audio1490,data/benchmark/viet-bud500/audio/audio1490.wav,hoạt động trung bình hàng tháng tại hơn,test,911907d1b52ab26306406651d1793b310c29ad2896f60c478a8314d3ff192a3f
+audio1491,data/benchmark/viet-bud500/audio/audio1491.wav,mạnh và điểm yếu của mỗi con người rằng,test,ad81d15e56b080b8a9cb06121605f73f9c4b7907dd474834e0adb94d4a001fdf
+audio1492,data/benchmark/viet-bud500/audio/audio1492.wav,con người có ơn không có trả nên mới đón,test,744bc713ebf108654b6199ecfe7114eac7aeb1dec4e0e2edd1a2a01f146ce444
+audio1493,data/benchmark/viet-bud500/audio/audio1493.wav,gương và đặt cho mình rất là nhiều câu,test,f151b08714cd8314d794c3cee526eb5188489d73504b525e380f26c8bd141083
+audio1494,data/benchmark/viet-bud500/audio/audio1494.wav,trong tay để lập kế hoạch giải cứu những,test,10e4726776316c9c3549b58807ab591a4e5270059c73f950d5181813e5ba1175
+audio1495,data/benchmark/viet-bud500/audio/audio1495.wav,ông cũng không làm sạch cỏ dại như trước,test,f76be5ae78e9465f1ef192fb235c9441d8eec6e1bb7f0fe0ae79d023826031a0
+audio1496,data/benchmark/viet-bud500/audio/audio1496.wav,thêm nọc độc và khi anh tiếp cận được,test,f5a7c624b84c91fe4dfeaeb590d0cb217ba102e0e9b54a1e00a05cc0c4ab54d1
+audio1497,data/benchmark/viet-bud500/audio/audio1497.wav,còn thị lại dồn sự chú ý vào mâm cơm,test,784aaa82784ba1cbcfe117d851e42be0e0a6126c9954ecc9eac831f9841858b2
+audio1498,data/benchmark/viet-bud500/audio/audio1498.wav,tùy theo mức độ thất bại thì thời gian,test,b9c433615a6e383fd8c5fc1507da4f41dd6e6e1e2a01b049626c4c6a2d3ecb0c
+audio1499,data/benchmark/viet-bud500/audio/audio1499.wav,ông già tìm con đây mà chúng cười ha hả,test,11e2d96eba2a55711bd9997662658421cdf51f9dac315e672567b611dfc1861a
+audio1500,data/benchmark/viet-bud500/audio/audio1500.wav,bởi một số giao hẹn trước đó rồi là đám,test,4813439de1cef135dc7113ecf3f55f52a19d77a5d08358e2af4d19c2fb9c36a6
+audio1501,data/benchmark/viet-bud500/audio/audio1501.wav,và lương thực để rồi đầu hàng không lâu sau đó,test,9b8e6459284f9bb6545f94a1759758a4c9ad5b9fe8700682ac4a0a76877e8de0
+audio1502,data/benchmark/viet-bud500/audio/audio1502.wav,quay trở về nhà và bây giờ thì mình sẽ,test,552a765d7d5665e17369fa6549212b9ff7514a2cd6ad83986d9e3c2ba6401fe3
+audio1503,data/benchmark/viet-bud500/audio/audio1503.wav,đi tìm kiếm công danh nó không chỉ đi,test,6cff80648107f33626bc931984db31d149fe73183e1547954065c46312ef89f0
+audio1504,data/benchmark/viet-bud500/audio/audio1504.wav,em nữa em có đủ yếu tố mà người vợ anh,test,9b5561dd87b3d9323b4a59c99eaf8311b83a16be8416b1de8a26e30facbcffab
+audio1505,data/benchmark/viet-bud500/audio/audio1505.wav,anh quá nhiều mới khiến bản thân tôi tự,test,3a417742103caa69a6b001ee2bb2375ba1943925f15b54aed36a417e0d9c543e
+audio1506,data/benchmark/viet-bud500/audio/audio1506.wav,thần kinh đang ru con gái mình ngủ trên,test,e4b47f040dafbb2039a4d411364b225ec7049bbd3ede80c4a3b727c3fe00e308
+audio1507,data/benchmark/viet-bud500/audio/audio1507.wav,đúng là sách nói như thế giáo lý dạy dỗ,test,281c7d2411013ecd6a4c376767866e4c9002caeb28badf7fef10698e90acac48
+audio1508,data/benchmark/viet-bud500/audio/audio1508.wav,chưa tôi ôm mẹ cười tươi như hoa chỉ có,test,4f3a84fc3afd831780f219d8dee2352e4cb13fce4693ae05b50c2563edf34a24
+audio1509,data/benchmark/viet-bud500/audio/audio1509.wav,có vú lặn sâu nhất thế giới mà một khi,test,1ff9c63c76c73ec167158846c7ad71c57bc7d87be4c48df70c444a4734a4c047
+audio1510,data/benchmark/viet-bud500/audio/audio1510.wav,hay là không thích gì cả hay là đang,test,290060d80ae4b8543b3e5f46f346a66c98923f1fce2cf519bcf06da240713350
+audio1511,data/benchmark/viet-bud500/audio/audio1511.wav,nó ở phần sau tôi cảm nhận được những,test,12e397c59378afe06f3c12be69a9a92bd2c495026efc5ef8cb47a4bce54e137d
+audio1512,data/benchmark/viet-bud500/audio/audio1512.wav,dịch phần lớn là dịch từ sách mỹ,test,4b8de7701e356e1e49c3eeff86f2282b652825d63bf240b6aed7414cf0403800
+audio1513,data/benchmark/viet-bud500/audio/audio1513.wav,hùng thì thành công lại tin tưởng người,test,620ebd378494c89c7d6fe649f42eb54955c4516d6669edfe4d53af8ed9316e30
+audio1514,data/benchmark/viet-bud500/audio/audio1514.wav,bạn biến bạn trở thành một cái người đã,test,e3d09eb97aedd3a273bbaae36db0ea9e34f88cc080a6165de5ac57fd5af1923d
+audio1515,data/benchmark/viet-bud500/audio/audio1515.wav,đi vào quỹ đạo mà những con người bé nhỏ,test,00c28396a277dc4c6db82e7d5f86fbfd5d466e248cb73cb8debef7eca82b19e9
+audio1516,data/benchmark/viet-bud500/audio/audio1516.wav,ừ phải tìm cách đổi tên ngay nhanh nhất,test,16ef5f342797217853694187ceadf440ddab6f3d8e0bc5f3b4d878a7f2d9af4d
+audio1517,data/benchmark/viet-bud500/audio/audio1517.wav,còn chị càng lớn càng xinh đẹp nét đẹp,test,33060cc30f3e6c7644947bbe11c36fd14d58d0d445908cd52cb83ed358991834
+audio1518,data/benchmark/viet-bud500/audio/audio1518.wav,là rõ cái việc là mình phải tách riêng,test,ffce1e0246426010bf91a6fe4f1f5f75153af46b2994286f75f2a1e5a9f504bf
+audio1519,data/benchmark/viet-bud500/audio/audio1519.wav,thầy trò mình nói rất là thành thật,test,adf9bc2987e28bc7deddf21fbb00f9ec53d35927291c7800a115a25e8f7dd984
+audio1520,data/benchmark/viet-bud500/audio/audio1520.wav,tôi quyết tâm làm việc mong cải thiện,test,9c0ebe33ba87515add89ed144fccae9854925713e81a551b3f15882956913bbb
+audio1521,data/benchmark/viet-bud500/audio/audio1521.wav,hòa thượng hối lỗi kể lại mọi chuyện cho,test,f257949e608a825b239ca28577e65e8cb1cf82339efcbe3371441c7478fa526f
+audio1522,data/benchmark/viet-bud500/audio/audio1522.wav,hai cái luồng ý kiến trái ngược nhau như,test,f40ffaf8aedb600ceef32afd23c06558ad344ef23b9854e60dbaed05fdf4c523
+audio1523,data/benchmark/viet-bud500/audio/audio1523.wav,kính duy nhất trong họ luôn tin có một,test,c6469419e9ea507899500b474a48191c3bb1b77ab2e2b1198bb77514ea8fff27
+audio1524,data/benchmark/viet-bud500/audio/audio1524.wav,mẹ chồng tốt và hai người bố chồng tốt,test,610217c7989bb71031a4148a209b036d91f62f59f66665da5d6c6197366d1ecc
+audio1525,data/benchmark/viet-bud500/audio/audio1525.wav,nước ướp thịt thì đậm đà nhưng mà ở đây,test,3b598374d171b3f1994155d1c3d4737e8c49338b0adc3eed8e112c4339698b15
+audio1526,data/benchmark/viet-bud500/audio/audio1526.wav,đến mở ra thì thấy phong nhắn muốn đi ăn,test,c4074923db716851bcee5e25ba9341c745e9294bc30863f381468bb7771196b1
+audio1527,data/benchmark/viet-bud500/audio/audio1527.wav,khác với lui hai sành thật lòng yêu mến,test,8720b0ed6da00f93b1db85c16cd9d4e25cb0bef3d8d64f6fbd811461fbd1a99e
+audio1528,data/benchmark/viet-bud500/audio/audio1528.wav,nhưng mà nét đẹp từ cô phát ra đủ để làm,test,ef01481c54feab70db2f4710d595f076f15009acaccb988c866b37dc506b03c8
+audio1529,data/benchmark/viet-bud500/audio/audio1529.wav,bạn ở trên này cô ấy bị ốm chúng cháu,test,cc7889f310c2a7561fbc97b8abba8840544f5517449f5a25480b4dbdfc9dfab5
+audio1530,data/benchmark/viet-bud500/audio/audio1530.wav,căn bệnh viêm loét dạ dày thuộc dạng,test,ecbc7ec276d71b47f3dc91d4037268ca76ee47993275be364143285f86522709
+audio1531,data/benchmark/viet-bud500/audio/audio1531.wav,mà hỏi trong lòng má chị hai của đám con,test,be2fdfaf42bf77d62f369379b4e443f49c86e9fb72983c06b218908d34504548
+audio1532,data/benchmark/viet-bud500/audio/audio1532.wav,lòng đó hơn một năm rồi ngày đó tôi mới,test,708aa3bec5e9a543b2c0ed5240ac3e12cacf77db687d09cd19d75bd908f372c0
+audio1533,data/benchmark/viet-bud500/audio/audio1533.wav,chồng tôi xin một đứa con,test,84f9deb82a309fb506f0d1eb376618b01610a175ecd01d574d68aa32903981f8
+audio1534,data/benchmark/viet-bud500/audio/audio1534.wav,bằng ánh mắt kiên định trong đôi đồng tử,test,3e5e7542699c867b732ad5dabf501fe4c7607ef82853a6dbb368af1e9978f70e
+audio1535,data/benchmark/viet-bud500/audio/audio1535.wav,cho lực lượng phòng vệ biển nhật bản,test,61ebdf7bbb0825b2263522c2a5f3bb4a309e4e4dc122806366a74a5affdf9bda
+audio1536,data/benchmark/viet-bud500/audio/audio1536.wav,nó đã tự đạp đổ hạnh phúc của mình và,test,fa773255638b954d7dab9bd14d5dde7342ff8cf9d8c39116b9099a8ec5372c2e
+audio1537,data/benchmark/viet-bud500/audio/audio1537.wav,và nhiều doanh nhân nhật bản không hề,test,612db79829965d0c2f748920837196b720902d7034401bcfdbd1d7f4a0e13ad6
+audio1538,data/benchmark/viet-bud500/audio/audio1538.wav,rất nhanh cô muốn thu thập bằng chứng để,test,a8f78c21180616b3a19e851f7abf9b999c5cdf65c1358b74a3e469c7f06e12a0
+audio1539,data/benchmark/viet-bud500/audio/audio1539.wav,chia sẻ còn bây giờ thì xin được nói lời,test,b221c730de14d2a6bd0f960c7f23ae521045787489479eb6cd805984b48924bf
+audio1540,data/benchmark/viet-bud500/audio/audio1540.wav,phúc trách nhiệm với cô vợ còn non nớt,test,11ea4664bd7aa049dff3e3f9ec4ec0f1d441ec74d838f3bebbcd9103e314f074
+audio1541,data/benchmark/viet-bud500/audio/audio1541.wav,rộ phải cần được nhiều người biết đến,test,99369b32d18307dabe45644f8f73d0a9bdf800eff8735720aac317807c709ae4
+audio1542,data/benchmark/viet-bud500/audio/audio1542.wav,quan em ngủ với tôi bao nhiêu lần mà bây,test,28acd00a1ea1e92fd1780941245dc31caa399611b8c8678f5caecdc24e796bee
+audio1543,data/benchmark/viet-bud500/audio/audio1543.wav,nói cho mày biết cái tập đoàn đông dương,test,d9e2ee5f1a1682b89dd5b4fac9cff92a16aed5e95c36f95458f0885dff3c9dc0
+audio1544,data/benchmark/viet-bud500/audio/audio1544.wav,ra đường cái là đường thống nhất,test,be4c0e7dec17182b6cebffd97e4199d2899af609eb615bb74b2d40f773f452f6
+audio1545,data/benchmark/viet-bud500/audio/audio1545.wav,đi học về sớm quá vậy con,test,edccf6c650c7674be2456f9a54d215580afaa68e0bfd75e32d64eab386dfa1f6
+audio1546,data/benchmark/viet-bud500/audio/audio1546.wav,lạm dụng phân tích sự kiềm chế,test,d110392af5bc793b49dfb84cf0303a8988418e7e2fc3e07e65803eed8b54c7b2
+audio1547,data/benchmark/viet-bud500/audio/audio1547.wav,con về một lần nếu vợ chồng mình cũng về,test,7eff1c534f88780fe0d5858560e4a2c396757090df73b8ad78f6d669c2da70e1
+audio1548,data/benchmark/viet-bud500/audio/audio1548.wav,đấy tất cả trẻ em khuyết tật việt nam,test,a24cdf376846e4e94d09c7d6230001d675e0cc7394101358f8cd16300060ff4f
+audio1549,data/benchmark/viet-bud500/audio/audio1549.wav,một số kiến nghị nếu thực sự đứng về,test,6a6460e3a83b0afbd7f37443712394d3c1893fdbde0d911f4f91515ae3c28066
+audio1550,data/benchmark/viet-bud500/audio/audio1550.wav,liên quan tới lĩnh vực kinh doanh của,test,f4347ed7658d72c2f0bb0e6667dc8e77b13d1dd366290cc7f57fb4981c2b40b1
+audio1551,data/benchmark/viet-bud500/audio/audio1551.wav,điện thoại để tôi trao đổi để em liên hệ,test,3fd6c273d70f75fdfe4658030fe8a006ac267265cdf0163c0cc307b69850245b
+audio1552,data/benchmark/viet-bud500/audio/audio1552.wav,nhóm cùng vai trò cho mọi người nắm chắc,test,cd9cf908e71bd049728413f5789bcf192597b6613ef83b80cc1c9ab1e169f200
+audio1553,data/benchmark/viet-bud500/audio/audio1553.wav,và một xu hướng không thể quay ngược đấy,test,1acbbc9f9db2c205d34fa43afcc32adf1b39758f731037afdec0b469adfcd53d
+audio1554,data/benchmark/viet-bud500/audio/audio1554.wav,ông hai cũng đến bà hai nhanh chân chạy,test,4c555a6b2a8a6f88ec71bd1c5577b9d41523404df754ecddd3422a7960bec154
+audio1555,data/benchmark/viet-bud500/audio/audio1555.wav,nào đó vẫn giữ được sự trước sau như một,test,881d4deba79791821f3f6bbc900c4586ac7fe0dc08980378d4a1b0640745bbaa
+audio1556,data/benchmark/viet-bud500/audio/audio1556.wav,chợt rùng mình vì nhìn thấy đôi dép của,test,23acad1be099ccb55c68c9ef677f9238f41d8a52afa33094490698eaeb57a2aa
+audio1557,data/benchmark/viet-bud500/audio/audio1557.wav,không phải ai mà các bạn cũng sẽ ngưỡng,test,a2ce35669209b1f5f220dff25ba835c2ecaa9c0e074715be7281178ede5d37e7
+audio1558,data/benchmark/viet-bud500/audio/audio1558.wav,sao nhỉ tôi không biết gì về anh ta cả,test,582e1e7e62685218fe0a807d233479dec55a2ede15935fe14f9f28a8ebd60083
+audio1559,data/benchmark/viet-bud500/audio/audio1559.wav,được đánh thức nỗi đau đớn như một ngọn,test,9e3f577a8333752958129d8bc6eb055b5ec9b6d030b3f5cd2e216b1f162c3292
+audio1560,data/benchmark/viet-bud500/audio/audio1560.wav,răng nét cười khanh khách giòn tan,test,38bfdd92d6219928c799c9bd182e82b574e90a6eaec32fe31b02977143b3f839
+audio1561,data/benchmark/viet-bud500/audio/audio1561.wav,ngụ thành phố gia nghĩa mượn của chị,test,31b085cb6ca7188d3a514e4ec39b80ef02a56ee1294fb6c1c49bdd612c6b5b4a
+audio1562,data/benchmark/viet-bud500/audio/audio1562.wav,mới cho em đi rửa nên anh thấy vậy đấy,test,fb14502239d875b7a54c3c98bbe76be7e1ee04a174c8fb81026954bafa0cdde5
+audio1563,data/benchmark/viet-bud500/audio/audio1563.wav,viên mãn bên chồng và gia đình chồng cô,test,c1b292089c3870482cd86d1529898471245680cd80f15f1f4f51b50f3e360e97
+audio1564,data/benchmark/viet-bud500/audio/audio1564.wav,xong rồi đến lúc người ta thay đồ hết rồi,test,c4a73d6041f0d6e695234741fc31d73e4c320a1987e54f08f51ae46838d2247b
+audio1565,data/benchmark/viet-bud500/audio/audio1565.wav,sau đó người đức tiếp tục sỉ nhục người,test,b24240ca543643ab732f1304fff15f9cb8df5428124a2089b7b5124fc2449692
+audio1566,data/benchmark/viet-bud500/audio/audio1566.wav,không dễ dàng em đã liên hệ và nắm chắc,test,84dcfa0d52786563e60d162327789940c8ca5cf49a7a277e705c57a514dc1874
+audio1567,data/benchmark/viet-bud500/audio/audio1567.wav,cũng đặc biệt chú ý đến khiếu hài hước,test,bbc9b7a2d2c3011af4330e4cf045c6bfe15c9477e9d500c6e6a9f97c01277f24
+audio1568,data/benchmark/viet-bud500/audio/audio1568.wav,tôi tôi vô cùng sửng sốt trước quyết,test,8f464e97fb34a5c4291794034ba8eb805ab1ebe257e216ed5ce62d94dd93ad0a
+audio1569,data/benchmark/viet-bud500/audio/audio1569.wav,nữa nhẹ bẫng hun hút chỉ thấy bóng đêm,test,9a4ddfc8cecce0384d91da09bb315128333702bff17fbce068fe0c30e1b95337
+audio1570,data/benchmark/viet-bud500/audio/audio1570.wav,tạm thời mày cứ đến một mình trước đã,test,7ae645b5393e18b11d4b9fd20932552d1a0c24b8561bfce1105a67fe5554f5ba
+audio1571,data/benchmark/viet-bud500/audio/audio1571.wav,cái gì mà mình cần cái gì mà mình đang,test,e3d050bf9b5c578cbc91893a3487af62c532137f158d36be9494bb88b8c84f26
+audio1572,data/benchmark/viet-bud500/audio/audio1572.wav,tiếp tục bước đi dọc theo làng này rồi,test,e33f17185ae6541c80d9803d89648e9279c5d4c7c45ae19c213ea45ded1a81b0
+audio1573,data/benchmark/viet-bud500/audio/audio1573.wav,bà trả lời như thế nào tôi chở cô trên,test,2a3ec51d81a471ba3166e28bb8b2d53c2f42cb1163b8c8c27ed2ed67891a7b29
+audio1574,data/benchmark/viet-bud500/audio/audio1574.wav,rồi chúng ta sẽ là những ca sĩ nổi tiếng,test,8077c60a0f9518e0fe4eb77dca5fed846dc93b9365adf0460b2f956ce7a88431
+audio1575,data/benchmark/viet-bud500/audio/audio1575.wav,đã có mặt ở đó nhưng khi bà liên nhìn,test,b978e28b83892843a1cdedbdda3c8b9eb5b99836f10715c07cc6faea60296df9
+audio1576,data/benchmark/viet-bud500/audio/audio1576.wav,của công ty tiếp đó anh gửi lời cảm ơn,test,c2724e2567758c2f2b71c2a8feabdbee06f034f7ee56c1fc52809a0e77cad5e7
+audio1577,data/benchmark/viet-bud500/audio/audio1577.wav,chỉ là những suy nghĩ ở bề mặt ý thức,test,4fb5479c55fd8c31575a8aa5531a52b96df0a6cf494dad95c5de881900d9260e
+audio1578,data/benchmark/viet-bud500/audio/audio1578.wav,còn chưa về mẹ cảm thấy đau đầu quá con,test,b1b527ecdf53fd92b8b357d6d4fcacae09c115f0e129c55e0c583ac08079217f
+audio1579,data/benchmark/viet-bud500/audio/audio1579.wav,chị ra đón em nhé chị ơi chị bận học à,test,5cee2680a67366889d048eddf570d3bf194455315d6c2d70af6d1513fdbc5f4e
+audio1580,data/benchmark/viet-bud500/audio/audio1580.wav,là ồ tại sao lại phải sống như thế nhỉ,test,2b2551e474c386cd62864e5a156666981219aa2c6b011e7d0de138a65c6414d9
+audio1581,data/benchmark/viet-bud500/audio/audio1581.wav,tìm ra lý tưởng sống mà chúng ta mong,test,46ce8549024052a1004e2a942099a4de0add43deeb91eb58642cc2fc9b5abc50
+audio1582,data/benchmark/viet-bud500/audio/audio1582.wav,sợ nặng không mang nhiều lên xe mới biết,test,a441cf000d23eb0348a6be90e94cd6db65598a7d21f5114744ada4c32ebeb576
+audio1583,data/benchmark/viet-bud500/audio/audio1583.wav,hiện nay thưa các bạn là nền nông nghiệp,test,4ea20abff2d48f042748dec35f769c1a4dcd6a22b5c12bd442522db6cd386c39
+audio1584,data/benchmark/viet-bud500/audio/audio1584.wav,thì hắn không vậy đâu kiểu gì cũng kêu,test,3f9498a71e1877c12019a1bf8e90c480617f217edd981ae2a0337b12c2ecbe0a
+audio1585,data/benchmark/viet-bud500/audio/audio1585.wav,đó là mùa khô cuối cùng của chiến tranh,test,4af79b24665e786c6141b5732c47ba483dfba2963ed12b62918b37250c4cbea2
+audio1586,data/benchmark/viet-bud500/audio/audio1586.wav,nửa đêm về sáng càng thêm tê tái lạnh,test,87a5b5c6a579f96c4de6e91ccffdb8754b91b5bd492f47df5aa7f2f8efbc1035
+audio1587,data/benchmark/viet-bud500/audio/audio1587.wav,đi làm cà phê thì liệu có ổn không,test,0aecb021ab72f6e88e1900619eddf5c6b7bd9231f9548aae1f3cbfe43bb97127
+audio1588,data/benchmark/viet-bud500/audio/audio1588.wav,tôi phải đi công tác một tháng tôi đến,test,038be343b73bc4c8e5b68e7d7a8a381cadf6ea5957372d31e388ba143b6ba739
+audio1589,data/benchmark/viet-bud500/audio/audio1589.wav,là người dẫn đường là người truyền cảm,test,f2a1bc7b4ed6b7a7e844fe141a3d52fddaad04088779f661a30ea92804463b61
+audio1590,data/benchmark/viet-bud500/audio/audio1590.wav,tin người mà mình luôn coi là mẹ bấy lâu,test,6be1716c226dad987a8c02fdeea5b569cea3f1799c921a3bc6cc77199a335e60
+audio1591,data/benchmark/viet-bud500/audio/audio1591.wav,đâu thậm chí mẹ đẻ của em chứng kiến,test,e10b9ccb358c0f430abdf04ac99baf0174dfc6bee8e8d8f3987d72f23d89252b
+audio1592,data/benchmark/viet-bud500/audio/audio1592.wav,rồi bao nhiêu là đi đường kiếm đường đồ,test,1f1221a40cf96559f12e429a0cabf92384fb44331140e3efcd19433e30f9b3e3
+audio1593,data/benchmark/viet-bud500/audio/audio1593.wav,ai cũng đánh giá kẻ trộm là người quen,test,fe6be25ec30d88fbb49a7acf7e8f709699a929f92a3712f58077f362dbaf7a30
+audio1594,data/benchmark/viet-bud500/audio/audio1594.wav,văn chương bây giờ giống như chuyện,test,65e406460d32b2887fd92095866d636aa94e0e644eb17777f5d4a86f59da237e
+audio1595,data/benchmark/viet-bud500/audio/audio1595.wav,rời khỏi quê nhà họ đã kết hôn có con có,test,dfb76d951be1b8efbd4809e46477014d9aacb0a5508fb45447d5823dba7b4ab2
+audio1596,data/benchmark/viet-bud500/audio/audio1596.wav,điên dại không biết phải xử trí làm sao,test,bba028358031e71f0b32c154cf6f28593d43e7125006021f842f28f8860a9b40
+audio1597,data/benchmark/viet-bud500/audio/audio1597.wav,thế ở nhà không nhận được tin gì của nó,test,c97b7042325e2a21398a2c180b4a86250316239c8724fb141d1f374ede780c81
+audio1598,data/benchmark/viet-bud500/audio/audio1598.wav,thời gian kiểm tra kỹ bỗng có một con,test,42cb73d8883f7eb547ad3c07ae839f7740feed75f7f1c03dff3bdf8d376305a9
+audio1599,data/benchmark/viet-bud500/audio/audio1599.wav,kế đó thư bị đánh ngã trên mặt đất,test,9bb34f666a9a384709dcb8926503d565f45fb2254402ba1252cb01029be362c1
+audio1600,data/benchmark/viet-bud500/audio/audio1600.wav,những ngày đầu xa con thúy cũng sốt ruột,test,3453400bec07a2e1990462de6f52692dbb890aba3967bbf9cdd1d0ea898ef694
+audio1601,data/benchmark/viet-bud500/audio/audio1601.wav,sự tiếp xúc gần gũi đột ngột này khiến,test,8b15a50701c965ac3530e2c4f2c8e2b372022bf1049ab8d12d7f4862d9704244
+audio1602,data/benchmark/viet-bud500/audio/audio1602.wav,vệ sinh cá nhân xong thì mình ra phòng khách,test,102575e48f272ca8d628f19ac9a60dc0000fa222bf1ddb27cf29cfdc89fe5245
+audio1603,data/benchmark/viet-bud500/audio/audio1603.wav,vách núi cùng với chiếc xe ngựa,test,987ca7e4727989b2de4323fc86b60c766ac1dc48665483e1ca85906d6f36948b
+audio1604,data/benchmark/viet-bud500/audio/audio1604.wav,những cử chỉ ngọt ngào mà anh dành cho,test,8044aacda9b957095c258c9587db28aeb4eee4abde162b8a765076550187cc35
+audio1605,data/benchmark/viet-bud500/audio/audio1605.wav,cô lại tự dặn mình phải mạnh mẽ hơn nữa,test,3ae1a57e883a427a0589313ed131f522d6d4d667812be0b1c50cc9053a432e00
+audio1606,data/benchmark/viet-bud500/audio/audio1606.wav,vật của ông đã trôi vào dĩ vãng,test,44c9b628065a62164a5bddaf1e2b3b4f8849b0b0ad5d5caa31b290a871185176
+audio1607,data/benchmark/viet-bud500/audio/audio1607.wav,con khỏe quý hóa quá chị cho tôi gửi lời,test,85403ee71bbb6645cea793240d1e0e52ade7150da0879dd9afc1baaea0f10df6
+audio1608,data/benchmark/viet-bud500/audio/audio1608.wav,nỗi lo sợ lớn nhất là sợ rằng khi chết,test,0c9a5b3e9fe558e943760d9ae8f1d2c8ac0a8b2140754aad6e43df56025dc383
+audio1609,data/benchmark/viet-bud500/audio/audio1609.wav,cái thời gian này cái cuộc sống của em,test,4991dd226f982c76e02aaf36c2b8bfac2b48dd96073abb672907964879842016
+audio1610,data/benchmark/viet-bud500/audio/audio1610.wav,trải qua nhiều năm rồi vì các bạn phải,test,993c9f8b22e7c806ed3b27aa05050c026a23db9c12e34548d945bda9c2126948
+audio1611,data/benchmark/viet-bud500/audio/audio1611.wav,lặng lẽ trong cái nhà này thế nhưng nếu,test,de2dac3122777c0f28391f1882b1cff1cd6a3ffd3faaf5fb924ccdd9ab1dcd7f
+audio1612,data/benchmark/viet-bud500/audio/audio1612.wav,khi phi đi công tác hơn một năm về trước,test,cf7c366d7f56aa456b9ac89881521f71f030d70269753038af0debd46a12baf0
+audio1613,data/benchmark/viet-bud500/audio/audio1613.wav,hôm trước đang dang dở đấy em đến đó ký,test,27bc33c061525bf374513214a5eb61b92d35e921096111b2ece74b87bb678e75
+audio1614,data/benchmark/viet-bud500/audio/audio1614.wav,đã đồng ý cha đã viết cho tôi một lá thư,test,e24de72540025764ebe09f4139ecf5e2000cadc4d83e24ecf8d59cfb4c4ed169
+audio1615,data/benchmark/viet-bud500/audio/audio1615.wav,thuộc vào vài tên lửa đối không tầm,test,a4354ad44d75d0fe8801a5c392c13494b1208dd4082b02fa9f052a7c377149ac
+audio1616,data/benchmark/viet-bud500/audio/audio1616.wav,nhiệm vụ của chúng tôi là phải bao vây,test,a4aa1009eda1bbfebbabc5fb229b9765621059f66365191a84c1ccb6b1b19069
+audio1617,data/benchmark/viet-bud500/audio/audio1617.wav,hầu người hạ nhộn nhịp ngoài vườn cây,test,a0a7d72c86700933b8842646660701f933ee5fa16d909903976734916fa0aaf3
+audio1618,data/benchmark/viet-bud500/audio/audio1618.wav,xuống đất một giọt máu đỏ chảy từ đùi,test,0c308c4814be5048951dc5d77e8e44320dba5d734a10c1d7f9d0d02dcec8e0a7
+audio1619,data/benchmark/viet-bud500/audio/audio1619.wav,bệnh và cũng từ ngày đó ba đứa nhỏ phải,test,9b991900fc2f02b34ab0cddff59e1bece2aecfefd1b8fbf776bc9b5577930501
+audio1620,data/benchmark/viet-bud500/audio/audio1620.wav,là người yêu cũ cô ta rất khéo léo dẫn,test,f94918da960f3d13ceabb9ddb1bc579bd5fe770319031d239efd3bf7b4e5540d
+audio1621,data/benchmark/viet-bud500/audio/audio1621.wav,đẹp trai cỡ nào cô cũng biết là anh hấp,test,96b3401918a78c653413b0bde3334dc165f3c3d499d1d2ba12b4a52c35027153
+audio1622,data/benchmark/viet-bud500/audio/audio1622.wav,thủ tướng kể lại cho chúng ta nghe một,test,c09d3e362148ec1fee9de353efcb03aec3186bdb911710ce9233afbcd128aad8
+audio1623,data/benchmark/viet-bud500/audio/audio1623.wav,cha không bước thêm bước nữa đi cha,test,c3e546d8893f1fead9bb19f75ad8775db5ffece6e24dbfd2491c93d1a2abc3d5
+audio1624,data/benchmark/viet-bud500/audio/audio1624.wav,được tai họa có thể ập đến bất cứ lúc,test,f04fb570e2bd7b4406ce9d377cd5e3ee16b978299c7fc19798001be207f8aa65
+audio1625,data/benchmark/viet-bud500/audio/audio1625.wav,nên nhiều khi tôi cảm thấy chạnh lòng,test,81ebaab9703c337e382cb158117d634374340b1574fc19c6fd9969fa07bb70d8
+audio1626,data/benchmark/viet-bud500/audio/audio1626.wav,có tiền từ lời bán vật liệu mà ra các em,test,9b477b9c008ffb678451342b12d34bdcfffe6a8383a6c474f2293b3c4cf25569
+audio1627,data/benchmark/viet-bud500/audio/audio1627.wav,là các câu lạc bộ xã hội dân sự tại anh,test,17440ec9f6386c16e34e478e24c84d914f4409dfa0de2fe199417861799dbf04
+audio1628,data/benchmark/viet-bud500/audio/audio1628.wav,tình bạn hiện nay phát triển hơn so với,test,f0315b3272e79d14e98ab4d8ee0f35462e8ff5e2fa2016ae87e759b082f8445a
+audio1629,data/benchmark/viet-bud500/audio/audio1629.wav,việc diễn ra nhanh như thế làm gì có màn,test,c0e2bd9ad6f722cfcfefde83f08d22d14bbdb71dda128d8a9163b26bfd9e036b
+audio1630,data/benchmark/viet-bud500/audio/audio1630.wav,thiều hoa đều có sự biến đổi mà không ai,test,132778789c65c47f0d81ddacb513e3896d521bf43044297021383b7ddaab2230
+audio1631,data/benchmark/viet-bud500/audio/audio1631.wav,cái điện thoại còn lại chính là của việt,test,e321a4ab23cdf33c0da85cc93c9966d8fcba35c801f65f44c14d3a5bceb33e3b
+audio1632,data/benchmark/viet-bud500/audio/audio1632.wav,trẻ con cứng đầu và cố chấp là thế,test,6cb34784dbdf3461f1a0dcb59c5073ce5cd5a53ad99a708a3e3bb4d0ba712847
+audio1633,data/benchmark/viet-bud500/audio/audio1633.wav,còn đánh cả tôi nó không cho tôi gặp con,test,12e44550034b30d6712350df295954f25144230fcc2940265a4f41738b583a77
+audio1634,data/benchmark/viet-bud500/audio/audio1634.wav,những sự việc không giải thích được với,test,3bbd064ef2e0631581fd3853176425b01281ca610724cb9706c2a202a1b92851
+audio1635,data/benchmark/viet-bud500/audio/audio1635.wav,ba bước đi bình thản tích lũy dần dần,test,2fccf51eaf58090bb4ce2b811e219dcb9c9b60e75e860e632487d14599f0beb1
+audio1636,data/benchmark/viet-bud500/audio/audio1636.wav,cũng an bài bởi ít lâu sau đám cưới giữa,test,f1410a7cec526b189313de9b1af138afd1c0f0f634f81865bec1d748f7d11923
+audio1637,data/benchmark/viet-bud500/audio/audio1637.wav,đầu tư để nuôi cá tầm hay vào rừng sâu,test,fa6def73f42ac91f537424e2acc96c5a5e131f5e2df07fff8e211c52e4ff43af
+audio1638,data/benchmark/viet-bud500/audio/audio1638.wav,ông ấy bị bệnh ung thư gan vào giai đoạn,test,54c0f82f337f70628869a51565fba3383c2dc6b597a9641f6df864145d1b4bc6
+audio1639,data/benchmark/viet-bud500/audio/audio1639.wav,bây giờ cũng hỏi nhanh các khách mời đấy,test,f29efaab462193b78d0b1ee2bcb9b8a9a102f293dd0d704d089ce51f29fa2583
+audio1640,data/benchmark/viet-bud500/audio/audio1640.wav,nhưng lại chứa đựng cả một trời bình an,test,1bf876f74d57f50d375f3067969931ab7389c10a6be515834cd5500709b61ccd
+audio1641,data/benchmark/viet-bud500/audio/audio1641.wav,nhưng tôi cũng hiểu chị lấy lòng cậu hai,test,1f53eae91c4b7f656350d50a29113696eea21a6eb9ff28baf45388c718d2232d
+audio1642,data/benchmark/viet-bud500/audio/audio1642.wav,cho nên là nếu mình có thể nắm bắt được,test,de8adca424351726a2f065410f8e76d6ba33d625b7befd2d6f55d55261c38a34
+audio1643,data/benchmark/viet-bud500/audio/audio1643.wav,con út của ông có những năm học với tôi,test,e7b74278b1a66b122ac268e7abe18d1e09ac3e765a67d6152fcb1f204f5e6dce
+audio1644,data/benchmark/viet-bud500/audio/audio1644.wav,sự thật để cô ta khỏi vênh váo hồng ánh,test,0661cfd005963f407cee49760d2d5c5138d9fbf96356400122edb0d9ced9dee5
+audio1645,data/benchmark/viet-bud500/audio/audio1645.wav,khu vực này và bây giờ thì chúng tôi sẽ,test,ce1bd7e505a8339184be71df394c712f2c58feb81d4843755eefc09cbf7e7d40
+audio1646,data/benchmark/viet-bud500/audio/audio1646.wav,tượng với em nên em chẳng để tôi trong,test,61ee233f7deda8f512eef955077b396aeb541af52f2e9275d5b8c9d366491e60
+audio1647,data/benchmark/viet-bud500/audio/audio1647.wav,gửi tiết kiệm sẽ nhiều hơn nếu không,test,e140fc4f0754f7812ca09643958e3d7e93e772c1d1bf6d0b1645b337edd05995
+audio1648,data/benchmark/viet-bud500/audio/audio1648.wav,mẹ cố mỉm cười để tôi yên tâm làm việc,test,c200f6838ba28e8b0cb7b34d95e0422144aa7d0759a15494cb2d1972148f9726
+audio1649,data/benchmark/viet-bud500/audio/audio1649.wav,anh tài làm gì có phó tổng giám đốc nào,test,12424d3761eaa421013b568a6f6c6622086f9f4bc7a32ffeecf28abbabf67cc7
+audio1650,data/benchmark/viet-bud500/audio/audio1650.wav,lo khác liên quan đến các trải nghiệm,test,6450a62d26bb6153edc853bbb518c649d2a3d3020229936be2b83467063b3c25
+audio1651,data/benchmark/viet-bud500/audio/audio1651.wav,những ai muốn tìm hiểu và áp dụng sẽ là,test,0f22dac754bbe2df920a9a8c51d36539656932793ee1cb11395b15d4e90ed3ce
+audio1652,data/benchmark/viet-bud500/audio/audio1652.wav,tuy nhiên nếu đã được cá mà chẳng biết,test,2a53a2ba45f6e6d26a9136899fa017cca1d199582c572baabfadf62b4b478d0b
+audio1653,data/benchmark/viet-bud500/audio/audio1653.wav,nhắn tin với anh ngay bởi vì tôi muốn,test,82c69e76693e98563d2c678fad0402371fdcc26965186df5a1a68234a938c123
+audio1654,data/benchmark/viet-bud500/audio/audio1654.wav,chuyện của tôi và lưu tuấn để tôi tự,test,aee827f69b302073288d2eb2eb6a7fa550e087c9236bfd294e92fe0df4136fe0
+audio1655,data/benchmark/viet-bud500/audio/audio1655.wav,trường nó làm cho quan hệ giữa các cá,test,c7014e02ef79687b6593299cdebca6fdcf88d432c1218467ea2c87e96c987504
+audio1656,data/benchmark/viet-bud500/audio/audio1656.wav,cũng bị bỏ mứa lâu lắm rồi,test,73ee2c41a41438da85e4ec761c261f880083e27277579d5e0781ac9e895d85b5
+audio1657,data/benchmark/viet-bud500/audio/audio1657.wav,tuy nhiên một cái mẹo cho em đúc kết từ cái kinh nghiệm của chị,test,2841cea69a2e9126eb76ce811872d91b216ac672405e97e0003ccf6de1475de6
+audio1658,data/benchmark/viet-bud500/audio/audio1658.wav,cá nhân của mình nhưng mà với công cụ,test,ea49ae8cfc3fc3ca97da18150b0a9a5637d03c0bb51c3cd5df042d80b1830516
+audio1659,data/benchmark/viet-bud500/audio/audio1659.wav,không hả bác nó đi rồi mà anh ấy đi đâu,test,a20472ff1f7da8ce79e098b4e202babd98fe8057057c3a60963fa92a8580c2fa
+audio1660,data/benchmark/viet-bud500/audio/audio1660.wav,quấy tôi tôi có bầu nhưng không nghén ăn,test,14f56c44a9500c6abdd2c5358a17d46cf51b42f85f09d47b274d7ce1cad78629
+audio1661,data/benchmark/viet-bud500/audio/audio1661.wav,đêm cuối cùng trước khi mà tôi đi thì,test,b53d2d3a8644401b780331ec04746fcdd9397fa646e8636e2677530423537de5
+audio1662,data/benchmark/viet-bud500/audio/audio1662.wav,tâm linh và ma quỷ ngoài ra còn có một,test,37292042c8d0fb0426c63b52647375605aeb9fcf5d283795330b942adcf60602
+audio1663,data/benchmark/viet-bud500/audio/audio1663.wav,vẹn nguyên cái cảm giác đấy và đồng thời,test,8421958a762590f7db1afdc08b0c349bc92441f063cfbd338d5fc2733c0f2b5b
+audio1664,data/benchmark/viet-bud500/audio/audio1664.wav,ma quỷ thần thánh nên cũng không nói gì,test,56699174d050b8bc9addd6478195107bb47f6ecd361e0bbbf6f455e9032b8780
+audio1665,data/benchmark/viet-bud500/audio/audio1665.wav,hoàng dũng tới cổng trường mầm non đúng,test,9c7a9ac019131efd4f45b6e2334ea1dc36000bed8c57d665d77aba1cb840989b
+audio1666,data/benchmark/viet-bud500/audio/audio1666.wav,anh ra ám hiệu đừng nói nữa cô y tá lúc,test,4b0cd274a28b635706626eec6c43302ef1c4cd6f4079ffb31b31047b96b74c06
+audio1667,data/benchmark/viet-bud500/audio/audio1667.wav,về các địa điểm được giao nơi đây chủ,test,8f385e51d39169f8368d5bbc720ac6512d5e0fb56bc410d61bb04f600390979c
+audio1668,data/benchmark/viet-bud500/audio/audio1668.wav,những người chọn phương án dùng thuốc,test,fbdf321c4994fec4495c0f0d1350b3c69edc47c7816209105dd8b6f034fe0386
+audio1669,data/benchmark/viet-bud500/audio/audio1669.wav,này còn mang tính sống còn,test,a4d7ecdff4e9466ead1b318b492ca0cc2ffed0ce5c5b4584af305626dd5e92c6
+audio1670,data/benchmark/viet-bud500/audio/audio1670.wav,nhưng vẫn có ý vận chuyển về việt nam để,test,501e78787bca8d2e40395faf41ae324172e3a2bab15c07cf683ae4acd4a4fa23
+audio1671,data/benchmark/viet-bud500/audio/audio1671.wav,một điều là trong quá trình thực hiện,test,f6f425ff043ede78142cdb15017722a262113a4343aa0ed1a3f7922343554a54
+audio1672,data/benchmark/viet-bud500/audio/audio1672.wav,từ những tết lớn thậm chí là bạn bè đồng,test,c0e6f61df60122eeb33eb6e8d1596aa25ffc5844fe3a7f5d5ca0200d8a27efe7
+audio1673,data/benchmark/viet-bud500/audio/audio1673.wav,nhất mà còn là một vùng rộng lớn liên,test,6e8388fddbe58f1da7ab066bb22ecb72aa15c7458a11febff2595247f6b04614
+audio1674,data/benchmark/viet-bud500/audio/audio1674.wav,thưa quý vị tại sao nhiều khi ta còn nói,test,61590d2e40135335ac31fe06f4e1637d835cfdfc9c0098ace0f04a47a563c563
+audio1675,data/benchmark/viet-bud500/audio/audio1675.wav,nhìn bà con chọn sống nhất là anh em,test,1c2b286ecac8142b395ecb29ce1fd555b3358daa8df20838cc0e988338f743f9
+audio1676,data/benchmark/viet-bud500/audio/audio1676.wav,họ đã ăn uống như thế nào mức độ chính,test,c4057d930b51b957cdc8c64c0e3294c55e31c1069ba5922df577f70814cda7dd
+audio1677,data/benchmark/viet-bud500/audio/audio1677.wav,câu chuyện thứ hai bưu thiếp từ sơn thôn,test,bb314b4c16a8733367e04b5ca2294f29832ccb59d9e935ec9f00fb29e192722b
+audio1678,data/benchmark/viet-bud500/audio/audio1678.wav,vùng nông sản ngon nhất lấy nguyên liệu,test,8a7a106b1e8213da085f532dfa371182a455e2c9b14ad231da62a77092fba8e2
+audio1679,data/benchmark/viet-bud500/audio/audio1679.wav,chiếm dụng tiền lương của tập thể để anh,test,81e7944cc8106a1b9de8263544ca3908a39cd07707f8778c11ba87fef49639e5
+audio1680,data/benchmark/viet-bud500/audio/audio1680.wav,trong bác ái tất cả đều có vẻ vững chắc,test,782ad5712ae8f55f5341cfcd0a5e7de580e898ebd2fe935f6d9abeef4cf3e8c9
+audio1681,data/benchmark/viet-bud500/audio/audio1681.wav,nên là mọi người có thể dùng cái này cho,test,8b49b356a24d57ba7c8551befe1f3193924f629fc89306c809318cf2f305f5e6
+audio1682,data/benchmark/viet-bud500/audio/audio1682.wav,nếu như anh chỉ vì thấy thỏa mãn nhu cầu,test,f7803b961f4d22c58e10c61b0e6a19e8aa39dcd6c8863d475487bfcaf6d18e69
+audio1683,data/benchmark/viet-bud500/audio/audio1683.wav,chuyến công tác bí mật đó sao anh từng,test,3464e8102e261c0915d27f13831bb6e195346e0281da70bae7b8254b20b23bb1
+audio1684,data/benchmark/viet-bud500/audio/audio1684.wav,định đã hơi an tâm anh nói để anh chặt,test,2d634f946475374ede680084564b292ccc63d612b1ea702ac51bb3a2a7a05541
+audio1685,data/benchmark/viet-bud500/audio/audio1685.wav,trọng kim thì cụ viết trên một cái tư,test,eb3256243c973ebd7954e399938dcb9e24c86c8ccd15ebb4596df97de88d5c17
+audio1686,data/benchmark/viet-bud500/audio/audio1686.wav,nghe giọng nói gấp gáp của hoàng phượng,test,baddb3199ecfcaaf3b2253a13d9d0d06364668672b11454240bff9dfd51cb817
+audio1687,data/benchmark/viet-bud500/audio/audio1687.wav,tượng điều chỉnh không chỉ là chính phủ,test,1df9af3788f04db2acd406a8a95ef65af0ba9ff77ba67f04ae8487dbd8b53869
+audio1688,data/benchmark/viet-bud500/audio/audio1688.wav,bất cứ là khi bạn đang làm gì thì có thể,test,6270dbc2a150cb05955c6ce381d33fa9bce530d46cae0cbb48edda92cd979492
+audio1689,data/benchmark/viet-bud500/audio/audio1689.wav,khiến con em mất đi kỹ năng sống mà thôi,test,5c95f6b6f22354c9052cc83ad2d1f1217549f15c5f1bd80feaf25d47d973f119
+audio1690,data/benchmark/viet-bud500/audio/audio1690.wav,là ở chỗ bản thân có hài lòng với lựa,test,38a9355c8be5a1e8b245999ee6624c946d4182d92314ab06af9a8254a5b7fea4
+audio1691,data/benchmark/viet-bud500/audio/audio1691.wav,như thế nào hoàn toàn dựa vào nhận thức,test,89bc583658bc5c68898f383cbb839e4acea803c7c0800c57db1bf9fd4114f075
+audio1692,data/benchmark/viet-bud500/audio/audio1692.wav,tôi cảm thấy bản thân của mình vẫn còn,test,a29e37b81566adfce35d59f567ff4bbe8bf36b73eda36f425de9e419a7c0ffa1
+audio1693,data/benchmark/viet-bud500/audio/audio1693.wav,và xin mẹ đừng cho rằng mọi điều con làm,test,09aaad21e44db11ec963290b9b93e572a6af0f36f46300e777afa8ff765467c3
+audio1694,data/benchmark/viet-bud500/audio/audio1694.wav,chúng ta để quên rằng bản thân mình sống,test,04890cecb4d4aaa38c5a69c6c520c502e9b495079e62d25588058aa9b825a3ec
+audio1695,data/benchmark/viet-bud500/audio/audio1695.wav,phục nếu không mình thành người vu cáo,test,fdc6c2303459578e890b8b776d5ba0bb6eeeddf0cfaa558e7b8dce6de506b4ca
+audio1696,data/benchmark/viet-bud500/audio/audio1696.wav,là thi đại học cũng không xong mà mà rất,test,70f08603da671c08bc941788eb6ad5592a2ba12e3c212010c4312dc5846e8207
+audio1697,data/benchmark/viet-bud500/audio/audio1697.wav,em không phải là cô bé ngây thơ ngày ấy,test,1122f32ae128a819ae1847fe434351d9addd1a0c931b48054f5d5ed38b5685e8
+audio1698,data/benchmark/viet-bud500/audio/audio1698.wav,khối u gây xâm chiếm cơ quan và phá hủy,test,2952e2a7d745a1a5b918969865bb3db1fa9abf06ab786e2486d87315262bf8a6
+audio1699,data/benchmark/viet-bud500/audio/audio1699.wav,tưởng đã dứt khoát và anh ta cũng đã,test,0340643d0103532d89c0c3d8ba70e47cba3bf6c8746b2eb64908709caef8d844
+audio1700,data/benchmark/viet-bud500/audio/audio1700.wav,ân cần với cô như vậy dạ em bình thường,test,8f94c8051d712b1ac1d3b187a76de12178c1938cdb09af6cf6b96d4dc17fbe75
+audio1701,data/benchmark/viet-bud500/audio/audio1701.wav,toàn có âm mưu lừa người là nhanh ơ sao,test,54e30dfd6be11f9bddf2ae3be9d88c2aeb80ca6a6a0c345f038ea634ce07beca
+audio1702,data/benchmark/viet-bud500/audio/audio1702.wav,người đã yêu biển tới mức dám ở lại đây,test,97f61afe6494c53889e7ad923968fd0a453d94b56345cc3663652faaaada0289
+audio1703,data/benchmark/viet-bud500/audio/audio1703.wav,nói thử xem tình yêu là như thế nào,test,53c2b1c86a3d0952763ca4fe3f6eecd2d9cc81c6466879a31158b048aee38a59
+audio1704,data/benchmark/viet-bud500/audio/audio1704.wav,số cơ hội mình đã bỏ qua một số cơ hội,test,e0e2d453a711dfefa6bcfc7bf464a35999381d815fa4ec9ba72c8f597d99c4d9
+audio1705,data/benchmark/viet-bud500/audio/audio1705.wav,anh rồi mà đừng mà tôi sẽ không nói gì,test,25d90997ad0c8a871e9ec1af7aca4c7da615d2578cea474647684a11f7211627
+audio1706,data/benchmark/viet-bud500/audio/audio1706.wav,trước vẻ ngoài thư sinh lịch lãm của,test,65e1d31a4ec28137895f256c395f83e4cefd397c14c4c0133c1ce34957116cb1
+audio1707,data/benchmark/viet-bud500/audio/audio1707.wav,càng ôm chặt khang hơn anh đơn giản là,test,880c14b21ca0b09f27fd973088d6762ac45f7bda23808e530eb6e3760412d3ae
+audio1708,data/benchmark/viet-bud500/audio/audio1708.wav,con con thì sao ông tám cười,test,3a2a3d2e0fa2c13a8626d13f0d3433d23832eba665c661b1dcf7b2831988f513
+audio1709,data/benchmark/viet-bud500/audio/audio1709.wav,màn hình đêm qua vũ quyền lên rừng sớm,test,86e373aeb0e5267e5f66bb92ad792646003276a6a6f2fd29f88c2b7acef69f0d
+audio1710,data/benchmark/viet-bud500/audio/audio1710.wav,hoạt động rất tốt em đủ sức nuôi con của,test,0d01a76cbc8bb9abc9f8b21129649666c28089e10974dbe2da1f2978d4209ddb
+audio1711,data/benchmark/viet-bud500/audio/audio1711.wav,nãy người ta mới thấy xác con trâu mộng,test,1f029530b0d7162b01c957a6dd3adc444947ee79314a77e34ee3f8afd8144d41
+audio1712,data/benchmark/viet-bud500/audio/audio1712.wav,trên đường quay về thay quần áo tôi hỏi,test,6f8e5bff299493c5b9b9f91d327586c33cf02fc51c951f706ac57622a9601a22
+audio1713,data/benchmark/viet-bud500/audio/audio1713.wav,phật giáo tiếp nhận cái quan điểm về,test,772446aa068280545ac31a3b8b7f5648076d9637eba41432671a5597ef9693fd
+audio1714,data/benchmark/viet-bud500/audio/audio1714.wav,đi khám bệnh mà như đi đánh trận vậy tôi,test,a7c974c5ae03c631e0de1327c6564a9a6f1ab558f554f203ad5e32841f93a17d
+audio1715,data/benchmark/viet-bud500/audio/audio1715.wav,cố gắng để giải quyết để loại trừ khi nó,test,7320ad12a26ce68b41855815c43fca935957c5814142d27e1acc71722ee5bc91
+audio1716,data/benchmark/viet-bud500/audio/audio1716.wav,đó cũng là lần đầu tiên có một người dám,test,9702fc8edc13b375f2ad5f0c4b4c36bbd5500de1c5719b5c03935b2bb6d83471
+audio1717,data/benchmark/viet-bud500/audio/audio1717.wav,nhau em nói như thế dễ khiến người ta,test,648aabd18fe332a40b5c9b474ed53a5729d6b6bfee61b908e7d9d8a9e5b39ca3
+audio1718,data/benchmark/viet-bud500/audio/audio1718.wav,lâu rồi nên bà sẽ có một mình chồng tôi,test,ece2fdc0f45df552943ce170380b63123fde7ad90c563be41dfa32ec07e37ae8
+audio1719,data/benchmark/viet-bud500/audio/audio1719.wav,khẳng định chắc nịch thế rồi chạy đi tìm,test,45ad7293194c5386bd35ae541945eb61b69e5ebb71157b74462a8a9c64d06f5e
+audio1720,data/benchmark/viet-bud500/audio/audio1720.wav,kiến đều bất ngờ một số không kiểm tra,test,e74a4aaf788130d72d61312b38c86a7f0f9d603cc0906bd611666dc91b2db405
+audio1721,data/benchmark/viet-bud500/audio/audio1721.wav,con của mình con của mình đó,test,337c77adf6b45f60966e6f825fe595bdb423790f24779b26bf1a3883193f0613
+audio1722,data/benchmark/viet-bud500/audio/audio1722.wav,không làm vậy nhà ái liên chưa làm đơn,test,6fa24515e2cbdf0c61dd965efff96555e61f6cebca09cf3685a94f520c4dec8a
+audio1723,data/benchmark/viet-bud500/audio/audio1723.wav,bằng vàng này đã quá phổ biến trong văn,test,99b6ed9dd822d53f1effa353bd6ed7807f5227646fffd53d61f55a2830ac889c
+audio1724,data/benchmark/viet-bud500/audio/audio1724.wav,tôi bất kể anh ta là sếp của mình đi nữa,test,99d148fa82c7b6bcf7fe8f8f2badb4a1eaaa0e7d45abc8a6823cf030956e0bbc
+audio1725,data/benchmark/viet-bud500/audio/audio1725.wav,cảnh khác nhau sẽ rất khó để có thể hiểu,test,e53274aa140598ce8002afbd4d66bbd877c8d0bd1630886715315c4f2691e840
+audio1726,data/benchmark/viet-bud500/audio/audio1726.wav,nhưng sẽ có những sự thật được nhận ra,test,20857230af9b698e2fde43922ed8381ef283a360e894f92dabc795914939851f
+audio1727,data/benchmark/viet-bud500/audio/audio1727.wav,đi cả ngày trời mà không kiếm được con,test,cf1146c7a70fecb19481fe35583af797069055589fd2c47943ee4dc6c21c7108
+audio1728,data/benchmark/viet-bud500/audio/audio1728.wav,khi chị thì ngày càng xuân sắc quần áo,test,be3f578ef3a91a99aea1478506702c5d96323f5f06988abca14be03749d6cd9d
+audio1729,data/benchmark/viet-bud500/audio/audio1729.wav,là một người làm rất nhiều thứ từ những,test,5577d875bd13ed706fb2f8d786b64979470d5883b8f49dabbbbbb1412a50f5de
+audio1730,data/benchmark/viet-bud500/audio/audio1730.wav,lại năm cũ thì đó sẽ là một năm mà chúng,test,c31f649207cea00c4e1da3bb302b974db88bc7dd176e1bb516d5ee982e17a488
+audio1731,data/benchmark/viet-bud500/audio/audio1731.wav,nhăn nhó của chú hệ dịp này đông toàn,test,388b5731bbd419a020774a12d5ea5c0402691517e3d40ade3bb0f6274695a43c
+audio1732,data/benchmark/viet-bud500/audio/audio1732.wav,mới đi một ngày hai anh em vừa đói vừa,test,699fff845c7789c2cc6272d7e0a90a8c842c2e02768e99e183550cf4674a44a9
+audio1733,data/benchmark/viet-bud500/audio/audio1733.wav,nên chẳng muốn trả lời cậu vũ tiếp tục,test,2754b54e97c096ea271473e91dc254780341d541f7bdc1e58acd9eb377d4f553
+audio1734,data/benchmark/viet-bud500/audio/audio1734.wav,nhu cầu vệ sinh cách hắn không xa ở trên,test,943068795d7f5bc144811280984470f8ad9b802652ab92e8e1ce03139b17c0a2
+audio1735,data/benchmark/viet-bud500/audio/audio1735.wav,để chứng minh bất kỳ nguồn gốc của căn,test,fba6fd027fe566db456f73390b11a606feb7637f96163e0bbe5227ce6d2a3fb4
+audio1736,data/benchmark/viet-bud500/audio/audio1736.wav,tình trạng tiến thoái lưỡng nan này là,test,fe1cbbdddc15a7aa4453a52f1a8a9fa746f4e463200ae4442ebebddaacd97f09
+audio1737,data/benchmark/viet-bud500/audio/audio1737.wav,minh ông ấy vô tội người duy nhất có thể,test,048a392975c35aa9a4a8ab4ce4de0edb43a7970fa017c9a49d98ecdcd02f7202
+audio1738,data/benchmark/viet-bud500/audio/audio1738.wav,khoác tay nhau đi vào trong nhà mà cho,test,86eb8813441761ce81dca9edec47dc4892791e6213d6c4dbef05ae3302cba94f
+audio1739,data/benchmark/viet-bud500/audio/audio1739.wav,thưa bố mẹ con có chuyện muốn nói cả nhà,test,362acd4ac7a8da6af689c5a765dd0c15cef759c2c1526c5ea26e834e62caace9
+audio1740,data/benchmark/viet-bud500/audio/audio1740.wav,vẻ vô cùng lãnh cảm nhưng trong ánh mắt,test,2155fd6977b603efedb9535adc92fb2f1ab3424ea787f9e04bb6539db7164b9b
+audio1741,data/benchmark/viet-bud500/audio/audio1741.wav,của mấy đứa bé thì hơn ừ được rồi nè em,test,df3e0ca55084f78de0e5e4b60b7339c337c4d2df90eb2e35f10f2a46107714ce
+audio1742,data/benchmark/viet-bud500/audio/audio1742.wav,chiếc kính hoàn toàn miễn phí bây giờ,test,865e3d7983432320804fdfc4732874d80c5a80a3fa4393fa105c0d4a3a569006
+audio1743,data/benchmark/viet-bud500/audio/audio1743.wav,ta thấy có nhiều phẫn nộ và tức giận hơn,test,b851220608609d9196e6fb5e23f42a0b35316a4f44a3e9419f57cdb750a54f45
+audio1744,data/benchmark/viet-bud500/audio/audio1744.wav,mà cũng chẳng có dòng nào mát bằng dòng,test,3b006ba99598379bc0672d05393ffd27130a0470d507c026b0d1fa907ec2dd3c
+audio1745,data/benchmark/viet-bud500/audio/audio1745.wav,nhất là mình vừa có trong mình được cái,test,bb7af750805c47107322e41d14a68a518b952886c22ab3d64e6f71d050ba80d4
+audio1746,data/benchmark/viet-bud500/audio/audio1746.wav,thường thì tháng tư là thời điểm kết,test,ebba8e068e0ba024f8f8d35c9629cddc78fc1f654b5db99c9334494d77f67f21
+audio1747,data/benchmark/viet-bud500/audio/audio1747.wav,dụ như bọn tôi làm chủ quán ăn chẳng hạn,test,6f065bccc8c9343c971f220fe49df4fa2d0e16d0ffbd343bfe50363c0c0e1db0
+audio1748,data/benchmark/viet-bud500/audio/audio1748.wav,được làm vợ của anh ấy được anh ấy yêu,test,a03bfee50dda971822c0787913a4addbb155f0bdb6851d5bae4d90da63e7c1f0
+audio1749,data/benchmark/viet-bud500/audio/audio1749.wav,dễ thương luôn chăm sóc tôi thật ân cần,test,9b1432249cf5ea3430a522ee02be5b4f196786c1240b8a12bdc6cb6e5013d90a
+audio1750,data/benchmark/viet-bud500/audio/audio1750.wav,chỉ là một ngày bình thường và tôi vẫn,test,5739f834a2493b69d7aa86954158fe5d87f7ea7a6ebe9bbed149cfacad8f7a2a

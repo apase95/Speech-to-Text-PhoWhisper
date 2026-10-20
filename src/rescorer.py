@@ -23,6 +23,9 @@ DEFAULT_ALPHA_PHOBERT = 0.130
 DEFAULT_BETA_PHOBERT = -0.008
 DEFAULT_GAMMA_PHOBERT = -0.20
 
+# Default confidence threshold for dynamic gating (skip LM when acoustic avg_lp >= threshold)
+DEFAULT_CONFIDENCE_THRESHOLD = -0.020
+
 
 def extract_standard_mel(audio_input: str | Path | np.ndarray, model: whisper.Whisper) -> torch.Tensor:
     """Extract standard mel spectrogram matching whisper.transcribe exactly."""
@@ -116,6 +119,7 @@ def rescore_audio(
     alpha: float | None = None,
     beta: float | None = None,
     gamma: float | None = None,
+    confidence_threshold: float | None = DEFAULT_CONFIDENCE_THRESHOLD,
 ) -> str:
     """Perform beam search ASR decoding and conservative Language Model rescoring."""
     is_phobert = "phobert" in lm_model_name.lower()
@@ -146,6 +150,15 @@ def rescore_audio(
 
     top1 = cands[0]
     if len(cands) <= 1:
+        return top1["text"].strip()
+
+    # Dynamic Acoustic Confidence Gating: skip LM rescoring if Whisper Top-1 is highly confident
+    if confidence_threshold is not None and top1["avg_logprob"] >= confidence_threshold:
+        logger.debug(
+            "Acoustic confidence %.4f >= threshold %.4f, skipping LM rescoring.",
+            top1["avg_logprob"],
+            confidence_threshold,
+        )
         return top1["text"].strip()
 
     try:

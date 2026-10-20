@@ -71,6 +71,7 @@ class InferenceTests(unittest.TestCase):
             audio_input="sample.wav",
             whisper_model=get_model.return_value,
             beam_size=5,
+            confidence_threshold=-0.02,
         )
         get_model.return_value.transcribe.assert_not_called()
 

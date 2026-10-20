@@ -28,6 +28,7 @@ def transcribe(
     time_stretch_rate: float = 1.0,
     rescore: bool = False,
     beam_size: int = 5,
+    confidence_threshold: float | None = -0.020,
 ) -> str:
     use_fp16 = torch.cuda.is_available()
     audio_input: str | np.ndarray = audio_path
@@ -44,6 +45,7 @@ def transcribe(
             audio_input=audio_input,
             whisper_model=get_model(),
             beam_size=beam_size,
+            confidence_threshold=confidence_threshold,
         )
 
     result = get_model().transcribe(
@@ -77,12 +79,19 @@ def main() -> None:
         default=5,
         help="Beam size when rescoring is enabled (default: 5)",
     )
+    parser.add_argument(
+        "--confidence-threshold",
+        type=float,
+        default=-0.020,
+        help="Acoustic confidence threshold to skip LM rescoring (default: -0.020; set to -999 to disable)",
+    )
     args = parser.parse_args()
 
     audio_path = Path(args.audio)
     if not audio_path.exists():
         raise FileNotFoundError(f"Không tìm thấy file: {audio_path}")
 
+    conf_th = None if args.confidence_threshold < -100.0 else args.confidence_threshold
     print("Transcript:")
     print(
         transcribe(
@@ -90,6 +99,7 @@ def main() -> None:
             time_stretch_rate=args.time_stretch_rate,
             rescore=args.rescore,
             beam_size=args.beam_size,
+            confidence_threshold=conf_th,
         )
     )
 

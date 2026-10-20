@@ -84,10 +84,17 @@ python -m src.inference --audio path/to/audio.wav --time-stretch-rate 0.9
 python -m src.inference --audio path/to/audio.wav --time-stretch-rate 0.9 --rescore
 ```
 
-### 3.4. Tùy chỉnh kích thước Beam (`--beam-size`)
-Khi bật `--rescore`, mặc định hệ thống dùng `beam_size=5`. Bạn có thể tùy chỉnh kích thước chùm tia:
+### 3.4. Tùy chỉnh kích thước Beam (`--beam-size`) & Ngưỡng Tin cậy (`--confidence-threshold`)
+Khi bật `--rescore`, mặc định hệ thống dùng `beam_size=5` và `confidence_threshold=-0.020`:
 ```bash
+# Tùy chỉnh beam size:
 python -m src.inference --audio path/to/audio.wav --rescore --beam-size 3
+
+# Tùy chỉnh ngưỡng tin cậy (bỏ qua LM khi Whisper rất tự tin để tiết kiệm 30% thời gian):
+python -m src.inference --audio path/to/audio.wav --rescore --confidence-threshold -0.020
+
+# Tắt hoàn toàn gating, luôn luôn chấm LM cho 100% câu:
+python -m src.inference --audio path/to/audio.wav --rescore --confidence-threshold -999
 ```
 
 ---
@@ -105,7 +112,7 @@ audio_file = "data/benchmark/viet-bud500/audio/audio1.wav"
 text_fast = transcribe(audio_file)
 print("Fast:", text_fast)
 
-# 2. Nhận dạng chính xác cao (Accurate Rescoring):
+# 2. Nhận dạng chính xác cao (Accurate Rescoring với Dynamic Gating):
 text_accurate = transcribe(audio_file, rescore=True)
 print("Accurate:", text_accurate)
 
@@ -119,6 +126,7 @@ print("Stretched + Rescored:", text_stretched)
 - `time_stretch_rate` (*float*, mặc định `1.0`): Hệ số co giãn tốc độ âm thanh (ví dụ: `0.9` là nói chậm lại 10%, `1.1` là nói nhanh hơn 10%).
 - `rescore` (*bool*, mặc định `False`): `True` để bật Beam 5 và GPT-2 Conservative Rescoring; `False` để chạy Greedy siêu tốc.
 - `beam_size` (*int*, mặc định `5`): Kích thước chùm tia khi bật rescore.
+- `confidence_threshold` (*float | None*, mặc định `-0.020`): Ngưỡng tin cậy âm học để bỏ qua LM rescoring khi Whisper đã rất tự tin. Truyền `None` để luôn chấm LM cho 100% câu.
 
 ---
 
@@ -164,7 +172,11 @@ python -m unittest discover tests
 ---
 
 ## 7. Tài liệu liên quan
-- [Nhật ký Nâng cấp & Tối ưu hóa](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/docs/upgrade.md): Bảng tổng hợp 11 cải tiến kỹ thuật so với bản gốc.
+- [Bảng So Sánh Toàn Diện (Ban Đầu vs Hiện Tại)](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/docs/comparison.md): Đối chiếu chi tiết kiến trúc, quy trình, mô hình và kết quả thực nghiệm trên 3 tập dữ liệu.
+- [Nhật ký Nâng cấp & Tối ưu hóa](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/docs/upgrade.md): Bảng tổng hợp 13 cải tiến kỹ thuật so với bản gốc.
 - [Báo cáo Kiểm chứng Rescoring Đối chứng](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-controlled-rescoring-benchmark-check.md): Phân tích thực nghiệm 3 nhánh A / B / C trên 1.000 mẫu test.
 - [Báo cáo Conservative Rescoring & Thống kê](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-conservative-rescoring-report.md): Chi tiết cơ chế Acoustic Margin $\gamma$ và Paired Bootstrap Significance test.
 - [Báo cáo PhoBERT Challenger vs GPT-2](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-phobert-vs-gpt2-report.md): Đánh giá mô hình ngôn ngữ 2 chiều (PLL), giảm lỗi Deletion và so sánh toàn diện.
+- [Báo cáo Phân tích Tách biệt LM vs Gating](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/matched-rescoring-disentanglement-report.md): Ma trận đối sánh 2x2 bóc tách ảnh hưởng của LM so với Acoustic Safety Margin $\gamma$.
+- [Báo cáo Dynamic Acoustic Confidence Gating](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/dynamic-acoustic-confidence-gating-report.md): Khảo sát ngưỡng $\theta_{\text{confident}}$, tiết kiệm ~30% thời gian LM và giảm thiểu lỗi Deletion.
+- [Báo cáo Kiểm chứng Độc lập Holdout 500](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-holdout-validation-report.md): Xác thực trên 500 mẫu âm thanh hoàn toàn mới, khẳng định tính tổng quát hóa tuyệt đối với WER giảm từ 9,77% xuống 8,07% ($p = 0.00000$).

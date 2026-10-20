@@ -51,3 +51,7 @@ Cung cấp lựa chọn `--rescore` trong CLI và web UI: mặc định Fast (Gr
 ### 12. Thử nghiệm PhoBERT Challenger (Bidirectional Masked LM)
 Sử dụng `vinai/phobert-base-v2` chấm điểm Pseudo-Log-Likelihood (PLL) dạng chunked batch kết hợp tách từ `pyvi`.
 Giảm deletion từ 160 xuống 139 trong benchmark này, CER đạt **5,31%**; chênh lệch tổng WER chưa có ý nghĩa thống kê so với GPT-2.
+
+### 13. Cơ chế ngắt điểm âm học động (Dynamic Acoustic Confidence Gating)
+Bỏ qua bước chấm điểm LM khi Whisper đạt độ tin cậy âm học cao (`avg_logprob >= -0.020`).
+Tiết kiệm ~30% thời gian chạy LM, giảm số lỗi Deletion và số câu bị làm hỏng (Losses), duy trì WER kỷ lục 8,27%–8,33%.
