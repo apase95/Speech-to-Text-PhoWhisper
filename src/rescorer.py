@@ -156,28 +156,49 @@ def rescore_audio(
             import torch.nn.functional as F
             from pyvi import ViTokenizer
 
+            max_chunk_size = 16
+            max_seq_len = getattr(lm_tokenizer, "model_max_length", 256)
+            if max_seq_len > 512:
+                max_seq_len = 256
+
             for c in cands:
                 c["normalized_text"] = normalize_vietnamese(c["text"])
                 if not c["normalized_text"]:
                     c["lm_logprob_per_token"] = -20.0
                     continue
                 segmented = ViTokenizer.tokenize(c["normalized_text"])
-                input_ids = lm_tokenizer.encode(segmented, return_tensors="pt").to(device)[0]
+                input_ids = lm_tokenizer.encode(
+                    segmented,
+                    return_tensors="pt",
+                    truncation=True,
+                    max_length=max_seq_len,
+                ).to(device)[0]
+
                 L = len(input_ids)
                 if L <= 2:
                     c["lm_logprob_per_token"] = 0.0
                     continue
-                T = L - 2
-                batch = input_ids.unsqueeze(0).repeat(T, 1)
+
                 positions = torch.arange(1, L - 1, device=device)
-                batch[torch.arange(T, device=device), positions] = lm_tokenizer.mask_token_id
-                with torch.no_grad():
-                    logits = lm_model(batch).logits
-                masked_logits = logits[torch.arange(T, device=device), positions]
-                log_probs = F.log_softmax(masked_logits, dim=-1)
                 target_ids = input_ids[positions]
-                token_log_probs = log_probs[torch.arange(T, device=device), target_ids]
-                c["lm_logprob_per_token"] = float(token_log_probs.mean().item())
+                T = len(positions)
+                token_lps = []
+
+                for start in range(0, T, max_chunk_size):
+                    end = min(start + max_chunk_size, T)
+                    pos = positions[start:end]
+                    tgt = target_ids[start:end]
+                    k = len(pos)
+
+                    chunk_batch = input_ids.unsqueeze(0).repeat(k, 1)
+                    chunk_batch[torch.arange(k, device=device), pos] = lm_tokenizer.mask_token_id
+
+                    with torch.no_grad():
+                        sub_logits = lm_model(chunk_batch).logits
+                    m_logits = sub_logits[torch.arange(k, device=device), pos]
+                    token_lps.append(F.log_softmax(m_logits, dim=-1)[torch.arange(k, device=device), tgt])
+
+                c["lm_logprob_per_token"] = float(torch.cat(token_lps).mean().item())
         else:
             for c in cands:
                 c["normalized_text"] = normalize_vietnamese(c["text"])

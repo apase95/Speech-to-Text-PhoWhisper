@@ -49,5 +49,5 @@ Cung cấp lựa chọn `--rescore` trong CLI và web UI: mặc định Fast (Gr
 Đảm bảo luồng mặc định không tốn thêm bộ nhớ, tự động lazy load và có fallback an toàn khi thiếu tài nguyên.
 
 ### 12. Thử nghiệm PhoBERT Challenger (Bidirectional Masked LM)
-Sử dụng `vinai/phobert-base-v2` chấm điểm Pseudo-Log-Likelihood (PLL) dạng batch kết hợp tách từ `pyvi`.
-Giảm lỗi Deletion từ 160 xuống 139 (-21 lỗi mất từ), hạ CER xuống **5,31%** và nâng số câu đúng hoàn hảo lên **52,00%**.
+Sử dụng `vinai/phobert-base-v2` chấm điểm Pseudo-Log-Likelihood (PLL) dạng chunked batch kết hợp tách từ `pyvi`.
+Giảm deletion từ 160 xuống 139 trong benchmark này, CER đạt **5,31%**; chênh lệch tổng WER chưa có ý nghĩa thống kê so với GPT-2.

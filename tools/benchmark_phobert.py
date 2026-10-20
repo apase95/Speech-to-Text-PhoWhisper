@@ -40,34 +40,50 @@ def score_text_with_pll(
     model: AutoModelForMaskedLM,
     tokenizer: AutoTokenizer,
     device: str,
+    max_chunk_size: int = 16,
 ) -> tuple[float, float]:
-    """Compute Pseudo-Log-Likelihood (PLL) and PLL-per-token using PhoBERT."""
+    """Compute Pseudo-Log-Likelihood (PLL) and PLL-per-token using PhoBERT with chunked masking."""
     if not text.strip():
         return -20.0, -20.0
 
     segmented = ViTokenizer.tokenize(text.strip())
-    input_ids = tokenizer.encode(segmented, return_tensors="pt").to(device)[0]  # shape: (L,)
+    max_seq_len = getattr(tokenizer, "model_max_length", 256)
+    if max_seq_len > 512:
+        max_seq_len = 256
+
+    input_ids = tokenizer.encode(
+        segmented,
+        return_tensors="pt",
+        truncation=True,
+        max_length=max_seq_len,
+    ).to(device)[0]  # shape: (L,)
+
     L = len(input_ids)
     if L <= 2:  # only <s> and </s>
         return 0.0, 0.0
 
-    T = L - 2  # content tokens
-    batch = input_ids.unsqueeze(0).repeat(T, 1)  # shape: (T, L)
-
     positions = torch.arange(1, L - 1, device=device)
-    batch[torch.arange(T, device=device), positions] = tokenizer.mask_token_id
-
-    with torch.no_grad():
-        logits = model(batch).logits  # shape: (T, L, V)
-
-    masked_logits = logits[torch.arange(T, device=device), positions]
-    log_probs = F.log_softmax(masked_logits, dim=-1)
-
     target_ids = input_ids[positions]
-    token_log_probs = log_probs[torch.arange(T, device=device), target_ids]
+    T = len(positions)
+    token_lps = []
 
-    pll = float(token_log_probs.sum().item())
-    pll_per_token = float(token_log_probs.mean().item())
+    for start in range(0, T, max_chunk_size):
+        end = min(start + max_chunk_size, T)
+        pos = positions[start:end]
+        tgt = target_ids[start:end]
+        k = len(pos)
+
+        chunk_batch = input_ids.unsqueeze(0).repeat(k, 1)
+        chunk_batch[torch.arange(k, device=device), pos] = tokenizer.mask_token_id
+
+        with torch.no_grad():
+            sub_logits = model(chunk_batch).logits
+        m_logits = sub_logits[torch.arange(k, device=device), pos]
+        token_lps.append(F.log_softmax(m_logits, dim=-1)[torch.arange(k, device=device), tgt])
+
+    all_lps = torch.cat(token_lps)
+    pll = float(all_lps.sum().item())
+    pll_per_token = float(all_lps.mean().item())
     return pll, pll_per_token
 
 

@@ -61,42 +61,45 @@ Lưới siêu tham số $(\alpha, \beta, \gamma)$ được tìm kiếm qua 5 fol
 ### 1. PhoBERT vs Baseline A (Beam 5 gốc)
 * **Mean Delta WER**: **-1,278%**
 * **Khoảng tin cậy 95% (95% CI)**: **[-1,749%, -0,796%]**
-* **Trị số $p$-value**: **$p = 0,00000$ ($p < 0,001$)**
-* *Kết luận*: PhoBERT vượt trội hoàn toàn so với Baseline gốc với độ tin cậy tuyệt đối.
+* **Trị số empirical tail**: **$p = 0,00000$** (trong 2.000 replicate bootstrap, không có replicate nào có $\Delta \text{WER} \ge 0$).
+* *Kết luận*: Cả khoảng tin cậy 95% đều nằm sâu dưới 0, khẳng định mức cải thiện của PhoBERT so với baseline là nhất quán trên tập đánh giá này.
 
 ### 2. PhoBERT vs GPT-2 (Branch C)
 * **Mean Delta WER**: **-0,063%**
-* **Khoảng tin cậy 95% (95% CI)**: **[-0,471%, +0,340%]**
-* **Trị số $p$-value**: **$p = 0,39150$**
-* *Kết luận*: Về tổng tỷ lệ lỗi WER, chênh lệch giữa PhoBERT và GPT-2 không có ý nghĩa thống kê ($p > 0,05$). Tuy nhiên, cấu trúc lỗi của PhoBERT có những ưu thế định tính rất rõ ràng.
+* **Khoảng tin cậy 95% (95% CI)**: **[-0,471%, +0,340%]** (khoảng tin cậy bao gồm 0).
+* **Trị số empirical tail**: **$p = 0,39150$**
+* *Kết luận*: **Chưa phát hiện khác biệt WER có ý nghĩa thống kê giữa PhoBERT và GPT-2 trên tập đánh giá này.** Không kết luận PhoBERT vượt trội hơn GPT-2 về mặt tổng WER.
 
 ---
 
-## 4. Phân Tích Chuyên Sâu: Điểm Mạnh & Đánh Đổi của PhoBERT
+## 4. Phân Tích Chuyên Sâu: Điểm Khác Biệt & Đánh Đổi
 
-### Điểm mạnh nổi bật của PhoBERT:
-1. **Sửa lỗi Deletion của GPT-2**:
-   - GPT-2 (Causal LM) thường phạt các câu kết thúc lơ lửng khiến Deletion tăng vọt từ 102 lên 160.
-   - PhoBERT (Bidirectional Masked LM) nhìn được ngữ cảnh 2 chiều nên không bị thiên kiến ngắt câu sớm quá mức, kéo số lỗi Deletion giảm mạnh từ 160 xuống **139** (giảm 21 lỗi mất từ).
-2. **CER và Exact Match đạt mốc tốt nhất lịch sử**:
-   - CER giảm sâu xuống **5,36%** (Harmonized: **5,31%**), tốt hơn đáng kể so với mức 5,47% của GPT-2.
-   - Số câu nhận dạng đúng 100% đạt **520/1.000 câu (52,00%)** theo metric chuẩn hóa, thiết lập kỷ lục mới của dự án.
-3. **Bộ nhớ VRAM cực kỳ nhẹ**:
-   - PhoBERT-base-v2 chỉ tiêu tốn thêm khoảng **~128 MB VRAM** (Peak CUDA: 687,9 MiB), nhẹ hơn GPT-2 (~846 MiB).
+### Các điểm khác biệt quan sát được:
+1. **Hiện tượng Deletion**:
+   - So với GPT-2 (160 deletion), PhoBERT giảm được 21 phép lỗi deletion xuống còn **139**.
+   - Tuy nhiên, con số 139 vẫn cao hơn baseline gốc (102 deletion), và việc giảm deletion đi kèm mức tăng nhẹ substitution (508 vs 502) và insertion (111 vs 102).
+   - *Lưu ý về cơ chế*: GPT-2 không trực tiếp ngắt câu của Whisper; việc GPT-2 chọn nhiều candidate có deletion hơn là do tương tác giữa điểm ngôn ngữ, tham số độ dài $\beta$ và ngưỡng âm học $\gamma$.
+2. **CER và Exact Match**:
+   - CER quan sát được giảm xuống **5,36%** (Harmonized: **5,31%**), so với 5,47% của GPT-2.
+   - Exact match quan sát được tăng lên **513/1.000 câu** (Harmonized: **520/1.000 câu**).
+   - Tuy nhiên, đây là kết quả quan sát trên tập mẫu cụ thể, cần kiểm chứng thêm trên các tập holdout độc lập mới.
+3. **Đặc tính kỹ thuật & Bộ nhớ**:
+   - PhoBERT-base-v2 có kích thước ~135M tham số, bộ nhớ peak CUDA đo độc lập trong tiến trình là **687,9 MiB** (so với 846 MiB của GPT-2 trong cùng điều kiện).
 
-### Sự đánh đổi (Trade-off):
-1. **Độ trễ tính toán (Latency)**:
-   - Để tính điểm Pseudo-Log-Likelihood (PLL), PhoBERT cần mask từng vị trí token trong câu. Dù đã được vector hóa thành 1 forward pass dạng batch, thời gian chấm điểm của PhoBERT vẫn mất **67,8 ms / sample** (so với 5,8 ms / sample của GPT-2).
-   - Tuy nhiên, 67,8 ms vẫn rất nhanh so với thời gian phát âm thực tế (trung bình 2.500 ms/sample, tương đương chỉ tốn ~2,7% thời lượng audio).
-2. **Đòi hỏi thư viện tách từ (`pyvi`)**:
-   - PhoBERT yêu cầu văn bản đầu vào được tách từ ghép (`thành_phố`, `tất_cả`), do đó cần dependency `pyvi`.
+### Đánh đổi & Giới hạn kỹ thuật (Technical Trade-offs):
+1. **Độ trễ tính toán PLL (Latency)**:
+   - GPT-2 tính điểm xác suất causal theo chuỗi trong 1 forward pass (~5,8 ms / câu).
+   - PhoBERT tính Pseudo-Log-Likelihood (PLL) cần mask từng vị trí token. Mặc dù đã được vector hóa dạng batch, thời gian chấm điểm đo riêng bằng `torch.cuda.synchronize()` là **67,8 ms / sample** (khoảng 13,5 ms / candidate), chậm hơn GPT-2 khoảng 11,7 lần.
+   - *Tối ưu an toàn cho câu dài*: Đã triển khai kỹ thuật **Chunked Masking** (chia nhỏ thành các batch $\le 16$) và kiểm soát độ dài `max_seq_len=256` để triệt tiêu nguy cơ tràn VRAM (OOM) khi xử lý các câu dài.
+2. **Tách từ tiếng Việt (`pyvi`)**:
+   - Mô hình PhoBERT gốc được khuyến nghị tiền xử lý với `RDRSegmenter` (VnCoreNLP). Việc sử dụng thư viện nhẹ `pyvi` là một lựa chọn thực dụng trong Python nhưng cần được coi là một biến thể thay thế cần kiểm chứng độ tương thích trên các từ vựng hiếm hoặc domain đặc thù.
 
 ---
 
-## 5. Kết Luận & Đề Xuất Chiến Lược
+## 5. Kết Luận & Khuyến Khích Lựa Chọn
 
-| Mục tiêu sử dụng | Khuyến nghị lựa chọn |
-|---|---|
-| **Ưu tiên tốc độ siêu nhanh (Real-time / Chatbot)** | **Fast mode**: Greedy decoding thuần túy (RTF ~0,20x, không cần LM). |
-| **Cân bằng giữa Tốc độ & Độ chính xác (Production)** | **GPT-2 Rescoring**: WER 8,32%, độ trễ LM cực thấp (~5,8 ms), không cần bộ tách từ. |
-| **Ưu tiên độ chính xác cao nhất & ít mất từ (High-Quality Transcription)** | **PhoBERT Rescoring**: WER 8,20% (Harmonized), CER 5,31%, ít lỗi Deletion nhất (139 lỗi), 52% câu đúng 100%. |
+| Chế độ | Cấu hình | Đặc tính & Khuyến nghị |
+|---|---|---|
+| **Nhanh (Fast Mode)** | Greedy decoding (`without_timestamps=True`) | RTF ~0,20x, không tốn thêm VRAM/LM, phù hợp ứng dụng thời gian thực. |
+| **Cân bằng (Khuyến nghị mặc định cho Rescoring)** | Beam 5 + **GPT-2 Rescoring** | WER 8,32%, độ trễ chấm điểm rất thấp (~5,8 ms/câu), không cần dependency tách từ. |
+| **Thử nghiệm / Chất lượng văn bản** | Beam 5 + **PhoBERT Rescoring** | CER 5,31%, ít deletion hơn GPT-2 trong benchmark này (139 vs 160), nhưng độ trễ LM cao hơn (~67,8 ms/câu). |

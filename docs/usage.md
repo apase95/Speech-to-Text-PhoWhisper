@@ -42,18 +42,19 @@ File trọng số sẽ được lưu tại `models/phowhisper-base.pt`.
 
 ---
 
-## 2. Các Chế Độ Nhận Dạng (Fast vs Accurate)
+## 2. Các Chế Độ Nhận Dạng (Fast vs Accurate vs Challenger)
 
-Hệ thống hỗ trợ 2 chế độ suy luận phù hợp cho các tình huống sử dụng khác nhau:
+Hệ thống hỗ trợ 3 chế độ suy luận phù hợp cho các tình huống sử dụng khác nhau:
 
-| Tiêu chí | Chế độ Nhanh (Fast Mode) | Chế độ Chính xác (Accurate Mode) |
-|---|---|---|
-| **Cơ chế** | Greedy decoding (`without_timestamps=True`) | Beam 5 search + GPT-2 Conservative Rescoring |
-| **Tốc độ (RTF)** | **~0,20x** (nhanh gấp 5 lần thời gian phát thực) | **~0,25x - 0,35x** (nhanh gấp 3-4 lần thời gian thực) |
-| **VRAM tiêu thụ** | **~560 MB** | **~850 MB** |
-| **Độ chính xác (WER)** | 10,49% (Viet-BUD500) | **8,32%** (Viet-BUD500) |
-| **Số câu đúng hoàn hảo**| ~45,1% | **51,4%** |
-| **Tình huống phù hợp** | Chatbot thời gian thực, voice agent, thiết bị nhúng | Bóc băng hội thảo, phụ đề video, hồ sơ y tế, văn bản pháp lý |
+| Tiêu chí | Chế độ Nhanh (Fast Mode) | Chế độ Cân bằng (Accurate Mode - Khuyến nghị) | Chế độ Thử nghiệm (PhoBERT Challenger) |
+|---|---|---|---|
+| **Cơ chế** | Greedy decoding (`without_timestamps=True`) | Beam 5 + GPT-2 Conservative Rescoring | Beam 5 + PhoBERT-base-v2 Batched PLL |
+| **Tốc độ (RTF)** | **~0,20x** (nhanh gấp 5 lần thời gian thực) | **~0,25x** (chấm LM chỉ ~5,8 ms/câu) | **~0,30x** (chấm LM ~67,8 ms/câu) |
+| **VRAM tiêu thụ** | **~560 MB** | **~850 MB** | **~690 MB** |
+| **Độ chính xác (WER)** | 10,49% | **8,32%** | **8,29%** (chưa khác biệt có ý nghĩa thống kê so với GPT-2) |
+| **Đặc điểm Deletion** | 102 lỗi (Gốc) | 160 lỗi | **139 lỗi** (ít deletion hơn GPT-2 trong benchmark này) |
+| **Phụ thuộc bổ sung** | Không | `transformers` | `transformers`, `pyvi` |
+| **Tình huống phù hợp** | Chatbot thời gian thực, voice agent, thiết bị nhúng | Bóc băng hội thảo, phụ đề video, production mặc định | Tối ưu độ đầy đủ của câu, ít mất từ nhất trong các bản rescoring |
 
 ---
 
