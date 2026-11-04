@@ -1,0 +1,42 @@
+{
+  "version": "fleurs60-spoken-v1",
+  "expected_samples": 60,
+  "policy": "Curated explicit measurement spans only; Unicode character offsets into raw. Text review only, not audio validation. All other numeric forms remain pending review.",
+  "entries": [
+    {
+      "source": "google/fleurs", "id": "validation:151", "original_id": 1626,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "người giành huy chương vàng olympic được trông đợi sẽ tham dự các nội dung bơi 100m và 200m tự do và ba lần thi tiếp sức tại đại hội thể thao khối thịnh vượng chung nhưng theo lời phàn nàn của anh ấy thể lực của anh ấy đang không đảm bảo",
+      "spans": [["100m", "một trăm mét", "swimming-distance"], ["200m", "hai trăm mét", "swimming-distance"]],
+      "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "validation:231", "original_id": 1618,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "phần phía bắc của dãy núi sentinel có những ngọn núi cao nhất bắc băng dương vinson massif có đỉnh vinson cao 4892 m",
+      "spans": [["4892 m", "bốn nghìn tám trăm chín mươi hai mét", "summit-height"]],
+      "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:121", "original_id": 1877,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "thượng nghị sĩ và đệ nhất phu nhân argentina cristina fernandez de kirchner đương nhiệm đã tuyên bố ứng cử tổng thống vào tối hôm qua tại la plata một thành phố cách buenos aires 50 kilomet 31 dặm",
+      "spans": [["50 kilomet", "năm mươi ki lô mét", "city-distance"], ["31 dặm", "ba mươi mốt dặm", "city-distance"]],
+      "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:653", "original_id": 1932,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "năm phút sau khi bắt đầu cuộc trình diễn một cơn gió bắt đầu xuất hiện khoảng một phút sau gió đạt vận tốc 70km/h... sau đó mưa tới với cường độ mạnh và lớn đến nỗi da có cảm giác như bị kim châm sau đó mưa đá xuất hiện mọi người hoảng loạn và la hét và dẫm đạp lên nhau",
+      "spans": [["70km/h", "bảy mươi ki lô mét trên giờ", "wind-speed"]],
+      "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:661", "original_id": 1759,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "bác sĩ malar balasubramanian 29 tuổi được phát hiện nằm trên mặt đất ven đường trong trang phục áo thun và đồ lót nồng nặc thuốc ở blue ash một vùng ngoại ô cách cincinnati 15 dặm về phía bắc",
+      "spans": [["15 dặm", "mười lăm dặm", "suburb-distance"]],
+      "audio_validated": false
+    }
+  ]
+}
