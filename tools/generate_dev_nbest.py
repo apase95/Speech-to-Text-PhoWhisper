@@ -30,12 +30,13 @@ from benchmarks.metrics import (
     normalize_vietnamese_harmonized,
 )
 from src.inference import get_model, model_path
+from tools.nbest_ranking import rank_candidates
 
 
-def extract_standard_mel(audio_path: str | Path, model: whisper.Whisper) -> torch.Tensor:
+def extract_standard_mel(audio_path: str | Path, model: whisper.Whisper, fp16: bool | None = None) -> torch.Tensor:
     """Extract standard mel spectrogram matching whisper.transcribe exactly."""
     audio = whisper.load_audio(str(audio_path))
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+    dtype = torch.float16 if (torch.cuda.is_available() if fp16 is None else fp16) else torch.float32
     mel_full = whisper.log_mel_spectrogram(audio, model.dims.n_mels, padding=whisper.audio.N_SAMPLES)
     content_frames = mel_full.shape[-1] - whisper.audio.N_FRAMES
     segment_size = min(whisper.audio.N_FRAMES, content_frames)
@@ -104,8 +105,9 @@ class NBestDecodingTask(whisper.decoding.DecodingTask):
                     }
                 )
 
-            # Sort by avg_logprob descending
-            cands.sort(key=lambda x: x["avg_logprob"], reverse=True)
+            # Use Whisper's installed ranker on generated tokens (prefix/EOT excluded).
+            # avg_logprob intentionally retains Whisper's EOT-inclusive denominator.
+            cands = rank_candidates(cands, self.sequence_ranker)
             for rank, c in enumerate(cands, start=1):
                 c["rank"] = rank
             results.append(cands)

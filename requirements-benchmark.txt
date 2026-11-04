@@ -1,0 +1,7 @@
+# Modest overlay only: large Torch/runtime dependencies are explicitly bridged
+# from .venv (Python 3.14). This is NOT a standalone isolated dependency lock.
+# Install with --only-binary=:all: --no-deps; never resolve/download a CUDA stack.
+# Effective inherited+overlay version inventory: requirements-benchmark-effective.lock.
+transformers==4.57.6
+tokenizers==0.22.2
+huggingface-hub==0.36.2
