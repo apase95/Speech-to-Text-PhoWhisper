@@ -1,11 +1,10 @@
-"""Order persisted candidates using the decoder's actual sequence ranker."""
-
-
-def rank_candidates(candidates, ranker):
-    remaining = list(candidates)
-    ordered = []
-    while remaining:
-        selected = ranker.rank([[c['tokens'] for c in remaining]],
-                               [[c['sum_logprob'] for c in remaining]])[0]
-        ordered.append(remaining.pop(selected))
-    return ordered
+"""Legacy command and import alias."""
+import sys
+from pathlib import Path
+if __name__ == '__main__':
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    import runpy
+    runpy.run_module('benchmarks.runners.nbest_ranking', run_name='__main__')
+else:
+    from benchmarks.runners import nbest_ranking as implementation
+    sys.modules[__name__] = implementation

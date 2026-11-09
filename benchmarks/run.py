@@ -1,3 +1,11 @@
+"""CLI đánh giá PhoWhisper theo manifest CSV, không dùng LM rescoring.
+
+Đọc manifest, kiểm tra tệp, nạp model cache rồi chạy từng mẫu tuần tự.
+Mỗi lần chạy tạo thư mục mới chứa predictions.jsonl và summary.json với
+WER/CER, thời gian, bộ nhớ, cấu hình và hash phục vụ truy vết. Đường dẫn
+âm thanh được hiểu theo cwd, không theo thư mục chứa manifest.
+"""
+
 import argparse
 import csv
 import hashlib
@@ -21,6 +29,7 @@ from src.inference import get_model, model_path
 
 
 def add_silence_padding(audio: np.ndarray, milliseconds: int) -> np.ndarray:
+    """Đệm số 0 hai đầu waveform 16 kHz; thời lượng âm gây ValueError."""
     if milliseconds < 0:
         raise ValueError("Silence padding must be non-negative")
     padding_samples = round(whisper.audio.SAMPLE_RATE * milliseconds / 1000)
@@ -28,6 +37,7 @@ def add_silence_padding(audio: np.ndarray, milliseconds: int) -> np.ndarray:
 
 
 def file_sha256(path: Path) -> str:
+    """Đọc tệp theo khối 1 MiB và trả SHA-256; lỗi I/O truyền ra ngoài."""
     digest = hashlib.sha256()
     with path.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
@@ -36,6 +46,10 @@ def file_sha256(path: Path) -> str:
 
 
 def git_revision() -> str | None:
+    """Lấy HEAD của cwd qua git, trả None khi không gọi được hoặc git lỗi.
+
+    Không ghi nhận diff của working tree, nên revision không chứng minh cây sạch.
+    """
     try:
         return subprocess.run(
             ["git", "rev-parse", "HEAD"],
@@ -48,6 +62,11 @@ def git_revision() -> str | None:
 
 
 def read_manifest(path: Path, limit: int | None) -> list[dict[str, str]]:
+    """Đọc CSV UTF-8 có id/audio_path/reference/split rồi cắt rows[:limit].
+
+    Manifest rỗng hoặc thiếu cột gây ValueError; không kiểm tra nội dung
+    từng ô và không tự phân chia tập theo cột split.
+    """
     with path.open(encoding="utf-8", newline="") as stream:
         rows = list(csv.DictReader(stream))
     required = {"id", "audio_path", "reference", "split"}
@@ -57,6 +76,15 @@ def read_manifest(path: Path, limit: int | None) -> list[dict[str, str]]:
 
 
 def main() -> None:
+    """Chạy benchmark và in tiến độ cùng summary ra stdout.
+
+    Mặc định xuất vào outputs/benchmarks, không đệm im lặng, rate=1,
+    without_timestamps=True và condition_on_previous_text=False; beam_size
+    chỉ truyền khi được chỉ định. CUDA được đồng bộ để đo thời gian.
+    Lỗi trong tiền xử lý/giải mã từng mẫu được lưu cùng dự đoán rỗng và
+    vẫn tính vào metrics. Lỗi đọc metadata, ghi kết quả hay tổng hợp nằm
+    ngoài khối bắt lỗi đó, có thể dừng lượt chạy và để lại đầu ra một phần.
+    """
     parser = argparse.ArgumentParser(description="Benchmark PhoWhisper on a fixed manifest")
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/benchmarks"))
@@ -74,6 +102,7 @@ def main() -> None:
     if args.time_stretch_rate <= 0:
         parser.error("--time-stretch-rate must be positive")
 
+    # Kiểm tra đầu vào trước khi tạo thư mục kết quả và nạp checkpoint.
     rows = read_manifest(args.manifest, args.limit)
     missing = [row["audio_path"] for row in rows if not Path(row["audio_path"]).is_file()]
     if missing:
@@ -111,6 +140,7 @@ def main() -> None:
     total_inference_seconds = 0.0
     failures = 0
 
+    # Thời gian từng mẫu gồm tiền xử lý nếu bật, không gồm đọc sf.info phía trước.
     with predictions_path.open("w", encoding="utf-8") as output:
         for index, row in enumerate(rows, start=1):
             audio_path = Path(row["audio_path"])
@@ -160,6 +190,7 @@ def main() -> None:
             }, ensure_ascii=False) + "\n")
             print(f"[{index}/{len(rows)}] {row['id']} - {elapsed:.2f}s", flush=True)
 
+    # RTF dùng thời lượng tệp gốc; hash ghi nhận manifest và checkpoint hiện tại.
     rates = corpus_error_rates(references, hypotheses)
     checkpoint = model_path()
     summary = {
