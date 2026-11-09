@@ -52,10 +52,10 @@ class PilotSmoke(unittest.TestCase):
         provenance = source_provenance()
         self.assertIsNone(provenance['git_revision'])
         self.assertEqual(len(provenance['executed_source_sha256']), 64)
-        self.assertIn('kaggle_training/train.py', provenance['executed_source_files'])
+        self.assertIn('training/kaggle/train.py', provenance['executed_source_files'])
 
     def test_entry_dependency_policy(self):
-        source = build(Path(__file__).resolve().parents[1])
+        source = build(Path(__file__).resolve().parents[2])
         self.assertIn('/kaggle/input/datasets/tuandaodev/viet-bud500-formatted', source)
         self.assertIn("'jiwer==3.0.5'", source)
         self.assertIn('validate_layout(Path(args.root))', source)
@@ -82,11 +82,11 @@ class PilotSmoke(unittest.TestCase):
         train, validation, _ = select(rows, {'audio1251.wav'}, 8, 4, 42)
         self.assertNotIn('audio1251.wav', {r['id'] for r in train + validation})
         self.assertTrue(all(r['speaker'] for r in train + validation))
-        source = build(Path(__file__).resolve().parents[1])
+        source = build(Path(__file__).resolve().parents[2])
         scope = {'__name__': 'artifact_validation'}
         exec(compile(source, 'artifact', 'exec'), scope)
-        self.assertEqual(len(scope['PAYLOAD']['kaggle_training/exclusions/viet_bud500_1000.csv'].splitlines()), 1001)
-        self.assertEqual(len(scope['PAYLOAD']['kaggle_training/exclusions/viet_bud500_dev_250.csv'].splitlines()), 251)
+        self.assertEqual(len(scope['PAYLOAD']['training/kaggle/exclusions/viet_bud500_1000.csv'].splitlines()), 1001)
+        self.assertEqual(len(scope['PAYLOAD']['training/kaggle/exclusions/viet_bud500_dev_250.csv'].splitlines()), 251)
         for name, content in scope['PAYLOAD'].items():
             if name.endswith('.py'):
                 compile(content, name, 'exec')

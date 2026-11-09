@@ -19,9 +19,9 @@ resolution, or guarantee against model pretraining exposure.
 ## Build / local validation
 
 ```bash
-python -m unittest kaggle_training.test_pilot -v
-python -m kaggle_training.build_pilot_source
-python kaggle_training/pilot1000_source.py --verify-only
+PYTHONPATH=.:src python -m unittest training.kaggle.test_pilot -v
+python -m training.kaggle.build_pilot_source
+python training/kaggle/pilot1000_source.py --verify-only
 ```
 
 `pilot1000_source.py` embeds the explicit source allowlist and both complete
@@ -55,7 +55,7 @@ marker alone cannot distinguish provisioning from delayed log publication.
 Create a **new private** Kaggle Python **script** titled `PhoWhisper Pilot1000`,
 slug `phowhisper-pilot1000`, language Python, GPU and Internet enabled, dataset
 `tuandaodev/viet-bud500-formatted` attached. Inject the complete UTF-8 contents of
-`kaggle_training/pilot1000_source.py` as the script source; no checkout/upload
+`training/kaggle/pilot1000_source.py` as the script source; no checkout/upload
 of unpublished code is necessary. Do not edit `hngthiduy/phowhisper2`.
 
 For notebook-type injection, put the source in a single code cell and execute

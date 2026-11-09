@@ -8,9 +8,13 @@ import random
 import re
 import unicodedata
 from pathlib import Path
+import sys
+if __package__ in (None, ''):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import time
 from contextlib import contextmanager
 from datetime import datetime, timezone
+from training.metadata import EpochMetadataCallback
 
 
 class Progress:
@@ -252,6 +256,16 @@ def run(args):
     class OptimizerProgress(StepProgress, TrainerCallback):
         pass
     trainer.add_callback(OptimizerProgress(progress))
+    class EpochCallback(EpochMetadataCallback, TrainerCallback):
+        pass
+    epoch_metadata = EpochCallback(dict(
+        arguments={k: str(v) for k, v in vars(args).items()},
+        training_arguments=options.to_dict(), resolved_revision=revision,
+        resume_from_checkpoint=args.resume or None,
+        manifest_sha256=digest(args.manifest),
+        validation_sha256=digest(args.validation) if args.validation else None))
+    if training:
+        trainer.add_callback(epoch_metadata)
     if args.require_finite_training:
         class FiniteTraining(TrainerCallback):
             def on_pre_optimizer_step(self, args, state, control, model=None, **kwargs):
@@ -272,6 +286,7 @@ def run(args):
         with progress.stage('trainer_train'):
             trainer.train(resume_from_checkpoint=args.resume or None)
         trainer.save_model()
+        epoch_metadata.final_model(args.output, trainer.state)
         trainer.save_state()
     with progress.stage('trainer_prediction'):
         prediction = trainer.predict(validation)

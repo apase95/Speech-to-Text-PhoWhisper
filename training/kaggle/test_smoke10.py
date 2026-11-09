@@ -38,7 +38,7 @@ class Smoke10(unittest.TestCase):
         self.assertFalse({r['speaker'] for r in train} & {r['speaker'] for r in val})
         self.assertNotIn('audio1251.wav', {r['id'] for r in train + val})
         self.assertEqual(select(rows, {'audio1251.wav'}), (train, val))
-        notebook = build(Path(__file__).resolve().parents[1])
+        notebook = build(Path(__file__).resolve().parents[2])
         self.assertEqual(len(notebook['cells']), 7)
         for cell in notebook['cells']:
             compile(''.join(cell['source']), '<cell>', 'exec')

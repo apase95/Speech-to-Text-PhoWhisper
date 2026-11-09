@@ -3825,21 +3825,28 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                                  'audio1250,data/benchmark/viet-bud500/audio/audio1250.wav,đến '
                                                  'mấy thì kết quả vẫn là con số '
                                                  'không,test,e2ec7dda833e25552e853b00785941a29f0b04561dc9e092ae768bc18de9ef35\n',
- 'benchmarks/metrics.py': 'import re\n'
-                          'import unicodedata\n'
+ 'benchmarks/metrics.py': '"""Chuẩn hóa văn bản và đo sai số nhận dạng bằng jiwer.\n'
+                          '\n'
+                          'WER/CER trả tỷ lệ, không phải phần trăm. Chuẩn hóa mặc định giữ dấu tiếng\n'
+                          'Việt và chữ số; hài hòa vị trí dấu thanh là lựa chọn riêng, không tự bật.\n'
+                          '"""\n'
                           '\n'
                           'from jiwer import cer, wer\n'
-                          '\n'
-                          '\n'
-                          'def normalize_vietnamese(text: str) -> str:\n'
-                          '    text = unicodedata.normalize("NFC", text).casefold()\n'
-                          '    text = "".join(" " if unicodedata.category(char).startswith("P") else char '
-                          'for char in text)\n'
-                          '    return re.sub(r"\\s+", " ", text).strip()\n'
+                          'from phowhisper.text.normalization import (\n'
+                          '    TONE_MARKS,\n'
+                          '    harmonize_vietnamese_tone_placement,\n'
+                          '    normalize_vietnamese,\n'
+                          '    normalize_vietnamese_harmonized,\n'
+                          ')\n'
                           '\n'
                           '\n'
                           'def corpus_error_rates(references: list[str], hypotheses: list[str]) -> dict[str, '
                           'float]:\n'
+                          '    """Trả wer/cer toàn corpus sau chuẩn hóa mặc định qua jiwer.\n'
+                          '\n'
+                          '    Hai danh sách phải cùng độ dài và không rỗng, nếu không gây ValueError.\n'
+                          '    Không lấy trung bình các tỷ lệ riêng từng câu.\n'
+                          '    """\n'
                           '    if len(references) != len(hypotheses):\n'
                           '        raise ValueError("References and hypotheses must have the same length")\n'
                           '    if not references:\n'
@@ -3850,31 +3857,185 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                           '    return {\n'
                           '        "wer": wer(normalized_references, normalized_hypotheses),\n'
                           '        "cer": cer(normalized_references, normalized_hypotheses),\n'
+                          '    }\n'
+                          '\n'
+                          '\n'
+                          'def paired_bootstrap_test(\n'
+                          '    references: list[str],\n'
+                          '    hypotheses_a: list[str],\n'
+                          '    hypotheses_b: list[str],\n'
+                          '    n_bootstraps: int = 2000,\n'
+                          '    seed: int = 42,\n'
+                          '    harmonized: bool = False,\n'
+                          ') -> dict[str, float | bool]:\n'
+                          '    """So sánh WER hai hệ thống bằng lấy mẫu lại các cặp câu có hoàn lại.\n'
+                          '\n'
+                          '    Mặc định 2.000 lượt, seed=42, không hài hòa dấu. Danh sách lệch độ dài\n'
+                          '    hoặc rỗng gây ValueError. Mẫu tham chiếu rỗng được tính mẫu số ít nhất\n'
+                          '    một từ. wer_a/wer_b là tỷ lệ; mean_diff và khoảng percentile 95% là\n'
+                          '    chênh lệch B - A theo điểm phần trăm, âm nghĩa là B ít lỗi hơn.\n'
+                          '    p_value là phần lượt có B - A >= 0; cờ ý nghĩa dùng p_value < 0.05,\n'
+                          '    tức kiểm định một phía theo hướng B tốt hơn A, không phải hai phía.\n'
+                          '    """\n'
+                          '    import jiwer\n'
+                          '    import numpy as np\n'
+                          '\n'
+                          '    if not (len(references) == len(hypotheses_a) == len(hypotheses_b)):\n'
+                          '        raise ValueError("References and all hypotheses must have the same '
+                          'length")\n'
+                          '    if not references:\n'
+                          '        raise ValueError("At least one prediction is required")\n'
+                          '\n'
+                          '    norm_fn = normalize_vietnamese_harmonized if harmonized else '
+                          'normalize_vietnamese\n'
+                          '    norm_refs = [norm_fn(r) for r in references]\n'
+                          '    norm_a = [norm_fn(h) for h in hypotheses_a]\n'
+                          '    norm_b = [norm_fn(h) for h in hypotheses_b]\n'
+                          '\n'
+                          '    n = len(norm_refs)\n'
+                          '    ref_lens = np.array([max(1, len(r.split())) for r in norm_refs])\n'
+                          '    errs_a = np.array([\n'
+                          '        jiwer.process_words(r, h).substitutions\n'
+                          '        + jiwer.process_words(r, h).deletions\n'
+                          '        + jiwer.process_words(r, h).insertions\n'
+                          '        for r, h in zip(norm_refs, norm_a)\n'
+                          '    ])\n'
+                          '    errs_b = np.array([\n'
+                          '        jiwer.process_words(r, h).substitutions\n'
+                          '        + jiwer.process_words(r, h).deletions\n'
+                          '        + jiwer.process_words(r, h).insertions\n'
+                          '        for r, h in zip(norm_refs, norm_b)\n'
+                          '    ])\n'
+                          '\n'
+                          '    total_words = float(ref_lens.sum())\n'
+                          '    base_wer_a = float(errs_a.sum()) / total_words\n'
+                          '    base_wer_b = float(errs_b.sum()) / total_words\n'
+                          '\n'
+                          '    rng = np.random.default_rng(seed)\n'
+                          '    indices = rng.integers(0, n, size=(n_bootstraps, n))\n'
+                          '\n'
+                          '    sampled_errs_a = errs_a[indices].sum(axis=1)\n'
+                          '    sampled_errs_b = errs_b[indices].sum(axis=1)\n'
+                          '    sampled_lens = ref_lens[indices].sum(axis=1)\n'
+                          '\n'
+                          '    wer_diffs = ((sampled_errs_b / sampled_lens) - (sampled_errs_a / '
+                          'sampled_lens)) * 100.0\n'
+                          '\n'
+                          '    p_value = float(np.mean(wer_diffs >= 0.0))\n'
+                          '    ci_lower = float(np.percentile(wer_diffs, 2.5))\n'
+                          '    ci_upper = float(np.percentile(wer_diffs, 97.5))\n'
+                          '    mean_diff = float(np.mean(wer_diffs))\n'
+                          '\n'
+                          '    return {\n'
+                          '        "wer_a": base_wer_a,\n'
+                          '        "wer_b": base_wer_b,\n'
+                          '        "mean_diff": mean_diff,\n'
+                          '        "ci_lower": ci_lower,\n'
+                          '        "ci_upper": ci_upper,\n'
+                          '        "p_value": p_value,\n'
+                          '        "statistically_significant": bool(p_value < 0.05),\n'
                           '    }\n',
- 'kaggle_training/__init__.py': '',
- 'kaggle_training/build_pilot_source.py': '"""Build a readable, self-contained Kaggle Python script from an '
+ 'kaggle_training/__init__.py': 'from training import kaggle\n__path__ = kaggle.__path__\n',
+ 'src/__init__.py': '',
+ 'src/phowhisper/__init__.py': '',
+ 'src/phowhisper/text/__init__.py': '',
+ 'src/phowhisper/text/normalization.py': '"""Chuẩn hóa văn bản tiếng Việt; không phụ thuộc mô hình hoặc '
+                                         'benchmark."""\n'
+                                         'import re\n'
+                                         'import unicodedata\n'
+                                         '\n'
+                                         '\n'
+                                         'TONE_MARKS = {"\\u0300", "\\u0301", "\\u0303", "\\u0309", '
+                                         '"\\u0323"}\n'
+                                         '\n'
+                                         '\n'
+                                         'def harmonize_vietnamese_tone_placement(text: str) -> str:\n'
+                                         '    """Chuyển dấu thanh từ nguyên âm đầu sang nguyên âm sau trong '
+                                         'oa/oe/uy.\n'
+                                         '\n'
+                                         '    Xử lý chuỗi NFD rồi trả NFC, ví dụ hòa thành hoà. Đây là phép '
+                                         'đổi mẫu\n'
+                                         '    ký tự cụ thể, không phải bộ kiểm tra chính tả tiếng Việt tổng '
+                                         'quát.\n'
+                                         '    """\n'
+                                         '    nfd = unicodedata.normalize("NFD", text)\n'
+                                         '    chars = list(nfd)\n'
+                                         '    result = []\n'
+                                         '    i = 0\n'
+                                         '    while i < len(chars):\n'
+                                         '        c = chars[i]\n'
+                                         '        if (\n'
+                                         '            i + 2 < len(chars)\n'
+                                         '            and c in ("o", "O")\n'
+                                         '            and chars[i + 1] in TONE_MARKS\n'
+                                         '            and chars[i + 2] in ("a", "e", "A", "E")\n'
+                                         '        ):\n'
+                                         '            result.extend([c, chars[i + 2], chars[i + 1]])\n'
+                                         '            i += 3\n'
+                                         '        elif (\n'
+                                         '            i + 2 < len(chars)\n'
+                                         '            and c in ("u", "U")\n'
+                                         '            and chars[i + 1] in TONE_MARKS\n'
+                                         '            and chars[i + 2] in ("y", "Y")\n'
+                                         '        ):\n'
+                                         '            result.extend([c, chars[i + 2], chars[i + 1]])\n'
+                                         '            i += 3\n'
+                                         '        else:\n'
+                                         '            result.append(c)\n'
+                                         '            i += 1\n'
+                                         '    return unicodedata.normalize("NFC", "".join(result))\n'
+                                         '\n'
+                                         '\n'
+                                         'def normalize_vietnamese_harmonized(text: str) -> str:\n'
+                                         '    """Chuẩn hóa cơ bản rồi hài hòa vị trí dấu thanh oa/oe/uy."""\n'
+                                         '    base = normalize_vietnamese(text)\n'
+                                         '    return harmonize_vietnamese_tone_placement(base)\n'
+                                         '\n'
+                                         '\n'
+                                         'def normalize_vietnamese(text: str) -> str:\n'
+                                         '    """Đưa về NFC/casefold, thay dấu câu Unicode bằng cách và gộp '
+                                         'khoảng trắng.\n'
+                                         '\n'
+                                         '    Không chuyển số thành chữ, không bỏ dấu thanh và không hài hòa '
+                                         'dấu.\n'
+                                         '    """\n'
+                                         '    text = unicodedata.normalize("NFC", text).casefold()\n'
+                                         '    text = "".join(" " if '
+                                         'unicodedata.category(char).startswith("P") else char for char in '
+                                         'text)\n'
+                                         '    return re.sub(r"\\s+", " ", text).strip()\n',
+ 'training/__init__.py': '',
+ 'training/kaggle/__init__.py': '',
+ 'training/kaggle/build_pilot_source.py': '"""Build a readable, self-contained Kaggle Python script from an '
                                           'explicit allowlist."""\n'
                                           'from pprint import pformat\n'
                                           'from pathlib import Path\n'
                                           '\n'
                                           '\n'
                                           'def build(root):\n'
-                                          "    names = ['kaggle_training/train.py', "
-                                          "'kaggle_training/pilot.py',\n"
-                                          "             'kaggle_training/build_pilot_source.py',\n"
-                                          "             'kaggle_training/test_smoke.py', "
-                                          "'kaggle_training/test_pilot.py', 'benchmarks/metrics.py']\n"
+                                          "    names = ['training/metadata.py', 'training/kaggle/train.py', "
+                                          "'training/kaggle/pilot.py',\n"
+                                          "             'training/kaggle/build_pilot_source.py',\n"
+                                          "             'training/kaggle/test_smoke.py', "
+                                          "'training/kaggle/test_pilot.py', 'benchmarks/metrics.py',\n"
+                                          "             'src/phowhisper/text/normalization.py']\n"
                                           "    payload = {name: (root / name).read_text(encoding='utf-8') "
                                           'for name in names}\n'
-                                          "    payload.update({'kaggle_training/__init__.py': '', "
-                                          "'benchmarks/__init__.py': ''})\n"
+                                          "    payload.update({'training/__init__.py': '', "
+                                          "'training/kaggle/__init__.py': '',\n"
+                                          "                    'kaggle_training/__init__.py': 'from training "
+                                          "import kaggle\\n__path__ = kaggle.__path__\\n',\n"
+                                          "                    'benchmarks/__init__.py': '', "
+                                          "'src/__init__.py': '',\n"
+                                          "                    'src/phowhisper/__init__.py': '', "
+                                          "'src/phowhisper/text/__init__.py': ''})\n"
                                           "    for name in ('viet_bud500_1000.csv', "
                                           "'viet_bud500_dev_250.csv'):\n"
-                                          "        payload['kaggle_training/exclusions/' + name] = (\n"
+                                          "        payload['training/kaggle/exclusions/' + name] = (\n"
                                           "            root / 'benchmarks/manifests' / "
                                           "name).read_text(encoding='utf-8')\n"
                                           "        payload['benchmarks/manifests/' + name] = "
-                                          "payload['kaggle_training/exclusions/' + name]\n"
+                                          "payload['training/kaggle/exclusions/' + name]\n"
                                           "    return '''# Generated self-contained PhoWhisper pilot1000; no "
                                           'repository checkout required.\n'
                                           'from datetime import datetime, timezone\n'
@@ -3892,7 +4053,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                           'import importlib.util\n'
                                           '\n'
                                           "class Progress:''' + "
-                                          "payload['kaggle_training/train.py'].split('class Progress:', "
+                                          "payload['training/kaggle/train.py'].split('class Progress:', "
                                           "1)[1].split('\\ndef normalize', 1)[0] + '''\n"
                                           'BOOT = '
                                           "Progress('/kaggle/working/outputs/benchmarks/current-progress.json' "
@@ -3929,13 +4090,13 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                           '                path = root / name\n'
                                           '                path.parent.mkdir(parents=True, exist_ok=True)\n'
                                           "                path.write_text(text, encoding='utf-8')\n"
-                                          '        env = dict(os.environ, PYTHONPATH=str(root), '
-                                          "PYTHONUNBUFFERED='1')\n"
+                                          '        env = dict(os.environ, PYTHONPATH=str(root) + os.pathsep '
+                                          "+ str(root / 'src'), PYTHONUNBUFFERED='1')\n"
                                           "        with BOOT.stage('unittest'):\n"
                                           "            subprocess.run([sys.executable, '-u', '-m', "
                                           "'unittest',\n"
-                                          "                'kaggle_training.test_smoke', "
-                                          "'kaggle_training.test_pilot', '-v'],\n"
+                                          "                'training.kaggle.test_smoke', "
+                                          "'training.kaggle.test_pilot', '-v'],\n"
                                           '                cwd=root, env=env, check=True)\n'
                                           '        if not args.verify_only:\n'
                                           '            # Validate mounted metadata/audio directory before '
@@ -3943,7 +4104,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                           "            with BOOT.stage('layout_validation'):\n"
                                           "                subprocess.run([sys.executable, '-u', '-c',\n"
                                           "                    'from pathlib import Path; from "
-                                          "kaggle_training.pilot import validate_layout; '\n"
+                                          "training.kaggle.pilot import validate_layout; '\n"
                                           "                    'import sys; "
                                           "validate_layout(Path(sys.argv[1]))', args.root], cwd=root, "
                                           'env=env, check=True)\n'
@@ -3955,7 +4116,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                           "'jiwer==3.0.5'], env=env, check=True, timeout=600)\n"
                                           "            with BOOT.stage('pilot_subprocess'):\n"
                                           "                subprocess.run([sys.executable, '-u', '-m', "
-                                          "'kaggle_training.pilot',\n"
+                                          "'training.kaggle.pilot',\n"
                                           "                    '--root', args.root, '--output', "
                                           'args.output], cwd=root, env=env, check=True)\n'
                                           '\n'
@@ -3965,13 +4126,13 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                           '\n'
                                           '\n'
                                           "if __name__ == '__main__':\n"
-                                          '    root = Path(__file__).resolve().parents[1]\n'
+                                          '    root = Path(__file__).resolve().parents[2]\n'
                                           '    source = build(root)\n'
                                           "    compile(source, 'pilot1000_source.py', 'exec')\n"
-                                          "    artifact = root / 'kaggle_training/pilot1000_source.py'\n"
+                                          "    artifact = root / 'training/kaggle/pilot1000_source.py'\n"
                                           "    artifact.write_text(source, encoding='utf-8')\n"
                                           '    print(artifact)\n',
- 'kaggle_training/exclusions/viet_bud500_1000.csv': 'id,audio_path,reference,split,sha256\n'
+ 'training/kaggle/exclusions/viet_bud500_1000.csv': 'id,audio_path,reference,split,sha256\n'
                                                     'audio1,data/benchmark/viet-bud500/audio/audio1.wav,tôi '
                                                     'thì tôi nghĩ rằng là hầu hết tất '
                                                     'cả,test,82bbbf69f4ea48fba2dec4bccb02098a4811f2a6e907ae4c8e884dfeb17e990f\n'
@@ -6977,7 +7138,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                                     'audio1000,data/benchmark/viet-bud500/audio/audio1000.wav,chúng '
                                                     'ta sẽ muốn tăng cường cảm giác '
                                                     'thú,test,1a2062594d01c8503e7a3bc5a2d8d73a2b8839a8f666158d7ce4bcf214f7235b\n',
- 'kaggle_training/exclusions/viet_bud500_dev_250.csv': 'id,audio_path,reference,split,sha256\n'
+ 'training/kaggle/exclusions/viet_bud500_dev_250.csv': 'id,audio_path,reference,split,sha256\n'
                                                        'audio1001,data/benchmark/viet-bud500/audio/audio1001.wav,trái '
                                                        'tim của hoàng phượng đập '
                                                        'thình,test,f85ca64842f751d49a8d4fc7f6fc67b6d6266c67388f3987ef3280668c76c996\n'
@@ -7730,7 +7891,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                                        'audio1250,data/benchmark/viet-bud500/audio/audio1250.wav,đến '
                                                        'mấy thì kết quả vẫn là con số '
                                                        'không,test,e2ec7dda833e25552e853b00785941a29f0b04561dc9e092ae768bc18de9ef35\n',
- 'kaggle_training/pilot.py': '"""Additive, selected-subset-only HF pilot. No corpus audio walk or Kaggle '
+ 'training/kaggle/pilot.py': '"""Additive, selected-subset-only HF pilot. No corpus audio walk or Kaggle '
                              'API."""\n'
                              'import argparse\n'
                              'import csv\n'
@@ -7750,7 +7911,10 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              'from datetime import datetime, timezone\n'
                              'from pathlib import Path\n'
                              '\n'
-                             'from kaggle_training.train import AudioDataset, digest, Progress\n'
+                             "if __package__ in (None, ''):\n"
+                             '    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))\n'
+                             '\n'
+                             'from training.kaggle.train import AudioDataset, digest, Progress\n'
                              '\n'
                              'PROGRESS = Progress()\n'
                              '\n'
@@ -7770,11 +7934,13 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              '\n'
                              '\n'
                              'def source_provenance():\n'
-                             '    root = Path(__file__).resolve().parents[1]\n'
-                             "    names = ('kaggle_training/train.py', 'kaggle_training/pilot.py',\n"
-                             "             'kaggle_training/build_pilot_source.py', "
-                             "'kaggle_training/test_smoke.py',\n"
-                             "             'kaggle_training/test_pilot.py', 'benchmarks/metrics.py')\n"
+                             '    root = Path(__file__).resolve().parents[2]\n'
+                             "    names = ('training/metadata.py', 'training/kaggle/train.py', "
+                             "'training/kaggle/pilot.py',\n"
+                             "             'training/kaggle/build_pilot_source.py', "
+                             "'training/kaggle/test_smoke.py',\n"
+                             "             'training/kaggle/test_pilot.py', 'benchmarks/metrics.py',\n"
+                             "             'src/phowhisper/text/normalization.py')\n"
                              '    hashes = {name: digest(root / name) for name in names}\n'
                              '    aggregate = hashlib.sha256(json.dumps(hashes, '
                              'sort_keys=True).encode()).hexdigest()\n'
@@ -8120,13 +8286,17 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              'predict_timestamps=False)\n'
                              "    exclusions = [Path(__file__).parent / 'exclusions' / name for name in "
                              'EXCLUSIONS]\n'
+                             '    if not all(path.is_file() for path in exclusions):\n'
+                             '        exclusions = [Path(__file__).resolve().parents[2] / '
+                             "'benchmarks/manifests' / name\n"
+                             '                      for name in EXCLUSIONS]\n'
                              "    with PROGRESS.stage('selected_audio_audit'):\n"
                              '        train, validation = prepare(args.root, run, exclusions, processor)\n'
                              "    write(run / 'smoke_train.json', train[:2])\n"
                              "    write(run / 'smoke_validation.json', validation[:2])\n"
                              '    def launch(output, train_manifest, val_manifest, steps, save, resume=None, '
                              'batch=2, accumulation=4):\n'
-                             "        command = [sys.executable, '-u', '-m', 'kaggle_training.train', "
+                             "        command = [sys.executable, '-u', '-m', 'training.kaggle.train', "
                              "'train', '--model', args.model,\n"
                              "            '--revision', revision, '--precision', 'fp32', "
                              "'--require-finite-training',\n"
@@ -8214,7 +8384,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              '\n'
                              "if __name__ == '__main__':\n"
                              '    main()\n',
- 'kaggle_training/test_pilot.py': 'import tempfile\n'
+ 'training/kaggle/test_pilot.py': 'import tempfile\n'
                                   'import unittest\n'
                                   'from pathlib import Path\n'
                                   'from kaggle_training.build_pilot_source import build\n'
@@ -8277,11 +8447,11 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                   '        provenance = source_provenance()\n'
                                   "        self.assertIsNone(provenance['git_revision'])\n"
                                   "        self.assertEqual(len(provenance['executed_source_sha256']), 64)\n"
-                                  "        self.assertIn('kaggle_training/train.py', "
+                                  "        self.assertIn('training/kaggle/train.py', "
                                   "provenance['executed_source_files'])\n"
                                   '\n'
                                   '    def test_entry_dependency_policy(self):\n'
-                                  '        source = build(Path(__file__).resolve().parents[1])\n'
+                                  '        source = build(Path(__file__).resolve().parents[2])\n'
                                   '        '
                                   "self.assertIn('/kaggle/input/datasets/tuandaodev/viet-bud500-formatted', "
                                   'source)\n'
@@ -8318,14 +8488,14 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                   "        self.assertNotIn('audio1251.wav', {r['id'] for r in train + "
                                   'validation})\n'
                                   "        self.assertTrue(all(r['speaker'] for r in train + validation))\n"
-                                  '        source = build(Path(__file__).resolve().parents[1])\n'
+                                  '        source = build(Path(__file__).resolve().parents[2])\n'
                                   "        scope = {'__name__': 'artifact_validation'}\n"
                                   "        exec(compile(source, 'artifact', 'exec'), scope)\n"
                                   '        '
-                                  "self.assertEqual(len(scope['PAYLOAD']['kaggle_training/exclusions/viet_bud500_1000.csv'].splitlines()), "
+                                  "self.assertEqual(len(scope['PAYLOAD']['training/kaggle/exclusions/viet_bud500_1000.csv'].splitlines()), "
                                   '1001)\n'
                                   '        '
-                                  "self.assertEqual(len(scope['PAYLOAD']['kaggle_training/exclusions/viet_bud500_dev_250.csv'].splitlines()), "
+                                  "self.assertEqual(len(scope['PAYLOAD']['training/kaggle/exclusions/viet_bud500_dev_250.csv'].splitlines()), "
                                   '251)\n'
                                   "        for name, content in scope['PAYLOAD'].items():\n"
                                   "            if name.endswith('.py'):\n"
@@ -8346,7 +8516,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                   '\n'
                                   "if __name__ == '__main__':\n"
                                   '    unittest.main()\n',
- 'kaggle_training/test_smoke.py': 'import tempfile\n'
+ 'training/kaggle/test_smoke.py': 'import tempfile\n'
                                   'import unittest\n'
                                   'from pathlib import Path\n'
                                   'from types import SimpleNamespace\n'
@@ -8461,7 +8631,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                   '\n'
                                   "if __name__ == '__main__':\n"
                                   '    unittest.main()\n',
- 'kaggle_training/train.py': '"""Standalone, lazy-audio PhoWhisper training. No inference-runtime '
+ 'training/kaggle/train.py': '"""Standalone, lazy-audio PhoWhisper training. No inference-runtime '
                              'imports."""\n'
                              'import argparse\n'
                              'import csv\n'
@@ -8472,9 +8642,13 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              'import re\n'
                              'import unicodedata\n'
                              'from pathlib import Path\n'
+                             'import sys\n'
+                             "if __package__ in (None, ''):\n"
+                             '    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))\n'
                              'import time\n'
                              'from contextlib import contextmanager\n'
                              'from datetime import datetime, timezone\n'
+                             'from training.metadata import EpochMetadataCallback\n'
                              '\n'
                              '\n'
                              'class Progress:\n'
@@ -8768,6 +8942,17 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              '    class OptimizerProgress(StepProgress, TrainerCallback):\n'
                              '        pass\n'
                              '    trainer.add_callback(OptimizerProgress(progress))\n'
+                             '    class EpochCallback(EpochMetadataCallback, TrainerCallback):\n'
+                             '        pass\n'
+                             '    epoch_metadata = EpochCallback(dict(\n'
+                             '        arguments={k: str(v) for k, v in vars(args).items()},\n'
+                             '        training_arguments=options.to_dict(), resolved_revision=revision,\n'
+                             '        resume_from_checkpoint=args.resume or None,\n'
+                             '        manifest_sha256=digest(args.manifest),\n'
+                             '        validation_sha256=digest(args.validation) if args.validation else '
+                             'None))\n'
+                             '    if training:\n'
+                             '        trainer.add_callback(epoch_metadata)\n'
                              '    if args.require_finite_training:\n'
                              '        class FiniteTraining(TrainerCallback):\n'
                              '            def on_pre_optimizer_step(self, args, state, control, model=None, '
@@ -8796,6 +8981,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              "        with progress.stage('trainer_train'):\n"
                              '            trainer.train(resume_from_checkpoint=args.resume or None)\n'
                              '        trainer.save_model()\n'
+                             '        epoch_metadata.final_model(args.output, trainer.state)\n'
                              '        trainer.save_state()\n'
                              "    with progress.stage('trainer_prediction'):\n"
                              '        prediction = trainer.predict(validation)\n'
@@ -8864,7 +9050,168 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              '\n'
                              '\n'
                              "if __name__ == '__main__':\n"
-                             '    main()\n'}
+                             '    main()\n',
+ 'training/metadata.py': '"""Atomic, lightweight training provenance, without changing save policy."""\n'
+                         'import json\n'
+                         'import math\n'
+                         'import os\n'
+                         'import tempfile\n'
+                         'import uuid\n'
+                         'from datetime import datetime, timezone\n'
+                         'from pathlib import Path\n'
+                         '\n'
+                         '\n'
+                         'def _now():\n'
+                         '    return datetime.now(timezone.utc).isoformat()\n'
+                         '\n'
+                         '\n'
+                         'def _clean(value):\n'
+                         '    if isinstance(value, float) and not math.isfinite(value):\n'
+                         '        return None\n'
+                         '    if isinstance(value, dict):\n'
+                         '        return {str(k): _clean(v) for k, v in value.items()}\n'
+                         '    if isinstance(value, (list, tuple)):\n'
+                         '        return [_clean(v) for v in value]\n'
+                         '    if isinstance(value, Path):\n'
+                         '        return str(value)\n'
+                         '    return value\n'
+                         '\n'
+                         '\n'
+                         'class EpochManifest:\n'
+                         '    """One writer per output directory; callers must enforce process-zero writes.\n'
+                         '\n'
+                         '    Only integral epoch-end events are completed epochs. Saved checkpoints are\n'
+                         '    associated by exact global step, not by nearest epoch or directory name.\n'
+                         '    Repeated events within one invocation are idempotent; resume invocations\n'
+                         '    retain separate provenance. No checkpoint is saved or deleted here.\n'
+                         '    """\n'
+                         '\n'
+                         '    def __init__(self, output, provenance):\n'
+                         '        self.output = Path(output).resolve()\n'
+                         '        self.path = self.output / "epochs.json"\n'
+                         '        self.data = json.loads(self.path.read_text(encoding="utf-8")) if '
+                         'self.path.exists() else {\n'
+                         '            "schema_version": 1, "invocations": [], "epochs": [],\n'
+                         '            "checkpoints": [], "final_models": [],\n'
+                         '        }\n'
+                         '        if self.data["schema_version"] != 1:\n'
+                         '            raise ValueError("Unsupported epoch metadata schema")\n'
+                         '        self.invocation = uuid.uuid4().hex\n'
+                         '        self._metrics = {}\n'
+                         '        self.data["invocations"].append(dict(id=self.invocation, '
+                         'started_at=_now(), provenance=provenance))\n'
+                         '        self.flush()\n'
+                         '\n'
+                         '    def epoch_end(self, epoch, global_step, metrics=None):\n'
+                         '        if epoch is None or not math.isfinite(epoch) or epoch <= 0 or abs(epoch - '
+                         'round(epoch)) > 1e-8:\n'
+                         '            return\n'
+                         '        record = next((r for r in self.data["epochs"] if\n'
+                         '                       (r["invocation"], r["epoch"], r["global_step"]) ==\n'
+                         '                       (self.invocation, round(epoch), global_step)), None)\n'
+                         '        if record is None:\n'
+                         '            self.data["epochs"].append(dict(invocation=self.invocation, '
+                         'epoch=round(epoch),\n'
+                         '                global_step=global_step, timestamp=_now(),\n'
+                         '                metrics={**self._metrics.get(global_step, {}), **(metrics or {})}, '
+                         'checkpoint_steps=[]))\n'
+                         '        elif metrics:\n'
+                         '            record["metrics"].update(metrics)\n'
+                         '        self.flush()\n'
+                         '\n'
+                         '    def observed_metrics(self, global_step, metrics):\n'
+                         '        """Reconcile late evaluation/log events only at their actual step.\n'
+                         '\n'
+                         '        Metrics at other steps are never attributed to an epoch boundary.\n'
+                         '        Callers must supply only observed values, not cumulative log history.\n'
+                         '        """\n'
+                         '        self._metrics.setdefault(global_step, {}).update(metrics)\n'
+                         '        for record in self.data["epochs"]:\n'
+                         '            if record["invocation"] == self.invocation and record["global_step"] '
+                         '== global_step:\n'
+                         '                record["metrics"].update(metrics)\n'
+                         '        self.flush()\n'
+                         '\n'
+                         '    def saved(self, global_step, path):\n'
+                         '        path = Path(path).resolve()\n'
+                         '        if not path.is_dir():\n'
+                         '            raise ValueError("Checkpoint save must be observed after directory '
+                         'creation")\n'
+                         '        if not any(r["invocation"] == self.invocation and r["path"] == str(path)\n'
+                         '                   for r in self.data["checkpoints"]):\n'
+                         '            self.data["checkpoints"].append(dict(invocation=self.invocation,\n'
+                         '                global_step=global_step, path=str(path), timestamp=_now()))\n'
+                         '        self.flush()\n'
+                         '\n'
+                         '    def final_model(self, path, global_step):\n'
+                         '        if not Path(path).exists():\n'
+                         '            raise ValueError("Final model must exist after successful save")\n'
+                         '        self.data["final_models"].append(dict(invocation=self.invocation,\n'
+                         '            path=str(Path(path).resolve()), global_step=global_step, '
+                         'timestamp=_now()))\n'
+                         '        self.flush()\n'
+                         '\n'
+                         '    def flush(self):\n'
+                         '        for checkpoint in self.data["checkpoints"]:\n'
+                         '            checkpoint["exists"] = Path(checkpoint["path"]).is_dir()\n'
+                         '        for epoch in self.data["epochs"]:\n'
+                         '            epoch["checkpoint_steps"] = [r["global_step"] for r in '
+                         'self.data["checkpoints"]\n'
+                         '                if r["invocation"] == epoch["invocation"] and r["global_step"] == '
+                         'epoch["global_step"]]\n'
+                         '        self.output.mkdir(parents=True, exist_ok=True)\n'
+                         '        payload = json.dumps(_clean(self.data), ensure_ascii=False, '
+                         'allow_nan=False, indent=2)\n'
+                         '        fd, temporary = tempfile.mkstemp(prefix=".epochs-", suffix=".tmp", '
+                         'dir=self.output)\n'
+                         '        try:\n'
+                         '            with os.fdopen(fd, "w", encoding="utf-8") as stream:\n'
+                         '                stream.write(payload)\n'
+                         '                stream.flush()\n'
+                         '                os.fsync(stream.fileno())\n'
+                         '            os.replace(temporary, self.path)\n'
+                         '        finally:\n'
+                         '            if os.path.exists(temporary):\n'
+                         '                os.unlink(temporary)\n'
+                         '\n'
+                         '\n'
+                         'class EpochMetadataCallback:\n'
+                         '    """Lightweight mixin; combine with TrainerCallback at the integration '
+                         'boundary."""\n'
+                         '\n'
+                         '    def __init__(self, provenance):\n'
+                         '        self.provenance = provenance\n'
+                         '        self.manifest = None\n'
+                         '\n'
+                         '    def on_train_begin(self, args, state, control, **kwargs):\n'
+                         '        if state.is_world_process_zero:\n'
+                         '            self.manifest = EpochManifest(args.output_dir, self.provenance)\n'
+                         '\n'
+                         '    def on_log(self, args, state, control, logs=None, **kwargs):\n'
+                         '        if state.is_world_process_zero and self.manifest and logs:\n'
+                         '            self.manifest.observed_metrics(state.global_step, logs)\n'
+                         '\n'
+                         '    def on_evaluate(self, args, state, control, metrics=None, **kwargs):\n'
+                         '        self.on_log(args, state, control, logs=metrics)\n'
+                         '\n'
+                         '    def on_epoch_end(self, args, state, control, **kwargs):\n'
+                         '        if state.is_world_process_zero and self.manifest:\n'
+                         '            self.manifest.epoch_end(state.epoch, state.global_step)\n'
+                         '\n'
+                         '    def on_save(self, args, state, control, **kwargs):\n'
+                         '        if state.is_world_process_zero and self.manifest:\n'
+                         '            checkpoint = Path(args.output_dir) / '
+                         "f'checkpoint-{state.global_step}'\n"
+                         '            if checkpoint.is_dir():\n'
+                         '                self.manifest.saved(state.global_step, checkpoint)\n'
+                         '\n'
+                         '    def on_train_end(self, args, state, control, **kwargs):\n'
+                         '        if state.is_world_process_zero and self.manifest:\n'
+                         '            self.manifest.flush()\n'
+                         '\n'
+                         '    def final_model(self, path, state):\n'
+                         '        if state.is_world_process_zero and self.manifest:\n'
+                         '            self.manifest.final_model(path, state.global_step)\n'}
 
 def main():
     BOOT.update('artifact_startup', 'done')
@@ -8887,23 +9234,23 @@ def main():
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(text, encoding='utf-8')
-        env = dict(os.environ, PYTHONPATH=str(root), PYTHONUNBUFFERED='1')
+        env = dict(os.environ, PYTHONPATH=str(root) + os.pathsep + str(root / 'src'), PYTHONUNBUFFERED='1')
         with BOOT.stage('unittest'):
             subprocess.run([sys.executable, '-u', '-m', 'unittest',
-                'kaggle_training.test_smoke', 'kaggle_training.test_pilot', '-v'],
+                'training.kaggle.test_smoke', 'training.kaggle.test_pilot', '-v'],
                 cwd=root, env=env, check=True)
         if not args.verify_only:
             # Validate mounted metadata/audio directory before provisioning or HF access.
             with BOOT.stage('layout_validation'):
                 subprocess.run([sys.executable, '-u', '-c',
-                    'from pathlib import Path; from kaggle_training.pilot import validate_layout; '
+                    'from pathlib import Path; from training.kaggle.pilot import validate_layout; '
                     'import sys; validate_layout(Path(sys.argv[1]))', args.root], cwd=root, env=env, check=True)
             with BOOT.stage('dependency_installation'):
                 if importlib.util.find_spec('jiwer') is None:
                     subprocess.run([sys.executable, '-u', '-m', 'pip', 'install',
                         '--timeout', '60', '--retries', '2', 'jiwer==3.0.5'], env=env, check=True, timeout=600)
             with BOOT.stage('pilot_subprocess'):
-                subprocess.run([sys.executable, '-u', '-m', 'kaggle_training.pilot',
+                subprocess.run([sys.executable, '-u', '-m', 'training.kaggle.pilot',
                     '--root', args.root, '--output', args.output], cwd=root, env=env, check=True)
 
 if __name__ == '__main__':

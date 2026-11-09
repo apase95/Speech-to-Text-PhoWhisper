@@ -26,7 +26,7 @@ corpus validity audit. Decode is bounded to 30 seconds / 12 million sample value
 
 Use a new private slug such as `hngthiduy/phowhisper-diag-cpu-20261015`;
 never modify `hngthiduy/phowhisper2` or the pilot notebook. For an isolated launch
-directory immediately under `kaggle_training`, metadata can be:
+directory immediately under `training/kaggle`, metadata can be:
 
 ```json
 {
@@ -71,9 +71,9 @@ tokens, environment dumps, transcripts, speaker names, or secrets.
 Local checks (stdlib only, no local torch needed):
 
 ```bash
-python -m unittest kaggle_training.test_diagnostic -v
-python -m py_compile kaggle_training/diagnostic.py kaggle_training/test_diagnostic.py
-python kaggle_training/diagnostic.py --stage cpu --heartbeat-test-seconds 6 --output /tmp/opencode/kaggle-diagnostic-local
+python -m unittest training.kaggle.test_diagnostic -v
+python -m py_compile training/kaggle/diagnostic.py training/kaggle/test_diagnostic.py
+python training/kaggle/diagnostic.py --stage cpu --heartbeat-test-seconds 6 --output /tmp/opencode/kaggle-diagnostic-local
 git diff --check
 ```
 

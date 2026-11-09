@@ -17,7 +17,10 @@ from collections import Counter, defaultdict, deque
 from datetime import datetime, timezone
 from pathlib import Path
 
-from kaggle_training.train import AudioDataset, digest, Progress
+if __package__ in (None, ''):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from training.kaggle.train import AudioDataset, digest, Progress
 
 PROGRESS = Progress()
 
@@ -35,10 +38,11 @@ def validate_layout(root):
 
 
 def source_provenance():
-    root = Path(__file__).resolve().parents[1]
-    names = ('kaggle_training/train.py', 'kaggle_training/pilot.py',
-             'kaggle_training/build_pilot_source.py', 'kaggle_training/test_smoke.py',
-             'kaggle_training/test_pilot.py', 'benchmarks/metrics.py')
+    root = Path(__file__).resolve().parents[2]
+    names = ('training/metadata.py', 'training/kaggle/train.py', 'training/kaggle/pilot.py',
+             'training/kaggle/build_pilot_source.py', 'training/kaggle/test_smoke.py',
+             'training/kaggle/test_pilot.py', 'benchmarks/metrics.py',
+             'src/phowhisper/text/normalization.py')
     hashes = {name: digest(root / name) for name in names}
     aggregate = hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()
     return dict(git_revision=None, base_git_revision='b15d7fb0141f385fd4bc6014df915e1c37212467',
@@ -315,12 +319,15 @@ def execute(args, run):
         processor = WhisperProcessor.from_pretrained(args.model, revision=revision, language='vi', task='transcribe')
     processor.tokenizer.set_prefix_tokens(language='vi', task='transcribe', predict_timestamps=False)
     exclusions = [Path(__file__).parent / 'exclusions' / name for name in EXCLUSIONS]
+    if not all(path.is_file() for path in exclusions):
+        exclusions = [Path(__file__).resolve().parents[2] / 'benchmarks/manifests' / name
+                      for name in EXCLUSIONS]
     with PROGRESS.stage('selected_audio_audit'):
         train, validation = prepare(args.root, run, exclusions, processor)
     write(run / 'smoke_train.json', train[:2])
     write(run / 'smoke_validation.json', validation[:2])
     def launch(output, train_manifest, val_manifest, steps, save, resume=None, batch=2, accumulation=4):
-        command = [sys.executable, '-u', '-m', 'kaggle_training.train', 'train', '--model', args.model,
+        command = [sys.executable, '-u', '-m', 'training.kaggle.train', 'train', '--model', args.model,
             '--revision', revision, '--precision', 'fp32', '--require-finite-training',
             '--seed', '42', '--learning-rate', '1e-5',
             '--manifest', str(train_manifest), '--validation', str(val_manifest), '--output', str(output),

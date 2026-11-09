@@ -188,4 +188,4 @@ def build(destination):
 
 
 if __name__ == '__main__':
-    build(Path(__file__).resolve().parents[1] / 'temp_session_kaggle/phowhisper3-setup')
+    build(Path(__file__).resolve().parents[2] / 'temp_session_kaggle/phowhisper3-setup')

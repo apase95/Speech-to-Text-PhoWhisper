@@ -5,8 +5,10 @@ from pathlib import Path
 
 
 def build(root):
-    trainer = (root / 'kaggle_training/train.py').read_text()
-    helper = (root / 'kaggle_training/smoke10.py').read_text()
+    trainer = (root / 'training/kaggle/train.py').read_text()
+    metadata = (root / 'training/metadata.py').read_text()
+    trainer = trainer.replace('from training.metadata import EpochMetadataCallback', metadata)
+    helper = (root / 'training/kaggle/smoke10.py').read_text()
     cells = [
 '''import os, sys, json, time, threading, subprocess, hashlib
 from pathlib import Path
@@ -123,7 +125,7 @@ f'''with stage('emit-trainer'):
 
 
 def main():
-    root = Path(__file__).resolve().parents[1]
+    root = Path(__file__).resolve().parents[2]
     destination = root / 'temp_session_kaggle/phowhisper2-smoke10'
     destination.mkdir(parents=True, exist_ok=True)
     (destination / 'phowhisper2.ipynb').write_text(json.dumps(build(root), ensure_ascii=False, indent=1))

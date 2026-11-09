@@ -13,12 +13,12 @@ không bảo đảm WER tốt hơn. Cần dữ liệu khớp domain và kiểm t
 ## Các cell (repo đặt ở /kaggle/working/phowhisper-pytorch)
 
 Chưa có git URL được xác nhận. Trên máy local, nén riêng thư mục
-`kaggle_training/` thành ZIP (giữ nguyên tên thư mục), upload làm Kaggle Dataset
+`training/` thành ZIP (gồm `metadata.py` và `kaggle/`), upload làm Kaggle Dataset
 riêng rồi Add Input vào notebook. Tạo `/kaggle/working/phowhisper-pytorch` và
 giải nén ZIP vào đó, sao cho có
-`/kaggle/working/phowhisper-pytorch/kaggle_training/train.py`. Không cần upload
+`/kaggle/working/phowhisper-pytorch/training/kaggle/train.py`. Không cần upload
 runtime, weights `.pt` hoặc toàn repo. Nếu upload bốn file không nén, copy chúng
-vào thư mục `kaggle_training/` tại vị trí trên. Dataset code và dataset audio là
+vào thư mục `training/kaggle/` và giữ `training/metadata.py`. Dataset code và dataset audio là
 hai input riêng; thay đường dẫn mount bằng đường dẫn thực tế.
 
 Bật Internet, GPU T4 x2, gắn dataset tuandaodev/viet-bud500-formatted.
@@ -28,7 +28,7 @@ không cần HF token; upload tùy chọn chỉ dùng Kaggle Secrets.
 
 ```bash
 %cd /kaggle/working/phowhisper-pytorch
-!pip install -r kaggle_training/requirements.txt
+!pip install -r training/kaggle/requirements.txt
 ```
 
 **Restart kernel/session sau khi pip install**, rồi chạy lại cell `%cd` và
@@ -38,11 +38,11 @@ kiểm tra GPU trước mọi smoke/model command:
 %cd /kaggle/working/phowhisper-pytorch
 !nvidia-smi
 !python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.device_count()); assert torch.cuda.is_available() and torch.cuda.device_count() == 2"
-!python kaggle_training/train.py inspect --root /kaggle/input/viet-bud500-formatted --output /kaggle/working/inspect
-!python kaggle_training/train.py prepare --root /kaggle/input/viet-bud500-formatted --output /kaggle/working/manifests --train-cap 32 --validation-cap 8
-!python kaggle_training/train.py evaluate --manifest /kaggle/working/manifests/validation.json --output /kaggle/working/baseline
-!CUDA_VISIBLE_DEVICES=0 python kaggle_training/train.py smoke --manifest /kaggle/working/manifests/train.json --validation /kaggle/working/manifests/validation.json --output /kaggle/working/smoke --max-steps 2 --save-steps 1 --batch 1 --accumulation 1
-!CUDA_VISIBLE_DEVICES=0 python kaggle_training/train.py smoke --manifest /kaggle/working/manifests/train.json --validation /kaggle/working/manifests/validation.json --output /kaggle/working/smoke --max-steps 3 --save-steps 1 --batch 1 --accumulation 1 --resume /kaggle/working/smoke/checkpoint-2
+!python training/kaggle/train.py inspect --root /kaggle/input/viet-bud500-formatted --output /kaggle/working/inspect
+!python training/kaggle/train.py prepare --root /kaggle/input/viet-bud500-formatted --output /kaggle/working/manifests --train-cap 32 --validation-cap 8
+!python training/kaggle/train.py evaluate --manifest /kaggle/working/manifests/validation.json --output /kaggle/working/baseline
+!CUDA_VISIBLE_DEVICES=0 python training/kaggle/train.py smoke --manifest /kaggle/working/manifests/train.json --validation /kaggle/working/manifests/validation.json --output /kaggle/working/smoke --max-steps 2 --save-steps 1 --batch 1 --accumulation 1
+!CUDA_VISIBLE_DEVICES=0 python training/kaggle/train.py smoke --manifest /kaggle/working/manifests/train.json --validation /kaggle/working/manifests/validation.json --output /kaggle/working/smoke --max-steps 3 --save-steps 1 --batch 1 --accumulation 1 --resume /kaggle/working/smoke/checkpoint-2
 ```
 
 Xem metrics/errors, kiểm tra audio/nhãn và việc bước tiếp theo thật sự là 3.
@@ -60,16 +60,16 @@ trùng byte với official test và exposure trong pretraining chưa được lo
 Để mở cap: `--train-cap 0 --validation-cap 0`; chưa nên làm ở pilot đầu.
 
 ```bash
-!python kaggle_training/train.py prepare --root /kaggle/input/viet-bud500-formatted --output /kaggle/working/pilot-manifests --train-cap 2000 --validation-cap 100
-!python kaggle_training/train.py evaluate --manifest /kaggle/working/pilot-manifests/validation.json --output /kaggle/working/pilot-baseline
+!python training/kaggle/train.py prepare --root /kaggle/input/viet-bud500-formatted --output /kaggle/working/pilot-manifests --train-cap 2000 --validation-cap 100
+!python training/kaggle/train.py evaluate --manifest /kaggle/working/pilot-manifests/validation.json --output /kaggle/working/pilot-baseline
 ```
 
 Đọc `resolved_revision` trong `pilot-baseline/run.json`, gán vào biến notebook
 `PILOT_REVISION = "<SHA thực tế>"` (không dùng chuỗi placeholder). Sau đó:
 
 ```bash
-!torchrun --standalone --nproc_per_node=2 kaggle_training/train.py train --revision {PILOT_REVISION} --manifest /kaggle/working/pilot-manifests/train.json --validation /kaggle/working/pilot-manifests/validation.json --output /kaggle/working/pilot --max-steps 200 --save-steps 50 --batch 2 --accumulation 4
-!python kaggle_training/train.py evaluate --model /kaggle/working/pilot --manifest /kaggle/working/pilot-manifests/validation.json --output /kaggle/working/post-validation
+!torchrun --standalone --nproc_per_node=2 training/kaggle/train.py train --revision {PILOT_REVISION} --manifest /kaggle/working/pilot-manifests/train.json --validation /kaggle/working/pilot-manifests/validation.json --output /kaggle/working/pilot --max-steps 200 --save-steps 50 --batch 2 --accumulation 4
+!python training/kaggle/train.py evaluate --model /kaggle/working/pilot --manifest /kaggle/working/pilot-manifests/validation.json --output /kaggle/working/post-validation
 ```
 
 DDP thật: hai T4 16GB không thành một GPU 32GB. Batch hiệu dụng = batch mỗi
@@ -83,6 +83,10 @@ Audio rỗng/nonfinite/>30s hoặc transcript quá dài gây lỗi, không cắt
 và tạo lại manifest nếu lỗi; không bỏ qua lỗi trong trainer.
 
 ## Ngân sách và checkpoint
+
+Metadata epoch được tự động ghi vào `epochs.json` bởi process zero, độc lập với
+save policy. Xem [schema, exact-step metrics và resume provenance](../../docs/architecture.md#metadata-epoch).
+Epoch hoàn tất có thể không có checkpoint; không tự tạo WER cho mỗi epoch.
 
 Đo pilot sau warm-up (bỏ 5–10 optimizer steps đầu), đo thời gian mỗi optimizer
 step và toàn bộ validation/save riêng. Ước lượng:
@@ -119,9 +123,9 @@ HF/OpenAI trên audio cố định là công việc riêng bắt buộc trước
 
 Local checks không tải model:
 ```bash
-python -m unittest kaggle_training.test_smoke -v
-python -m py_compile kaggle_training/train.py kaggle_training/test_smoke.py
-python -m unittest discover -s tests -v
+python -m unittest training.kaggle.test_smoke -v
+python -m py_compile training/kaggle/train.py training/kaggle/test_smoke.py
+python -m unittest discover -s training/kaggle -v
 ```
 Không coi unit tests là bằng chứng chất lượng ASR hoặc tương thích Kaggle.
 Các lệnh smoke huấn luyện, GPU/DDP và resume ở trên **chưa được thực thi**.
