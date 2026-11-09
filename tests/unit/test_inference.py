@@ -5,6 +5,10 @@ from src import inference
 
 
 class InferenceTests(unittest.TestCase):
+    def setUp(self):
+        # Regression tests may have populated the shared canonical loader cache.
+        inference.get_model.cache_clear()
+
     def tearDown(self):
         inference.get_model.cache_clear()
 

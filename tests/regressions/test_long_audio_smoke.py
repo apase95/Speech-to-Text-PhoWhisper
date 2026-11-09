@@ -5,7 +5,7 @@ import tempfile
 from types import SimpleNamespace
 from unittest.mock import patch
 
-PATH = pathlib.Path(__file__).resolve().parents[1] / 'tools/long_audio_benchmark.py'
+PATH = pathlib.Path(__file__).resolve().parents[2] / 'benchmarks/runners/long_audio_benchmark.py'
 
 
 class Smoke(unittest.TestCase):
@@ -145,7 +145,7 @@ class Smoke(unittest.TestCase):
         class HTTP(m.BudgetHTTP):
             def get(self, url, token=None):
                 # Both splits have the same first transcript: must skip test a.
-                return b'1\ta.wav\traw\tshared\n2\tb.wav\traw\tunique test\n'
+                return b'1\ta.wav\traw\tshared\ts h a r e d |\t336000\tMALE\n2\tb.wav\traw\tunique test\tu n i q u e |\t128000\tFEMALE\n'
         with tempfile.TemporaryDirectory() as tmp:
             rows = []
             with patch.object(m, 'safe_urlopen', side_effect=lambda *a, **k: io.BytesIO(payload.getvalue())), \
