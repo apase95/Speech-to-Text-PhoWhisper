@@ -1,5 +1,16 @@
 # PhoWhisper + GPT-2: Nhật Ký Nâng Cấp & Tối Ưu Hóa
 
+## Hiện tại — 2026-11-10
+
+Official small mặc định theo quyết định người dùng; base archive cục bộ có kiểm
+tra hash. Xem [migration](model-migration-small.md) và
+[số đo small mới](../reports/phowhisper-small-public-modes-vietbud500-20261110.md).
+Runtime là OpenAI Whisper Python/PyTorch. Public fast giữ temperature fallback;
+rescore chỉ cửa sổ đầu 30 giây. Không áp số VRAM/chất lượng cũ dưới đây cho small.
+Normalization chấm điểm không đồng nghĩa ép dấu thanh lên output.
+
+## Nhật ký base lịch sử — trước promotion, không phải cam kết hiện tại
+
 Đây là nhật ký kết quả lịch sử, không phải lần đo mới. Xem [kiến trúc hiện tại](architecture.md),
 [usage](usage.md) và [chỉ mục báo cáo đã di chuyển](../benchmarks/README.md).
 

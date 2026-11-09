@@ -1,269 +1,164 @@
-<div align="center">
+# PhoWhisper-small + GPT-2 — nhận dạng tiếng Việt
 
-# 🎙️ PhoWhisper + GPT-2
+Runtime **OpenAI Whisper Python/PyTorch**, checkpoint chính thức
+`vinai/PhoWhisper-small` revision `a86b604c346caf7148c37512eafe783a16420adb`.
+Không phải C++, faster-whisper hay GGML. Không cần fine-tune để sử dụng.
+Small là mặc định từ 2026-11-10 theo quyết định người dùng sau nhận xét định tính
+và số đo; không phải tuyên bố gate base/small lịch sử đã đạt.
 
-### High-Performance Native PyTorch Vietnamese Speech-to-Text with Conservative LM Rescoring & Dynamic Confidence Gating
+- **Fast mặc định:** Whisper `transcribe`, giữ temperature fallback, không tải LM.
+- **Rescore tùy chọn:** beam 5 + gate âm học + GPT-2 chọn trong N-best;
+  không sinh câu sửa mới, không bảo đảm luôn đúng hơn.
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![WER](https://img.shields.io/badge/WER-8.07%25%20(Holdout%20500)-brightgreen.svg)](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark)
-[![Exact Match](https://img.shields.io/badge/Exact%20Match-51.4%25-success.svg)](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark)
-[![VRAM](https://img.shields.io/badge/VRAM-~560%20MB-blueviolet.svg)](#-hi%E1%BB%87u-n%C4%83ng-t%E1%BB%91i-%C6%B0u-vram--t%E1%BB%91c-%C4%91%E1%BB%99)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+> **Audio dài:** public `--rescore`/`rescore=True` chỉ xử lý **30 giây đầu**.
+> API/UI không tự chia toàn bộ bản ghi. Fast có luồng Whisper cho audio dài;
+> dùng runner phân đoạn bên dưới để so sánh hai mode trên cả bản ghi.
 
-**PhoWhisper + GPT-2** là hệ thống nhận dạng tiếng nói tiếng Việt (ASR) hiệu năng cao, kết hợp mô hình nhận dạng âm học **PhoWhisper** và mô hình sinh ngôn ngữ **GPT-2 tiếng Việt**. Hệ thống chuyển đổi toàn bộ runtime sang **Native OpenAI Whisper C++/CUDA PyTorch**, kết hợp cơ chế tái xếp hạng chùm tia **Conservative N-best Language Model Rescoring** (hỗ trợ cả **GPT-2** và **PhoBERT**), màng chắn bảo vệ âm học **Acoustic Safety Margin ($\gamma$)**, và cơ chế ngắt sớm thông minh **Dynamic Acoustic Confidence Gating ($\theta$)**.
+## Cài đặt và model
 
-[🚀 Cài Đặt Nhanh](#-c%C3%A0i-%C4%91%E1%BA%B7t) • [📊 Điểm Số Benchmark](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark) • [💻 Hướng Dẫn Sử Dụng](#-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-s%E1%BB%AD-d%E1%BB%A5ng) • [📖 Tài Liệu Chi Tiết](docs/usage.md) • [⚖️ So Sánh Toàn Diện](docs/comparison.md)
+Core Python >=3.10 theo metadata; benchmark hiện cần >=3.11 (`datetime.UTC`).
+Cần FFmpeg trên PATH. Môi trường đã đo: Linux, Python 3.14.8,
+torch 2.14.1+cu130, Whisper 20250625, RTX 3050 Laptop 4GB; không phải lock mọi máy.
 
-</div>
-
----
-
-## 💡 Cơ Chế Hoạt Động Của PhoWhisper + GPT-2
-
-> [!NOTE]
-> **Mục tiêu kỹ thuật:** Trong xử lý tiếng nói tiếng Việt, mô hình âm học thuần túy (như PhoWhisper) dễ gặp các lỗi thay thế từ đồng âm, gần âm hoặc sai dấu thanh ở các từ hiếm. 
-> 
-> Hệ thống kết hợp mô hình âm học với **Causal Transformer Language Model (GPT-2 tiếng Việt)** theo cơ chế chùm tia 5-best:
-> - **PhoWhisper:** Trích xuất đặc trưng âm học và tạo ra 5 giả thuyết tiềm năng nhất (N-best candidates).
-> - **GPT-2:** Đánh giá mức độ tự nhiên, đúng ngữ pháp và tính tương thích ngữ cảnh câu tiếng Việt.
-> - **Acoustic Safety Margin ($\gamma = -0.20$):** Ràng buộc khoảng cách âm học nhằm ngăn LM hoán đổi sang candidate khác nếu điểm âm học của nó quá xa rời Top-1 Whisper.
-> - **Dynamic Confidence Gating ($\theta = -0.020$):** Tự động bỏ qua GPT-2 trên ~30% câu thoại mà PhoWhisper đã giải mã tự tin, vừa tăng tốc độ xử lý vừa giảm thiểu lỗi mất từ (deletion).
-
----
-
-## ⚡ Các Chỉ Số Đánh Giá (Key Metrics)
-
-> [!TIP]
-> Toàn bộ các kết quả dưới đây được kiểm chứng độc lập trên tập **Viet-BUD500** thông qua kiểm định thống kê **Paired Bootstrap Test ($N=2.000$ resamples, $p = 0.00000$)** đảm bảo **Zero Data Leakage**.
-
-```text
-┌───────────────────────────────────────────────────────────────────────────────────────────┐
-│  📊 WER TRÊN HOLDOUT 500 (UNSEEN)    :  8.07% (Giảm -17.4% tương đối so với Base)         │
-│  🎯 EXACT MATCH (ĐÚNG HOÀN TOÀN 100%):  50.0% – 51.4% (Hơn 1/2 số câu chuẩn 100%)         │
-│  ⚡ TIÊU THỤ VRAM                    :  ~560 MB (Giảm 70% VRAM so với HuggingFace)         │
-│  🚀 TỐC ĐỘ XỬ LÝ (RTF)               :  ~0.18x – 0.25x (Nhanh gấp 4x–5x thời gian thực)   │
-│  🛡️ TIẾT KIỆM LM NHỜ DYNAMIC GATING  :  29.4% số câu không cần LM (Tiết kiệm ~30% compute)│
-│  🔒 BẢO TOÀN TỪ NGỮ PHỦ ĐỊNH         :  100% từ "không, chưa, chẳng" không bị mất         │
-└───────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📊 Bảng So Sánh Hiệu Năng & Độ Chính Xác
-
-Đối chiếu giữa **PhoWhisper Hugging Face gốc**, chế độ **Fast Mode (Greedy)**, và giải pháp hoàn chỉnh **PhoWhisper + GPT-2**:
-
-| Tiêu chí Đánh giá | PhoWhisper Gốc (Hugging Face) | PhoWhisper Fast (Greedy) | **PhoWhisper + GPT-2 (Accurate Mode)** | PhoBERT Challenger (Accurate Mode) |
-|:---|:---:|:---:|:---:|:---:|
-| **Thuật toán Decoding** | Greedy (có timestamps) | Greedy (`without_timestamps`) | **Beam 5 + GPT-2 Gated** | **Beam 5 + PhoBERT PLL Gated** |
-| **WER trên Test 1.000** | 41.78% *(vỡ timestamp)* | 10.49% | **8.33%** *(Harmonized: **8.27%**)* | **8.29%** *(Harmonized: **8.20%**)* |
-| **WER trên Holdout 500 (Unseen)** | — | 9.77% | **8.07%** *(Harmonized: **8.02%**)* | **8.48%** *(Harmonized: **8.40%**)* |
-| **Tỷ lệ Đúng 100% (Exact Match)** | 42.7% | 45.1% | **51.4% (Test) / 50.0% (Holdout)** | **51.3% (Test) / 48.4% (Holdout)** |
-| **Lỗi thay thế sai (Substitutions)** | 678 | 670 | **491 (Test) / 264 (Holdout)** | **508 (Test) / 286 (Holdout)** |
-| **Tỷ lệ Bỏ qua LM (Dynamic Gating)** | 0.0% | N/A (Không dùng LM) | **29.4% (Test) / 25.4% (Holdout)** | **29.4% (Test) / 25.4% (Holdout)** |
-| **VRAM tiêu thụ** | ~2.800 MB | **~560 MB** | **~850 MB** | **~690 MB** |
-| **Tốc độ (RTF)** | ~0.55x | **~0.20x** (Nhanh gấp 5x) | **~0.25x** (Nhanh gấp 4x) | **~0.30x** (Nhanh gấp 3.3x) |
-| **Thời gian LM trung bình** | N/A | 0.0 ms | **~4.1 ms / câu** | **~47.9 ms / câu** |
-| **Runtime Dependency** | Nặng (`transformers`, HF Hub) | **Siêu nhẹ (Native PyTorch)** | Tùy chọn (`transformers`) | Tùy chọn (`transformers`, `pyvi`) |
-
----
-
-## 🏗️ Kiến Trúc Quy Trình Xử Lý (Pipeline Architecture)
-
-Hệ thống kết hợp bộ đôi ASR âm học và mô hình ngôn ngữ theo quy trình chuẩn hóa:
-
-```mermaid
-graph TD
-    Audio["Âm thanh đầu vào (WAV / MP3)"] --> Pre["Tiền xử lý và Time-Stretch WSOLA"]
-    Pre --> Mel["extract_standard_mel (Reflect padding)"]
-    Mel --> Enc["Whisper Audio Encoder (FP16 Native CUDA)"]
-    Enc --> Dec["NBestDecodingTask (Beam Search = 5)"]
-    Dec --> NBest["5-Best Hypotheses (Normalized text và avg_logprob)"]
-    
-    NBest --> Gate{"Dynamic Acoustic Confidence Gate: avg_logprob >= -0.020"}
-    
-    Gate -->|"Tự tin cao (25% - 30% mẫu)"| FastOut["Bỏ qua LM, xuất ngay Top-1 (Tiết kiệm 100% compute LM)"]
-    Gate -->|"Cần tinh chỉnh (Câu khó, lướt âm)"| LM["Chấm điểm Language Model (GPT-2 hoặc PhoBERT PLL)"]
-    
-    LM --> Safety["Lọc biên an toàn: (avg_lp - top1_ac) >= -0.20"]
-    Safety --> Objective["Tối ưu hàm mục tiêu Score"]
-    Objective --> BestCand["Chọn ứng viên N-best tối ưu nhất"]
-    
-    FastOut --> Harm["Chuẩn hóa chính tả và dấu thanh (Tone Harmonization)"]
-    BestCand --> Harm
-    Harm --> Final["Transcript tiếng Việt chuẩn hóa"]
-```
-
----
-
-## 🌟 Tính Năng Cốt Lõi (Key Features)
-
-### 1. Native PyTorch Whisper Runtime (Không phụ thuộc Hugging Face)
-- Chuyển đổi trực tiếp trọng số từ `safetensors`/`bin` của PhoWhisper sang định dạng native `.pt`.
-- Chạy trực tiếp trên engine C++/CUDA của OpenAI Whisper, giảm **70% VRAM** (chỉ tốn ~560 MB) và khởi động chỉ trong 1.2 giây.
-
-### 2. Conservative N-best Language Model Rescoring
-- Tái xếp hạng chùm tia 5-best bằng mô hình ngôn ngữ tiếng Việt chuyên biệt (`NlpHUST/gpt2-vietnamese` hoặc `vinai/phobert-base-v2`).
-- **Acoustic Safety Margin ($\gamma = -0.20$):** Ràng buộc khoảng cách âm học không cho phép LM hoán đổi sai nếu ứng viên đó có điểm âm học quá xa rời so với Top-1 Whisper.
-- Khóa cứng siêu tham số tối ưu qua **5-Fold Cross Validation trên Dev 250**:
-  ```text
-  Score = ASR_logprob + 0.200 * LM_logprob - 0.020 * Word_Count
-  ```
-
-### 3. Dynamic Acoustic Confidence Gating (Ngắt Điểm Âm Học Động)
-- Khi Whisper có điểm âm học `avg_logprob(c_1) >= -0.020`, hệ thống tự động nhận diện đây là câu thoại rõ ràng và **ngắt sớm, không gọi mô hình ngôn ngữ**.
-- Giúp **tiết kiệm gần 30% thời gian chạy LM**, giảm lỗi Deletion và đạt **0.0% tỷ lệ xóa nhầm từ phủ định** (`không, chưa, chẳng, đâu`).
-
-### 4. Hỗ trợ PhoBERT Challenger (Bidirectional Masked LM)
-- Tích hợp công thức chấm điểm xác suất giả định **Pseudo-Log-Likelihood (PLL)** dạng khối vector (`chunked masking batch size = 16`).
-- Tận dụng ngữ cảnh hai chiều đầy đủ, giữ câu dài và đạt số lượng lỗi Deletion thấp nhất trong tất cả các bộ rescorer (chỉ 137 lỗi).
-
-### 5. Time-Stretching WSOLA cho giọng nói nhanh / nuốt âm
-- Tích hợp thuật toán co giãn thời gian không làm đổi cao độ giọng (`--time-stretch-rate`), giúp phục hồi chính xác các đoạn hội thoại nói lướt hoặc quá nhanh.
-
----
-
-## 🚀 Cài Đặt (Installation)
-
-### 1. Yêu cầu hệ thống
-- **Python**: 3.10 trở lên.
-- **FFmpeg**: Cần thiết để đọc audio và xử lý time-stretching.
-  ```bash
-  # Ubuntu / Debian:
-  sudo apt-get update && sudo apt-get install -y ffmpeg
-
-  # macOS (Homebrew):
-  brew install ffmpeg
-  ```
-
-### 2. Cài đặt môi trường Python
 ```bash
-# Clone repository
 git clone https://github.com/apase95/Speech-to-Text-PhoWhisper.git
 cd Speech-to-Text-PhoWhisper
-
-# Tạo môi trường ảo
 python3 -m venv .venv
 source .venv/bin/activate
-
-# Cài đặt thư viện
 pip install -e .
-
-# (Khuyến nghị) Cài đặt transformers nếu muốn dùng Accurate LM Rescoring:
-pip install -e '.[rescore]'
-# Web UI / chuyển đổi checkpoint (tùy chọn):
-pip install -e '.[web,conversion]'
+# Extras tùy nhu cầu:
+pip install -e '.[rescore,web,conversion]'
+python scripts/convert/convert_phowhisper.py --download \
+  --model-id vinai/PhoWhisper-small \
+  --revision a86b604c346caf7148c37512eafe783a16420adb \
+  --output models/phowhisper-small.pt
 ```
 
-### 3. Tải và chuyển đổi Checkpoint tự động
-Tải trọng số gốc từ Hugging Face và chuyển sang native PyTorch `.pt` chỉ bằng một câu lệnh:
-```bash
-python scripts/convert/convert_phowhisper.py --download
-```
-File trọng số tối ưu sẽ được lưu tại `models/phowhisper-base.pt`.
+Converter tải config/weights cùng revision, kiểm tra keys/shapes, ghi provenance;
+không ghi đè output không được xác minh. Clone mới không cần activation archive.
+Package không chứa weights/data. Default path theo cwd là `models/phowhisper-small.pt`;
+override bằng `PHOWHISPER_MODEL_PATH`, restart worker khi đổi model vì loader cache.
 
----
-
-## 💻 Hướng Dẫn Sử Dụng (Quickstart)
-
-### 1. Sử dụng qua dòng lệnh (CLI)
-
-Namespace chuẩn mới là `phowhisper`; trước khi cài package dùng
-`PYTHONPATH=src python -m phowhisper.cli --help`. Sau `pip install -e .`,
-dùng `phowhisper --audio path/to/audio.wav`. Xem
-[trạng thái migration và cây thư mục thực tế](docs/architecture.md).
+## CLI, Python, web
 
 ```bash
-# 1. Chế độ Mặc định (Fast Mode - Siêu tốc, chỉ ~560MB VRAM):
-phowhisper --audio path/to/audio.wav
-
-# 2. Chế độ Chính xác cao (Accurate Mode - Beam 5 + GPT-2 Gated Rescoring):
-phowhisper --audio path/to/audio.wav --rescore
-
-# 3. Chế độ Nhận dạng giọng nói nhanh / lướt âm (giảm 10% tốc độ bằng WSOLA):
-phowhisper --audio path/to/audio.wav --time-stretch-rate 0.9 --rescore
-
-# 4. Tùy chỉnh kích thước Beam và Ngưỡng ngắt LM động:
-phowhisper --audio path/to/audio.wav --rescore --beam-size 5 --confidence-threshold -0.020
+phowhisper --audio audio.wav
+# Rescore trực tiếp chỉ dành cho đoạn <=30 giây:
+phowhisper --audio short.wav --rescore
+phowhisper --audio short.wav --rescore --beam-size 5 --confidence-threshold -0.020
+# Chỉnh tốc độ tùy chọn, không bảo đảm tăng chất lượng:
+phowhisper --audio short.wav --time-stretch-rate 0.9
 ```
-
-### 2. Sử dụng qua Python API
 
 ```python
 from phowhisper.pipeline import transcribe
-
-# 1. Nhận dạng nhanh (Mặc định):
-text_fast = transcribe("audio.wav")
-print("Fast Transcript:", text_fast)
-
-# 2. Nhận dạng chính xác cao (Accurate Rescoring với Dynamic Gating):
-text_accurate = transcribe("audio.wav", rescore=True)
-print("Accurate Transcript:", text_accurate)
-
-# 3. Nhận dạng giọng nói nhanh kèm rescoring:
-text_stretched = transcribe("fast_audio.wav", time_stretch_rate=0.9, rescore=True)
-print("Stretched Transcript:", text_stretched)
+text = transcribe("audio.wav")
+text_rescored = transcribe("short.wav", rescore=True)
 ```
-
-### 3. Giao diện Web Trực Quan (Gradio Web UI)
-
-Khởi động giao diện web hỗ trợ kéo thả file WAV, ghi âm microphone trực tiếp và xem biểu đồ phổ âm thanh (Log-Mel Spectrogram):
 
 ```bash
 PYTHONPATH=src python -m app.web.app
 ```
-Mở trình duyệt tại: `http://localhost:7860`.
 
----
+Web tại `http://localhost:7860`, dùng WAV theo đường vào đã kiểm tra; checkbox
+rescore có cùng giới hạn 30 giây, không tự segment audio dài.
 
-## 🧪 Kiểm Thử Tự Động (Automated Testing)
-
-Dự án sở hữu bộ kiểm thử tự động toàn diện bao gồm: Kiểm thử hồi quy tương đương (Pipeline Parity Regression Test), kiểm thử Logic Rescoring, Dynamic Gating, và Mock Inference:
+So sánh bản ghi dài trên cùng mảnh **28 giây độc lập** (cần CUDA, checkpoint và
+LM pinned đã cache theo [benchmark guide](benchmarks/README.md)):
 
 ```bash
-python -m unittest discover tests -v
+PYTHONPATH=.:src python -m benchmarks.runners.compare_personal_small \
+  --audio recording.m4a --output-dir outputs/benchmarks/personal-small-new
 ```
-Tests được phân nhóm tại `tests/unit`, `tests/integration`, `tests/regressions`.
-Kết quả kiểm tra cuối do controller báo riêng; không suy ra chất lượng ASR từ unit tests.
 
----
+Không giữ ngữ cảnh chéo đoạn. Shared decode/canonicalization, load và warmup
+không nằm trong thời gian inference từng mode.
 
-## 📚 Hệ Thống Tài Liệu Kỹ Thuật (Documentation)
+## Số đo small thực tế
 
-Dự án duy trì hệ thống tài liệu và báo cáo kiểm chứng phương pháp luận minh bạch, chi tiết:
+### Viet-BUD500: cùng holdout 500 mẫu, 1.300,656 giây audio
 
-- ⚖️ **[So Sánh Toàn Diện Mô Hình (comparison.md)](docs/comparison.md)**: Đối chiếu chi tiết kiến trúc, quy trình, mô hình và kết quả thực nghiệm trên 3 tập dữ liệu.
-- 📝 **[Nhật Ký Nâng Cấp & Tối Ưu (upgrade.md)](docs/upgrade.md)**: Tổng kết 13 cải tiến kỹ thuật so với bản PhoWhisper gốc.
-- 📖 **[Hướng Dẫn Sử Dụng Chi Tiết (usage.md)](docs/usage.md)**: Cẩm nang chi tiết cho lập trình viên và người dùng cuối.
-- 📊 **[Báo Cáo Kiểm Chứng Holdout 500 (holdout-report.md)](outputs/viet-bud500-holdout-validation-report.md)**: Xác thực độc lập trên 500 mẫu âm thanh mới (WER đạt 8.07%, $p=0.00000$).
-- 🛡️ **[Báo Cáo Dynamic Acoustic Confidence Gating](outputs/dynamic-acoustic-confidence-gating-report.md)**: Khảo sát ngưỡng $\theta$, tiết kiệm 30% tài nguyên và giảm thiểu lỗi Deletion.
-- 🔬 **[Báo Cáo Phân Tích Tách Biệt LM vs. Acoustic Gate](outputs/matched-rescoring-disentanglement-report.md)**: Bóc tách vai trò của mô hình ngôn ngữ và biên an toàn âm học $\gamma$.
+| Chỉ số | Small fast public | Small + GPT-2 rescore |
+|---|---:|---:|
+| WER | 9,4854% | 7,8500% |
+| CER | 6,4873% | 5,8158% |
+| Exact match sau normalization | 47,8% | 52,0% |
+| Inference | 242,563 s | 574,352 s |
+| RTF (thấp hơn tốt hơn) | 0,18649 | 0,44159 |
+| Median / p95 latency | 0,436 / 0,690 s | 1,158 / 1,526 s |
+| Word S / D / I | 271 / 60 / 104 | 195 / 80 / 85 |
 
----
+Đủ 500/500 mỗi mode, không lỗi. WER giảm 1,6354 điểm phần trăm nhưng deletion
+**tăng 60 → 80**. Gate bỏ LM ở 253/500 (50,6%), không suy rộng sang dữ liệu khác.
+Bootstrap 2.000 lần, seed 42: 95% CI B−A [-2,6666; -0,6954] điểm phần trăm;
+0/2.000 resample không âm không có nghĩa xác suất bằng không. Cohort local này
+đã từng đánh giá, không hoàn toàn mới hay bảo đảm không trùng upstream training.
 
-## 🔗 Mô Hình Nền Tảng & Liên Kết (Foundation Models)
+Peak CUDA allocated sau warmup: **1.118.336.512 / 1.635.197.440 bytes**;
+reserved: **2.128.609.280 / 2.254.438.400 bytes** (fast/rescore).
+Peak allocated khi load: 1.936.234.496 bytes cả hai mode. Đây là allocator
+PyTorch, không phải toàn VRAM nvidia-smi. Đã chạy batch 1 trên GPU 4GB;
+chưa chứng minh concurrency, CPU throughput hay giảm 70% bộ nhớ so với HF-small.
 
-Dự án kế thừa và kết hợp 2 mô hình nền tảng:
+[Báo cáo, protocol và giới hạn](reports/phowhisper-small-public-modes-vietbud500-20261110.md)
+• [JSON curated](configs/evaluations/phowhisper-small-public-modes-vietbud500.json)
 
-| Mô hình | Nền tảng | Liên kết chính thức |
-|:---|:---:|:---|
-| **PhoWhisper-base** *(VinAI Research)* | 🤗 Hugging Face | [huggingface.co/vinai/phowhisper-base](https://huggingface.co/vinai/phowhisper-base) |
-| | 🐙 GitHub | [github.com/VinAIResearch/PhoWhisper](https://github.com/VinAIResearch/PhoWhisper) |
-| **GPT-2 Vietnamese** *(NlpHUST)* | 🤗 Hugging Face | [huggingface.co/NlpHUST/gpt2-vietnamese](https://huggingface.co/NlpHUST/gpt2-vietnamese) |
-| | 🐙 GitHub | [github.com/bino282/ViNLP](https://github.com/bino282/ViNLP) *(Tác giả: [bino282](https://github.com/bino282))* |
+### VietMed100 và audio cá nhân
 
----
+| Tập / mode small | WER | CER | RTF |
+|---|---:|---:|---:|
+| VietMed all100 fast | 15,8623% | 11,6275% | 0,118819 |
+| VietMed all100 rescore | 15,0712% | 11,1571% | 0,300278 |
+| VietMed test15 fast | 17,4479% | 12,4456% | — |
+| VietMed test15 rescore | 18,4896% | 13,2545% | — |
 
-## 📄 Giấy Phép & Ghi Nhận (License & Acknowledgements)
+VietMed là **100 đoạn, khoảng 625 giây, tối đa 8 giây/đoạn**, không phải 100 giờ.
+Official checkpoints, không local fine-tune; upstream exposure chưa rõ.
+Test15 quá nhỏ để tổng quát và cho thấy rescoring có thể làm xấu kết quả.
+[Báo cáo VietMed](reports/vietmed100-base-small-fast-rescoring-20261109.md).
 
-- Dự án được phát hành theo giấy phép **MIT License**.
-- Trọng số cơ sở được phát triển dựa trên [PhoWhisper](https://github.com/VinAIResearch/PhoWhisper) bởi VinAI Research.
-- Mô hình ngôn ngữ tiếng Việt sử dụng checkpoint [GPT-2 Vietnamese](https://huggingface.co/NlpHUST/gpt2-vietnamese) của NlpHUST và [PhoBERT](https://github.com/VinAIResearch/PhoBERT) của VinAI Research.
-- Bộ dữ liệu đánh giá chuẩn: [Viet-BUD500](https://github.com/tuandaodev/viet-bud500).
+Một clip cá nhân 84,7146875 giây decoded (container 84,714667 giây), chia
+28/28/28/0,7146875 giây: fast 3,61945 s (RTF 0,04273), rescore 10,08716 s
+(RTF 0,11907). Không reference nên **không WER/CER hay phần trăm độ đúng**.
+Nhận xét tích cực của người dùng không thay thế ground truth; không công bố
+audio/transcript riêng tư.
 
----
+## Cơ chế và giới hạn
 
-<div align="center">
-  <b>Developed with ❤️ for the Vietnamese AI & Speech Processing Community</b>
-</div>
+```mermaid
+graph TD
+    A[Audio] --> M{Mode}
+    M -->|fast| F[Whisper transcribe - temperature fallback]
+    F --> O[Transcript gốc - trim]
+    M -->|rescore| B[Mel cửa sổ đầu - beam 5]
+    B --> G{Một candidate hoặc gate âm học}
+    G -->|trả top-1| O
+    G -->|cần LM| L[GPT-2 chấm candidate]
+    L --> S[Biên âm học và điểm kết hợp]
+    S --> O
+```
+
+`score = avg_logprob + 0.200 * LM_logprob_per_token - 0.020 * normalized_word_count`.
+Chỉ đổi candidate nếu score tăng và chênh âm học >= -0.20; gate tại -0.020.
+Tham số kế thừa base, không retune small. Normalization phục vụ score/metrics,
+**không ép harmonization dấu thanh lên transcript trả về**. LM lỗi có thể warning
+rồi trả top-1; benchmark nghiêm ngặt chặn fallback đó. PhoBERT là tùy chọn cấp
+rescorer, chưa có số đo small mới để quảng bá.
+
+## Tài liệu và lịch sử
+
+- [Usage](docs/usage.md), [kiến trúc](docs/architecture.md), [so sánh](docs/comparison.md)
+- [Nâng cấp](docs/upgrade.md), [migration/archive](docs/model-migration-small.md)
+- [Đối chứng base/small lịch sử](docs/phowhisper-small-evaluation.md)
+- [Benchmark](benchmarks/README.md), [training riêng](training/kaggle/README.md)
+
+Unit tests kiểm tra logic, không chứng minh độ chính xác ASR. Báo cáo base giữ
+nguyên model/date/metrics, không relabel thành small.
+
+## Model và giấy phép
+
+[PhoWhisper-small](https://huggingface.co/vinai/PhoWhisper-small): BSD-3-Clause
+theo model card. Xem điều khoản riêng của
+[GPT-2 Vietnamese](https://huggingface.co/NlpHUST/gpt2-vietnamese) và
+[PhoBERT](https://huggingface.co/vinai/phobert-base-v2).
+Repo chưa có LICENSE file; không khẳng định mã nguồn được cấp MIT.

@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "report_date": "2026-11-10",
+  "status": "completed",
+  "scope": "official small public fast versus public rescore; previously evaluated local holdout",
+  "automatic_promotion": false,
+  "checkpoint": {
+    "model_id": "vinai/PhoWhisper-small",
+    "revision": "a86b604c346caf7148c37512eafe783a16420adb",
+    "native_sha256": "15632cc15395f5ee8d9fec382133f3d6429c63d1c2209518984fb126058e85c5",
+    "config_sha256": "c9d7e721876727d437cfb145229936926b439d1ab483db572e5f9b5fb6b6d0bf"
+  },
+  "manifest": "benchmarks/manifests/viet_bud500_holdout_500.csv",
+  "manifest_sha256": "46f6777ff565a168cae35e31d0c6e0a1f2df9f55e0b4b4e705860e3f12621a0b",
+  "samples_per_mode": 500,
+  "failures_per_mode": 0,
+  "total_audio_seconds": 1300.656099773244,
+  "protocol": {
+    "seed": 42,
+    "batch_size": 1,
+    "asr_precision": "CUDA FP16",
+    "fast": "public Whisper transcribe defaults including temperature fallback; no LM",
+    "rescore": {
+      "beam_size": 5,
+      "alpha": 0.2,
+      "beta": -0.02,
+      "gamma": -0.2,
+      "confidence_threshold": -0.02,
+      "lm": "NlpHUST/gpt2-vietnamese",
+      "lm_revision": "65818d14816b42be09e2201933bf07106d9a2647",
+      "lm_policy": "offline local-only CUDA FP32"
+    },
+    "warmup": "one excluded dev audio1001 call per mode",
+    "disjoint_from": "benchmarks/manifests/viet_bud500_dev_250.csv",
+    "tuning": false,
+    "normalization": "NFC, lowercase, punctuation to spaces, collapse whitespace; accents/digits retained; no tone harmonization",
+    "timing": "audio IO and complete API call; model/LM load and warmup excluded"
+  },
+  "fast": {
+    "wer": 0.09485390318360226,
+    "cer": 0.06487258115681506,
+    "exact_match": 0.478,
+    "word_edits": {"substitutions": 271, "deletions": 60, "insertions": 104, "hits": 4255},
+    "character_edits": {"substitutions": 422, "deletions": 300, "insertions": 505, "hits": 18192},
+    "total_inference_seconds": 242.56349985498127,
+    "rtf": 0.186493185936905,
+    "latency_median_seconds": 0.4363338309995015,
+    "latency_p95_interpolated_seconds": 0.6896740540512837,
+    "latency_p95_nearest_rank_seconds": 0.6895990740013076,
+    "measured_cuda_peak_bytes": {"allocated": 1118336512, "reserved": 2128609280},
+    "load_cuda_peak_bytes": {"allocated": 1936234496, "reserved": 2128609280},
+    "peak_process_rss_bytes": 1751040000,
+    "model_load_seconds": 3.166659761000119,
+    "lm_load_seconds": 0,
+    "warmup_seconds": 0.7008197300001484
+  },
+  "rescore": {
+    "wer": 0.07849978194505015,
+    "cer": 0.058157978217193616,
+    "exact_match": 0.52,
+    "word_edits": {"substitutions": 195, "deletions": 80, "insertions": 85, "hits": 4311},
+    "character_edits": {"substitutions": 293, "deletions": 378, "insertions": 429, "hits": 18243},
+    "total_inference_seconds": 574.3515909860162,
+    "rtf": 0.4415860511369212,
+    "latency_median_seconds": 1.1575144279995584,
+    "latency_p95_interpolated_seconds": 1.5264893036509417,
+    "latency_p95_nearest_rank_seconds": 1.5262045720010065,
+    "measured_cuda_peak_bytes": {"allocated": 1635197440, "reserved": 2254438400},
+    "load_cuda_peak_bytes": {"allocated": 1936234496, "reserved": 2139095040},
+    "peak_process_rss_bytes": 2325856256,
+    "model_load_seconds": 4.459488124999552,
+    "lm_load_seconds": 5.750055553000493,
+    "warmup_seconds": 1.4526114169984794
+  },
+  "gate_counts": {"single_candidate": 0, "acoustic_gate": 253, "actual_lm_scored": 247, "winner_changed": 104},
+  "paired_wer_bootstrap_percentage_points": {
+    "resamples": 2000,
+    "seed": 42,
+    "direction": "rescore minus fast",
+    "mean_diff": -1.6370070743910519,
+    "ci_lower": -2.666592789598109,
+    "ci_upper": -0.6954226196741592,
+    "nonnegative_resamples": 0,
+    "p_value_one_sided_empirical": 0.0
+  },
+  "environment": {"python": "3.14.8", "torch": "2.14.1+cu130", "whisper": "20250625", "cuda_runtime": "13.0", "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU", "cuda_total_capacity_bytes": 3951296512},
+  "source": {
+    "head": "a051afe91f82440cab09f25365400875bc3f3478",
+    "dirty": true,
+    "tracked_diff_sha256": "6cf932c703a00a906fd6d330422a2292139ad5003fd6709450a2f25a6e026c09",
+    "status_sha256": "614b27138c1f2d2d3596cd96cd587342628848c7dd8d31d92333d9b20c0127a6"
+  },
+  "provenance": {
+    "saved_before_after_equal": true,
+    "local_only_raw_directory": "outputs/benchmarks/small-public-modes-holdout500-20261110",
+    "fast_run_id": "20261109T175900Z",
+    "rescore_run_id": "20261109T180312Z"
+  },
+  "limitations": [
+    "Previously evaluated local cohort; upstream training exposure unknown; not zero leakage proof",
+    "Whole workflow comparison, not isolated causal LM gain",
+    "Deletion increases from 60 to 80",
+    "Empirical 0/2000 is not probability zero",
+    "Single fixed-order batch-1 GPU run; allocator peaks are not total device VRAM",
+    "Public rescore handles only first 30 seconds; no automatic long-audio segmentation"
+  ]
+}

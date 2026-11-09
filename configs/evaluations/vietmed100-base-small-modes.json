@@ -1,0 +1,54 @@
+{
+  "status": "completed",
+  "valid4cellcomplete": true,
+  "pilot": false,
+  "raw_directory": "outputs/benchmarks/vietmed-base-small-modes-20261109-full",
+  "report": "reports/vietmed100-base-small-fast-rescoring-20261109.md",
+  "samples": 100,
+  "audio_seconds": 625,
+  "splits": {"train": 70, "dev": 15, "test": 15},
+  "metric_units": "WER/CER ratios; bootstrap CI B-A percentage points",
+  "raw_sha256": {
+    "report.json": "a95390c1840bbea441a74a77c7bd7cea83459d17b6162905a9bf04257c5dcdd8",
+    "comparison.json": "c150bfae5155f032847bd8aaa814da9132472205de7ea7d02f45f1858a17a28f",
+    "manifest.json": "6f0b037b947d78a19137be27db985348d0278dae82a3ec88472cd5a631aa7806",
+    "base-fast.jsonl": "567079169cc33600d608e004d0053fa6399a2cf498ae6dad98e667f5e2575582",
+    "base-rescore.jsonl": "839c9e0ad1f5fbdcbdb0fc9f26a33088d508809e7c8194ab4b8cda07b30afa91",
+    "small-fast.jsonl": "751315ce3b5d070e9c3222d005f56686d9f426ca8c1adb06ca578150e7d1710a",
+    "small-rescore.jsonl": "2e92ddd88bf5cb9f3a0a86ab4f8cac300692803e8a641552d34f273790ee26f1"
+  },
+  "provenance": {
+    "head": "a051afe91f82440cab09f25365400875bc3f3478",
+    "dataset_revision": "dc1a2ebef3ffa772a955f2c9b4412ad8722c0b74",
+    "base_revision": "7ebdb9e88f5cc5271fb88f4d642c82ff9388650e",
+    "small_revision": "a86b604c346caf7148c37512eafe783a16420adb",
+    "lm_revision": "65818d14816b42be09e2201933bf07106d9a2647",
+    "old_base_sha256": "e46e8147bdc39c239206f89e61a6b6759ca07141d120c1337fc1410bf25b8d3d",
+    "before_equals_after": true,
+    "source_and_checkpoint_hashes": "raw report.json before/after and checkpoint_metadata"
+  },
+  "all100": {
+    "base-fast": {"wer": 0.1962025316455696, "cer": 0.13668861712135466},
+    "base-rescore": {"wer": 0.18117088607594936, "cer": 0.13189087488240828},
+    "small-fast": {"wer": 0.158623417721519, "cer": 0.116274694261524},
+    "small-rescore": {"wer": 0.1507120253164557, "cer": 0.11157102539981185}
+  },
+  "test15": {
+    "base-fast": {"wer": 0.22395833333333334, "cer": 0.17050404480398257},
+    "base-rescore": {"wer": 0.20052083333333334, "cer": 0.1549471064094586},
+    "small-fast": {"wer": 0.17447916666666666, "cer": 0.12445550715619166},
+    "small-rescore": {"wer": 0.18489583333333334, "cer": 0.13254511512134412}
+  },
+  "diagnostics": {
+    "base-rescore": {"single_candidate": 0, "acoustic_gate": 6, "actual_lm_scored": 94, "winner_changed": 55},
+    "small-rescore": {"single_candidate": 0, "acoustic_gate": 33, "actual_lm_scored": 67, "winner_changed": 35}
+  },
+  "pairwiseCI": {
+    "base-fast->small-fast": {"all100": [-5.279918394847051, -2.279807079731244], "test15": [-10.5913316383283, -0.5360508032228483]},
+    "base-rescore->small-rescore": {"all100": [-4.512553933471495, -1.6243414486749972], "test15": [-7.436104218362284, 3.1579703569268007]},
+    "base-fast->base-rescore": {"all100": [-2.5743339797897313, -0.5751182359324325], "test15": [-4.592071491173156, -0.2481083233771404]},
+    "small-fast->small-rescore": {"all100": [-1.4606705956464368, -0.19801784216426416], "test15": [-0.26388723641020795, 2.4216020690102082]}
+  },
+  "bootstrap": {"draws": 2000, "seed": 42, "interval": "two-sided percentile 95%, utterance paired", "exploratory": true, "multiplicity_adjusted": false},
+  "decision": {"automatic_promotion": false, "default": "unchanged base", "opt_in_candidate": "small-fast", "small_rescore": "only with acceptable latency and target-domain validation"}
+}

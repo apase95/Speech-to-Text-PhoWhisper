@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-09",
+  "report": "reports/phowhisper-base-small-vietbud500-20261109.md",
+  "source_revision": "a051afe91f82440cab09f25365400875bc3f3478",
+  "source_dirty": true,
+  "protocol": {"rescore": false, "temperature": 0, "beam_size": null, "best_of": null, "seed": 42, "warmup": 0, "fp16": true},
+  "models": {
+    "base": {
+      "model_id": "vinai/PhoWhisper-base",
+      "revision": "7ebdb9e88f5cc5271fb88f4d642c82ff9388650e",
+      "checkpoint": "models/official/acquisition-20261109/vinai/PhoWhisper-base/7ebdb9e88f5cc5271fb88f4d642c82ff9388650e/native.pt",
+      "source_sha256": "910b9e8875497078efa83dc506ea7ee378e4e759a206ceecbf23e088aec9b9f8",
+      "config_sha256": "c75f5d458f497b7ea8748ab0c857db7ce2fd274b64cc70df30b17cb84723caf0",
+      "native_sha256": "0a8a244bbe70938bce477bfb3e595b3743dc2937c43f5df25c59aa3783601c28"
+    },
+    "small": {
+      "model_id": "vinai/PhoWhisper-small",
+      "revision": "a86b604c346caf7148c37512eafe783a16420adb",
+      "checkpoint": "models/official/acquisition-20261109/vinai/PhoWhisper-small/a86b604c346caf7148c37512eafe783a16420adb/native.pt",
+      "source_sha256": "9ec6f07c5bd321fc8f477cf778c43c3fd94b0e33a9f20283fc61cc6d22cbfded",
+      "config_sha256": "c9d7e721876727d437cfb145229936926b439d1ab483db572e5f9b5fb6b6d0bf",
+      "native_sha256": "15632cc15395f5ee8d9fec382133f3d6429c63d1c2209518984fb126058e85c5"
+    }
+  },
+  "measurements": {
+    "units": {"wer": "ratio", "cer": "ratio", "rtf": "ratio", "bootstrap_ci": "percentage_points_B_minus_A"},
+    "dev250": {
+      "comparison": "outputs/benchmarks/official-base-small-dev250-20261109/comparison.json",
+      "samples_per_model": 250,
+      "audio_seconds": 632.0968707482992,
+      "base": {"wer": 0.11106252732837779, "cer": 0.06417674907943188, "rtf": 0.10082757434087275, "failures": 0},
+      "small": {"wer": 0.09925666812418014, "cer": 0.06659652814308259, "rtf": 0.16629036706915526, "failures": 0}
+    },
+    "holdout500": {
+      "comparison": "outputs/benchmarks/official-base-small-holdout500-20261109/comparison.json",
+      "samples_per_model": 500,
+      "audio_seconds": 1300.656099773244,
+      "base": {"wer": 0.10815525512429132, "cer": 0.06270487469599238, "rtf": 0.1256740869669451, "failures": 0},
+      "small": {"wer": 0.09485390318360226, "cer": 0.06487258115681506, "rtf": 0.20175967739031203, "failures": 0},
+      "paired_bootstrap": {"resamples": 2000, "seed": 42, "ci_lower": -2.7572505901241837, "ci_upper": 0.04330839481713386, "one_sided_p_value": 0.0295, "historical_statistically_significant": true, "two_sided_95_ci_contains_zero": true}
+    }
+  },
+  "promotion": {
+    "gate_passed": false,
+    "failed_conditions": ["small_cer_lte_base_cer", "paired_wer_two_sided_95_ci_upper_lt_zero"],
+    "promote_small": false,
+    "automatic_promotion": false,
+    "decision": "retain_base_because_gate_failed",
+    "active_default_checkpoint": "models/phowhisper-base.pt",
+    "old_native_preverified_sha256": "e46e8147bdc39c239206f89e61a6b6759ca07141d120c1337fc1410bf25b8d3d",
+    "old_native_tensor_equality_verified": true,
+    "old_native_equal_state_tensors": 245,
+    "rollback": "Set PHOWHISPER_MODEL_PATH=models/phowhisper-base.pt and restart workers"
+  },
+  "caveats": ["Repository dev/holdout partitions originate in dataset test split; not proof of pretraining exclusion", "Short utterances only; no long-audio or concurrency claim", "One run per model, fixed base-then-small order, no warmup; no statistical latency claim", "CUDA allocator peaks are not total device usage", "Source/config base hashes match old inputs; native file hashes differ after reserialization but all 245 state tensors, dimensions and dtypes match"]
+}

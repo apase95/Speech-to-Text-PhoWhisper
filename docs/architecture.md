@@ -1,5 +1,17 @@
 # Kiến trúc và trạng thái chuyển đổi
 
+## Runtime hiện tại — 2026-11-10
+
+Official small là mặc định; xem [migration/archive](model-migration-small.md).
+OpenAI Whisper Python/PyTorch, không phải C++/GGML/faster-whisper.
+Fast gọi `transcribe` với temperature fallback, bỏ qua LM hoàn toàn.
+Rescore lấy cửa sổ đầu 30 giây, beam 5, gate trước khi lazy-load GPT-2.
+Alpha .2, beta -.02, margin -.2, gate -.020 kế thừa base, không retune small.
+Normalization phục vụ score/metrics; output là text candidate gốc trim,
+không ép harmonization. API/UI không tự segment rescore dài. LM lỗi warning
+rồi top-1; benchmark nghiêm ngặt chặn fallback. Benchmark Python >=3.11,
+core >=3.10; một số audio imports benchmark còn cần extra web.
+
 Các structural moves đã hoàn tất. Không xóa datasets, checkpoints, output histories
 hoặc notebook tạm. Việc dọn dữ liệu trùng lặp còn hoãn lại, không coi migration là
 bằng chứng tăng tốc hoặc kiểm chứng lại các kết quả ASR lịch sử.
@@ -63,7 +75,7 @@ tương thích mọi Python/CUDA. `requirements.txt` giữ môi trường all-to
 `requirements-benchmark.txt` là overlay đặc thù, không phải standalone environment.
 PhoBERT còn cần `pyvi` cài riêng (không thêm dependency chưa có trong requirements).
 Training dùng requirements riêng tại `training/kaggle`, không kéo vào core.
-Checkpoint mặc định tương đối với cwd: `models/phowhisper-base.pt`; có thể đặt
+Checkpoint mặc định tương đối với cwd: `models/phowhisper-small.pt`; có thể đặt
 `PHOWHISPER_MODEL_PATH` tới checkpoint tuyệt đối. Package không kèm weights/data.
 
 ## Tương thích tên cũ
