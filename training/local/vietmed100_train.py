@@ -1,5 +1,6 @@
 """Exact-checkpoint, single-GPU VietMed100 experiment; no downloads or base writes."""
 import json
+import argparse
 import math
 import random
 import time
@@ -24,7 +25,14 @@ def accumulation_size(index, total, accumulation):
     return min(accumulation, total - (index // accumulation) * accumulation)
 
 
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--checkpoint', type=Path, default=Path('models/phowhisper-small.pt'))
+    return parser.parse_args(argv)
+
+
 def main():
+    args = parse_args()
     import numpy as np
     import soundfile as sf
     import torch
@@ -35,11 +43,13 @@ def main():
     start = time.perf_counter()
     output = Path('outputs/benchmarks') / ('vietmed100-trained-' + datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ'))
     output.mkdir(parents=True, exist_ok=False)
-    base = Path('models/phowhisper-base.pt')
+    base = args.checkpoint.resolve()
     prep = json.loads(Path('outputs/benchmarks/vietmed100-20261014T195830Z/report.json').read_text())
     report = dict(status='blocked', provider_model='openai/gpt-6.1-sol',
                   scout_id=prep['scout_id'], implementer_id='not injected',
                   preparation_report='outputs/benchmarks/vietmed100-20261014T195830Z/report.json',
+                  initial_checkpoint=dict(path=str(base), sha256=sha(base)),
+                  legacy_base_fields_mean='initializer checkpoint, not model family',
                   base_sha256_before=sha(base), training_steps=0,
                   config=dict(seed=42, epochs=1, batch=1, accumulation=4, lr=1e-5,
                               precision='FP32', checkpointing_use_reentrant=False,
@@ -60,7 +70,6 @@ def main():
         print(json.dumps(record), flush=True)
 
     try:
-        assert report['base_sha256_before'] == prep['base_sha256_before']
         assert torch.cuda.is_available(), 'CUDA required; no silent CPU fallback'
         torch.set_num_threads(4)
         random.seed(42); np.random.seed(42); torch.manual_seed(42)
@@ -79,6 +88,12 @@ def main():
             report['data'][split] = dict(count=count, duration_seconds=sum(r['actual_duration'] for r in manifests[split]),
                                        json_sha256=sha(path), csv_sha256=sha(csv_path))
         model = whisper.load_model(str(base), device='cuda').float()
+        report['initial_checkpoint']['model_dims'] = vars(model.dims).copy()
+        report['initial_checkpoint']['model_id'] = (
+            'whisper-small-architecture' if model.dims.n_audio_state == 768
+            and model.dims.n_audio_layer == 12 and model.dims.n_text_state == 768
+            and model.dims.n_text_layer == 12 else 'custom-architecture')
+        report['initial_checkpoint']['identity_note'] = 'Dimensions identify architecture only; path/hash identify actual weights.'
         tokenizer = whisper.tokenizer.get_tokenizer(True, language='vi', task='transcribe')
         prefix = list(tokenizer.sot_sequence_including_notimestamps)
         report['decoder_prefix'] = prefix
@@ -133,6 +148,7 @@ def main():
         accumulated_loss = 0.0
         training_start = time.perf_counter()
         epoch_metadata = EpochManifest(output, dict(config=report['config'],
+            initial_checkpoint=report['initial_checkpoint'],
             base_checkpoint=str(base), base_sha256=report['base_sha256_before'],
             data=report['data'], resume_from_checkpoint=None))
         for index, row in enumerate(rows):
@@ -170,7 +186,9 @@ def main():
         report['training_seconds'] = time.perf_counter()-training_start
         for block, original in originals:
             block.forward = original
-        trained = output / 'phowhisper-vietmed100.pt'
+        trained = output / ('phowhisper-small-vietmed100.pt' if
+            report['initial_checkpoint']['model_id'] == 'whisper-small-architecture'
+            else 'phowhisper-custom-vietmed100.pt')
         torch.save(dict(dims=vars(model.dims), model_state_dict={k:v.detach().cpu() for k,v in model.state_dict().items()}), trained)
         epoch_metadata.final_model(trained, report['training_steps'])
         report['trained_checkpoint'] = str(trained)

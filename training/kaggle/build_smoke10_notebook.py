@@ -38,7 +38,8 @@ event('startup/config', 'start')
 os.environ.update(CUDA_VISIBLE_DEVICES='0', PYTHONUNBUFFERED='1', HF_HUB_DOWNLOAD_TIMEOUT='60', HF_HUB_ETAG_TIMEOUT='60')
 OUT = Path('/kaggle/working/outputs/benchmarks') / ('smoke10-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
 OUT.mkdir(parents=True, exist_ok=False)
-MODEL = 'vinai/PhoWhisper-base'
+MODEL = 'vinai/PhoWhisper-small'
+MODEL_REVISION = 'a86b604c346caf7148c37512eafe783a16420adb'
 def command(argv, log, timeout=None):
     with stage(log), (OUT / log).open('w') as stream:
         child = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=os.environ.copy())
@@ -79,7 +80,7 @@ with stage('metadata/subset/audio-validation'):
     train_rows, val_rows = select(rows, {r['id'] for r in official})
     from huggingface_hub import model_info
     from transformers import WhisperProcessor
-    REVISION = model_info(MODEL, timeout=60).sha
+    REVISION = model_info(MODEL, revision=MODEL_REVISION, timeout=60).sha
     processor = WhisperProcessor.from_pretrained(MODEL, revision=REVISION, language='vi', task='transcribe')
     audit(train_rows + val_rows, ROOT, processor)
     for name, subset in [('train', train_rows), ('validation', val_rows)]:

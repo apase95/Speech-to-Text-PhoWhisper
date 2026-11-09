@@ -83,7 +83,8 @@ two-example smoke and resume to step two before the real pilot. This is an
 and scheduler continuity are not verified or claimed. Smoke outputs
 are separate and never used to initialize the pilot.
 
-HF model `main` resolves once to an immutable commit reused for processor,
+HF default `vinai/PhoWhisper-small` is pinned to
+`a86b604c346caf7148c37512eafe783a16420adb`, reused for processor,
 baseline, smoke and training. FP32, LR 1e-5, batch 2, accumulation 4, world 1:
 1000 examples give 125 optimizer steps (one epoch). Final one-epoch checkpoint
 is compared, not selected on benchmark/test results. Validation is frozen for
@@ -91,6 +92,12 @@ baseline/post; HF FP32 Vietnamese greedy decoding and benchmark normalization
 are shared. Genuine per-clip synchronized timing includes feature preparation
 and decoding, not Trainer evaluation runtime. No warmup is applied to either
 side. These reports imply no HF/OpenAI `.pt` runtime parity.
+
+`pilot.py --model` / `--revision` remain explicit overrides; a different model
+without revision uses `main`, not the small SHA. Start fresh when changing
+architecture; never resume old base optimizer state into small. The generated
+pilot and smoke10 notebook are current small configurations, not historical
+base quality evidence. FP32 training memory on 4GB is unverified.
 
 Reports and checkpoints persist under
 `/kaggle/working/outputs/benchmarks/pilot1000-<UTC>/`: `preflight.json`,

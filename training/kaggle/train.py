@@ -16,6 +16,13 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from training.metadata import EpochMetadataCallback
 
+DEFAULT_MODEL = 'vinai/PhoWhisper-small'
+SMALL_REVISION = 'a86b604c346caf7148c37512eafe783a16420adb'
+
+
+def resolve_revision(model, revision=None):
+    return revision if revision is not None else (SMALL_REVISION if model == DEFAULT_MODEL else 'main')
+
 
 class Progress:
     def __init__(self, path=None, current=None):
@@ -210,6 +217,7 @@ def run(args):
     set_seed(args.seed)
     progress.update('training_dependency_imports', 'done')
     source = args.model
+    args.revision = resolve_revision(source, args.revision)
     with progress.stage('training_hf_metadata'):
         revision = args.revision if Path(source).is_dir() else model_info(source, revision=args.revision, timeout=60).sha
     with progress.stage('training_processor_load'):
@@ -313,8 +321,8 @@ def main():
     p.add_argument('--validation-cap', type=int, default=100)
     p.add_argument('--manifest', type=Path)
     p.add_argument('--validation', type=Path)
-    p.add_argument('--model', default='vinai/PhoWhisper-base')
-    p.add_argument('--revision', default='main')
+    p.add_argument('--model', default=DEFAULT_MODEL)
+    p.add_argument('--revision', default=None)
     p.add_argument('--resume')
     p.add_argument('--max-steps', type=int, default=10)
     p.add_argument('--save-steps', type=int, default=100)

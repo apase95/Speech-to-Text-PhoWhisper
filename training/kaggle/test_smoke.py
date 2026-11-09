@@ -36,6 +36,13 @@ class FakeExtractor:
 
 
 class Smoke(unittest.TestCase):
+    def test_small_revision_and_override(self):
+        from kaggle_training.train import resolve_revision
+        self.assertEqual(resolve_revision('vinai/PhoWhisper-small'),
+                         'a86b604c346caf7148c37512eafe783a16420adb')
+        self.assertEqual(resolve_revision('other/model'), 'main')
+        self.assertEqual(resolve_revision('vinai/PhoWhisper-small', 'custom'), 'custom')
+
     def test_collator_mixed_prefix_and_padding(self):
         processor = SimpleNamespace(feature_extractor=FakeExtractor(), tokenizer=FakeTokenizer())
         batch = Collator(processor, 99)([

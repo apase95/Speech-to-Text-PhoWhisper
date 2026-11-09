@@ -20,7 +20,7 @@ from pathlib import Path
 if __package__ in (None, ''):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from training.kaggle.train import AudioDataset, digest, Progress
+from training.kaggle.train import AudioDataset, digest, Progress, DEFAULT_MODEL, resolve_revision
 
 PROGRESS = Progress()
 
@@ -275,8 +275,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--output', type=Path, default=Path('/kaggle/working/outputs/benchmarks'))
-    parser.add_argument('--model', default='vinai/PhoWhisper-base')
-    parser.add_argument('--revision', default='main')
+    parser.add_argument('--model', default=DEFAULT_MODEL)
+    parser.add_argument('--revision', default=None)
     args = parser.parse_args()
     run = args.output / ('pilot1000-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
     run.mkdir(parents=True, exist_ok=False)
@@ -314,7 +314,7 @@ def execute(args, run):
     set_seed(42)
     torch.backends.cuda.matmul.allow_tf32 = False
     with PROGRESS.stage('hf_metadata'):
-        revision = model_info(args.model, revision=args.revision, timeout=60).sha
+        revision = model_info(args.model, revision=resolve_revision(args.model, args.revision), timeout=60).sha
     with PROGRESS.stage('processor_load'):
         processor = WhisperProcessor.from_pretrained(args.model, revision=revision, language='vi', task='transcribe')
     processor.tokenizer.set_prefix_tokens(language='vi', task='transcribe', predict_timestamps=False)

@@ -1,4 +1,21 @@
-# Fine-tune PhoWhisper-base trên Kaggle (thử nghiệm, chưa chạy GPU)
+# Fine-tune PhoWhisper-small trên Kaggle (thử nghiệm, chưa chạy GPU)
+
+Active default: `vinai/PhoWhisper-small`, pinned revision
+`a86b604c346caf7148c37512eafe783a16420adb`. Explicit `--revision` wins;
+an explicit different `--model` defaults to `main` (pin it for reproducibility).
+Never resume base optimizer/checkpoint state into small: start a fresh output
+and optimizer. HF strict checkpoint shape loading must fail on incompatible weights.
+Historical base results are not small results. Small FP32 fine-tuning has not
+been verified to fit a 4GB GPU; inference fit is not training fit.
+
+Local frozen VietMed100: `python -m training.local.vietmed100_train --checkpoint
+models/phowhisper-small.pt` (omit the option for the same default). `--help`
+does not import model dependencies. Frozen data hashes and 70/15/15 split
+(625 seconds) remain enforced, independent of initializer weight hashes.
+Reports and epoch provenance record actual initializer path/hash/dimensions;
+legacy `base_*` fields mean initializer, not the base family. The source is never
+overwritten; small architecture output is `phowhisper-small-vietmed100.pt`.
+No small training or quality improvement is claimed.
 
 Giữ nguyên runtime OpenAI Whisper của repo. Pipeline này dùng HF đầy đủ,
 không LoRA, không `device_map=auto`. API được ghim Transformers 4.46.3:

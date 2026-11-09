@@ -7914,7 +7914,8 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              "if __package__ in (None, ''):\n"
                              '    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))\n'
                              '\n'
-                             'from training.kaggle.train import AudioDataset, digest, Progress\n'
+                             'from training.kaggle.train import AudioDataset, digest, Progress, '
+                             'DEFAULT_MODEL, resolve_revision\n'
                              '\n'
                              'PROGRESS = Progress()\n'
                              '\n'
@@ -8228,8 +8229,8 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              "    parser.add_argument('--root', type=Path, required=True)\n"
                              "    parser.add_argument('--output', type=Path, "
                              "default=Path('/kaggle/working/outputs/benchmarks'))\n"
-                             "    parser.add_argument('--model', default='vinai/PhoWhisper-base')\n"
-                             "    parser.add_argument('--revision', default='main')\n"
+                             "    parser.add_argument('--model', default=DEFAULT_MODEL)\n"
+                             "    parser.add_argument('--revision', default=None)\n"
                              '    args = parser.parse_args()\n'
                              "    run = args.output / ('pilot1000-' + "
                              "datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))\n"
@@ -8277,8 +8278,8 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              '    set_seed(42)\n'
                              '    torch.backends.cuda.matmul.allow_tf32 = False\n'
                              "    with PROGRESS.stage('hf_metadata'):\n"
-                             '        revision = model_info(args.model, revision=args.revision, '
-                             'timeout=60).sha\n'
+                             '        revision = model_info(args.model, '
+                             'revision=resolve_revision(args.model, args.revision), timeout=60).sha\n'
                              "    with PROGRESS.stage('processor_load'):\n"
                              '        processor = WhisperProcessor.from_pretrained(args.model, '
                              "revision=revision, language='vi', task='transcribe')\n"
@@ -8559,6 +8560,14 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                                   '\n'
                                   '\n'
                                   'class Smoke(unittest.TestCase):\n'
+                                  '    def test_small_revision_and_override(self):\n'
+                                  '        from kaggle_training.train import resolve_revision\n'
+                                  "        self.assertEqual(resolve_revision('vinai/PhoWhisper-small'),\n"
+                                  "                         'a86b604c346caf7148c37512eafe783a16420adb')\n"
+                                  "        self.assertEqual(resolve_revision('other/model'), 'main')\n"
+                                  "        self.assertEqual(resolve_revision('vinai/PhoWhisper-small', "
+                                  "'custom'), 'custom')\n"
+                                  '\n'
                                   '    def test_collator_mixed_prefix_and_padding(self):\n'
                                   '        processor = SimpleNamespace(feature_extractor=FakeExtractor(), '
                                   'tokenizer=FakeTokenizer())\n'
@@ -8649,6 +8658,14 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              'from contextlib import contextmanager\n'
                              'from datetime import datetime, timezone\n'
                              'from training.metadata import EpochMetadataCallback\n'
+                             '\n'
+                             "DEFAULT_MODEL = 'vinai/PhoWhisper-small'\n"
+                             "SMALL_REVISION = 'a86b604c346caf7148c37512eafe783a16420adb'\n"
+                             '\n'
+                             '\n'
+                             'def resolve_revision(model, revision=None):\n'
+                             '    return revision if revision is not None else (SMALL_REVISION if model == '
+                             "DEFAULT_MODEL else 'main')\n"
                              '\n'
                              '\n'
                              'class Progress:\n'
@@ -8880,6 +8897,7 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              '    set_seed(args.seed)\n'
                              "    progress.update('training_dependency_imports', 'done')\n"
                              '    source = args.model\n'
+                             '    args.revision = resolve_revision(source, args.revision)\n'
                              "    with progress.stage('training_hf_metadata'):\n"
                              '        revision = args.revision if Path(source).is_dir() else '
                              'model_info(source, revision=args.revision, timeout=60).sha\n'
@@ -9015,8 +9033,8 @@ PAYLOAD = {'benchmarks/__init__.py': '',
                              "    p.add_argument('--validation-cap', type=int, default=100)\n"
                              "    p.add_argument('--manifest', type=Path)\n"
                              "    p.add_argument('--validation', type=Path)\n"
-                             "    p.add_argument('--model', default='vinai/PhoWhisper-base')\n"
-                             "    p.add_argument('--revision', default='main')\n"
+                             "    p.add_argument('--model', default=DEFAULT_MODEL)\n"
+                             "    p.add_argument('--revision', default=None)\n"
                              "    p.add_argument('--resume')\n"
                              "    p.add_argument('--max-steps', type=int, default=10)\n"
                              "    p.add_argument('--save-steps', type=int, default=100)\n"
