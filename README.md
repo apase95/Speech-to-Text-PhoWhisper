@@ -9,8 +9,7 @@
 [![WER](https://img.shields.io/badge/WER-8.07%25%20(Holdout%20500)-brightgreen.svg)](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark)
 [![Exact Match](https://img.shields.io/badge/Exact%20Match-51.4%25-success.svg)](#-k%E1%BA%BFt-qu%E1%BA%A3-th%E1%BB%B1c-nghi%E1%BB%87m--benchmark)
 [![VRAM](https://img.shields.io/badge/VRAM-~560%20MB-blueviolet.svg)](#-hi%E1%BB%87u-n%C4%83ng-t%E1%BB%91i-%C6%B0u-vram--t%E1%BB%91c-%C4%91%E1%BB%99)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-34%2F34%20Passing-success.svg)](#-ki%E1%BB%83m-th%E1%BB%AD-t%E1%BB%B1-%C4%91%E1%BB%99ng)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 **PhoWhisper + GPT-2** là hệ thống nhận dạng tiếng nói tiếng Việt (ASR) hiệu năng cao, kết hợp mô hình nhận dạng âm học **PhoWhisper** và mô hình sinh ngôn ngữ **GPT-2 tiếng Việt**. Hệ thống chuyển đổi toàn bộ runtime sang **Native OpenAI Whisper C++/CUDA PyTorch**, kết hợp cơ chế tái xếp hạng chùm tia **Conservative N-best Language Model Rescoring** (hỗ trợ cả **GPT-2** và **PhoBERT**), màng chắn bảo vệ âm học **Acoustic Safety Margin ($\gamma$)**, và cơ chế ngắt sớm thông minh **Dynamic Acoustic Confidence Gating ($\theta$)**.
 
@@ -149,16 +148,18 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # Cài đặt thư viện
-pip install -r requirements.txt
+pip install -e .
 
 # (Khuyến nghị) Cài đặt transformers nếu muốn dùng Accurate LM Rescoring:
-pip install transformers pyvi
+pip install -e '.[rescore]'
+# Web UI / chuyển đổi checkpoint (tùy chọn):
+pip install -e '.[web,conversion]'
 ```
 
 ### 3. Tải và chuyển đổi Checkpoint tự động
 Tải trọng số gốc từ Hugging Face và chuyển sang native PyTorch `.pt` chỉ bằng một câu lệnh:
 ```bash
-python tools/convert_phowhisper.py --download
+python scripts/convert/convert_phowhisper.py --download
 ```
 File trọng số tối ưu sẽ được lưu tại `models/phowhisper-base.pt`.
 
@@ -168,24 +169,29 @@ File trọng số tối ưu sẽ được lưu tại `models/phowhisper-base.pt`
 
 ### 1. Sử dụng qua dòng lệnh (CLI)
 
+Namespace chuẩn mới là `phowhisper`; trước khi cài package dùng
+`PYTHONPATH=src python -m phowhisper.cli --help`. Sau `pip install -e .`,
+dùng `phowhisper --audio path/to/audio.wav`. Xem
+[trạng thái migration và cây thư mục thực tế](docs/architecture.md).
+
 ```bash
 # 1. Chế độ Mặc định (Fast Mode - Siêu tốc, chỉ ~560MB VRAM):
-python -m src.inference --audio path/to/audio.wav
+phowhisper --audio path/to/audio.wav
 
 # 2. Chế độ Chính xác cao (Accurate Mode - Beam 5 + GPT-2 Gated Rescoring):
-python -m src.inference --audio path/to/audio.wav --rescore
+phowhisper --audio path/to/audio.wav --rescore
 
 # 3. Chế độ Nhận dạng giọng nói nhanh / lướt âm (giảm 10% tốc độ bằng WSOLA):
-python -m src.inference --audio path/to/audio.wav --time-stretch-rate 0.9 --rescore
+phowhisper --audio path/to/audio.wav --time-stretch-rate 0.9 --rescore
 
 # 4. Tùy chỉnh kích thước Beam và Ngưỡng ngắt LM động:
-python -m src.inference --audio path/to/audio.wav --rescore --beam-size 5 --confidence-threshold -0.020
+phowhisper --audio path/to/audio.wav --rescore --beam-size 5 --confidence-threshold -0.020
 ```
 
 ### 2. Sử dụng qua Python API
 
 ```python
-from src.inference import transcribe
+from phowhisper.pipeline import transcribe
 
 # 1. Nhận dạng nhanh (Mặc định):
 text_fast = transcribe("audio.wav")
@@ -205,7 +211,7 @@ print("Stretched Transcript:", text_stretched)
 Khởi động giao diện web hỗ trợ kéo thả file WAV, ghi âm microphone trực tiếp và xem biểu đồ phổ âm thanh (Log-Mel Spectrogram):
 
 ```bash
-python src/app.py
+PYTHONPATH=src python -m app.web.app
 ```
 Mở trình duyệt tại: `http://localhost:7860`.
 
@@ -218,7 +224,8 @@ Dự án sở hữu bộ kiểm thử tự động toàn diện bao gồm: Kiể
 ```bash
 python -m unittest discover tests -v
 ```
-*(Hiện tại toàn bộ **34/34 unit test** đều vượt qua 100%).*
+Tests được phân nhóm tại `tests/unit`, `tests/integration`, `tests/regressions`.
+Kết quả kiểm tra cuối do controller báo riêng; không suy ra chất lượng ASR từ unit tests.
 
 ---
 

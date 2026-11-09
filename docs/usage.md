@@ -27,16 +27,18 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # Cài đặt các gói phụ thuộc cơ bản
-pip install -r requirements.txt
+pip install -e .
 
 # (Tùy chọn) Cài đặt transformers nếu muốn dùng tính năng Accurate LM Rescoring:
-pip install transformers
+pip install -e '.[rescore]'
+# Web và conversion tùy chọn:
+pip install -e '.[web,conversion]'
 ```
 
 ### Chuẩn bị Checkpoint mô hình
 Hệ thống sử dụng checkpoint native PyTorch của PhoWhisper-base. Tải và chuyển đổi một lần duy nhất:
 ```bash
-python tools/convert_phowhisper.py --download
+python scripts/convert/convert_phowhisper.py --download
 ```
 File trọng số sẽ được lưu tại `models/phowhisper-base.pt`.
 
@@ -60,51 +62,52 @@ Hệ thống hỗ trợ 3 chế độ suy luận phù hợp cho các tình huố
 
 ## 3. Sử dụng qua dòng lệnh (CLI)
 
-Entry point chính là file `src/inference.py`:
+Entry point chuẩn là `PYTHONPATH=src python -m phowhisper.cli`, hoặc
+`phowhisper` sau khi cài package. Xem [kiến trúc và compatibility](architecture.md).
 
 ### 3.1. Chế độ Mặc định (Fast Mode)
 Nhận dạng âm thanh với tốc độ tối đa và tiêu thụ tài nguyên tối thiểu:
 ```bash
-python -m src.inference --audio path/to/audio.wav
+phowhisper --audio path/to/audio.wav
 ```
 
 ### 3.2. Chế độ Chính xác cao (Accurate Mode với `--rescore`)
 Kích hoạt Beam 5 cùng mô hình ngôn ngữ tiếng Việt để tái xếp hạng giả thuyết, sửa lỗi ngữ nghĩa:
 ```bash
-python -m src.inference --audio path/to/audio.wav --rescore
+phowhisper --audio path/to/audio.wav --rescore
 ```
 
 ### 3.3. Xử lý giọng nói nhanh / lướt âm (`--time-stretch-rate`)
 Khi gặp đoạn nói quá nhanh hoặc nuốt âm, sử dụng cờ co giãn thời gian không làm đổi cao độ giọng (khuyến nghị `0.9` cho giảm 10% tốc độ):
 ```bash
 # Chạy Fast mode với giãn tốc độ 0.9x:
-python -m src.inference --audio path/to/audio.wav --time-stretch-rate 0.9
+phowhisper --audio path/to/audio.wav --time-stretch-rate 0.9
 
 # Chạy Accurate mode kết hợp giãn tốc độ 0.9x:
-python -m src.inference --audio path/to/audio.wav --time-stretch-rate 0.9 --rescore
+phowhisper --audio path/to/audio.wav --time-stretch-rate 0.9 --rescore
 ```
 
 ### 3.4. Tùy chỉnh kích thước Beam (`--beam-size`) & Ngưỡng Tin cậy (`--confidence-threshold`)
 Khi bật `--rescore`, mặc định hệ thống dùng `beam_size=5` và `confidence_threshold=-0.020`:
 ```bash
 # Tùy chỉnh beam size:
-python -m src.inference --audio path/to/audio.wav --rescore --beam-size 3
+phowhisper --audio path/to/audio.wav --rescore --beam-size 3
 
 # Tùy chỉnh ngưỡng tin cậy (bỏ qua LM khi Whisper rất tự tin để tiết kiệm 30% thời gian):
-python -m src.inference --audio path/to/audio.wav --rescore --confidence-threshold -0.020
+phowhisper --audio path/to/audio.wav --rescore --confidence-threshold -0.020
 
 # Tắt hoàn toàn gating, luôn luôn chấm LM cho 100% câu:
-python -m src.inference --audio path/to/audio.wav --rescore --confidence-threshold -999
+phowhisper --audio path/to/audio.wav --rescore --confidence-threshold -999
 ```
 
 ---
 
 ## 4. Sử dụng qua Python API
 
-Hàm `transcribe()` trong `src.inference` cho phép tích hợp trực tiếp vào ứng dụng Python của bạn:
+Hàm `transcribe()` trong `phowhisper.pipeline` cho phép tích hợp trực tiếp vào ứng dụng Python của bạn:
 
 ```python
-from src.inference import transcribe
+from phowhisper.pipeline import transcribe
 
 audio_file = "data/benchmark/viet-bud500/audio/audio1.wav"
 
@@ -135,7 +138,7 @@ print("Stretched + Rescored:", text_stretched)
 Khởi động web app phục vụ người dùng cuối:
 
 ```bash
-python src/app.py
+PYTHONPATH=src python -m app.web.app
 ```
 Mặc định ứng dụng sẽ mở tại `http://localhost:7860`.
 
@@ -163,7 +166,7 @@ python -m benchmarks.run \
   --no-condition-on-previous-text
 
 # 2. Chạy 5-Fold Cross-Validation và đánh giá Conservative Rescoring (Nhánh C):
-python tools/rescore_eval.py
+python -m benchmarks.runners.rescore_eval
 
 # 3. Chạy toàn bộ bộ test kiểm thử tự động (Regression + Unit Tests):
 python -m unittest discover tests
@@ -172,11 +175,17 @@ python -m unittest discover tests
 ---
 
 ## 7. Tài liệu liên quan
-- [Bảng So Sánh Toàn Diện (Ban Đầu vs Hiện Tại)](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/docs/comparison.md): Đối chiếu chi tiết kiến trúc, quy trình, mô hình và kết quả thực nghiệm trên 3 tập dữ liệu.
-- [Nhật ký Nâng cấp & Tối ưu hóa](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/docs/upgrade.md): Bảng tổng hợp 13 cải tiến kỹ thuật so với bản gốc.
-- [Báo cáo Kiểm chứng Rescoring Đối chứng](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-controlled-rescoring-benchmark-check.md): Phân tích thực nghiệm 3 nhánh A / B / C trên 1.000 mẫu test.
-- [Báo cáo Conservative Rescoring & Thống kê](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-conservative-rescoring-report.md): Chi tiết cơ chế Acoustic Margin $\gamma$ và Paired Bootstrap Significance test.
-- [Báo cáo PhoBERT Challenger vs GPT-2](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-phobert-vs-gpt2-report.md): Đánh giá mô hình ngôn ngữ 2 chiều (PLL), giảm lỗi Deletion và so sánh toàn diện.
-- [Báo cáo Phân tích Tách biệt LM vs Gating](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/matched-rescoring-disentanglement-report.md): Ma trận đối sánh 2x2 bóc tách ảnh hưởng của LM so với Acoustic Safety Margin $\gamma$.
-- [Báo cáo Dynamic Acoustic Confidence Gating](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/dynamic-acoustic-confidence-gating-report.md): Khảo sát ngưỡng $\theta_{\text{confident}}$, tiết kiệm ~30% thời gian LM và giảm thiểu lỗi Deletion.
-- [Báo cáo Kiểm chứng Độc lập Holdout 500](file:///home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/outputs/viet-bud500-holdout-validation-report.md): Xác thực trên 500 mẫu âm thanh hoàn toàn mới, khẳng định tính tổng quát hóa tuyệt đối với WER giảm từ 9,77% xuống 8,07% ($p = 0.00000$).
+- [So sánh toàn diện](comparison.md)
+- [Nhật ký nâng cấp](upgrade.md)
+- [Rescoring đối chứng](../outputs/viet-bud500-controlled-rescoring-benchmark-check.md)
+- [Conservative rescoring](../outputs/viet-bud500-conservative-rescoring-report.md)
+- [PhoBERT vs GPT-2](../outputs/viet-bud500-phobert-vs-gpt2-report.md)
+- [LM vs gating](../outputs/matched-rescoring-disentanglement-report.md)
+- [Dynamic gating](../outputs/dynamic-acoustic-confidence-gating-report.md)
+- [Holdout 500](../outputs/viet-bud500-holdout-validation-report.md)
+- [FLEURS60](../reports/benchmark-results-fleurs60.md)
+- [Long audio](../reports/long-audio-benchmark.md)
+
+Các con số hiệu năng/chất lượng trong guide là kết quả lịch sử, không được chạy
+lại trong đợt migration. PhoBERT cần `pyvi` riêng; extra `rescore` dành cho stack
+GPT-2 hiện có, không phải môi trường training. Xem dependency policy trong architecture.

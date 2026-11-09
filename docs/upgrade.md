@@ -1,5 +1,8 @@
 # PhoWhisper + GPT-2: Nhật Ký Nâng Cấp & Tối Ưu Hóa
 
+Đây là nhật ký kết quả lịch sử, không phải lần đo mới. Xem [kiến trúc hiện tại](architecture.md),
+[usage](usage.md) và [chỉ mục báo cáo đã di chuyển](../benchmarks/README.md).
+
 Tổng hợp các cải tiến kỹ thuật và tối ưu decoding so với mô hình PhoWhisper gốc trên Hugging Face / GitHub.
 
 ---

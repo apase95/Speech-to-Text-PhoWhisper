@@ -1,0 +1,212 @@
+{
+  "version": "fleurs60-human-v3",
+  "expected_samples": 60,
+  "base_annotation_sha256": "ae4c8d8de8f107be3580230fc6faf866b54677eb239f4b7dd651150d6e7f9a91",
+  "v1_annotation_sha256": "af3e58d1ef614093e62009b4d62b3a2fc830bd17d57675e6c67f2894bf2b0186",
+  "review_queue_sha256": "81473c877978d7d4f80c49742fefd25119cc024a1ad3005b56f86a6ba4d2348a",
+  "old_v2_manifest_sha256": "dd066421b268eb9a1e3ef30ada7454baccfe03953b07c8753c497b2db5f5baaa",
+  "evidence_verbatim": [
+    "test:266 2002 -> hai không không hai",
+    "test:153 45 -> bốn lăm",
+    "test:472 2002 -> hai ngàn lẻ hai",
+    "test:813 1988 -> một ngàn chín trăm tám tám",
+    "validation:126 400.000 -> bốn trăm ngàn",
+    "validation:151 bơi 100m và 200m -> hơn một trăm mét và hai trăm mét (explicitly user clearly heard hơn, not bơi)",
+    "validation:231 4892 [m] -> bốn ngàn tám trăm chín mươi hai mét (avoid duplicating mét if existing)",
+    "validation:237 1789 -> một ngàn bảy trăm tám mươi chín",
+    "validation:260 1.000 -> một ngàn; 2000 -> hai ngàn",
+    "validation:73 108 -> một trăm lẻ tám"
+  ],
+  "entries": [
+    {
+      "source": "google/fleurs",
+      "id": "validation:151",
+      "original_id": 1626,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "0cffbe0f068ee8c5ac5b6e55b3619dd1a1a568b8c23e5d26c578fac9f9e8962a",
+      "raw": "người giành huy chương vàng olympic được trông đợi sẽ tham dự các nội dung bơi 100m và 200m tự do và ba lần thi tiếp sức tại đại hội thể thao khối thịnh vượng chung nhưng theo lời phàn nàn của anh ấy thể lực của anh ấy đang không đảm bảo",
+      "old_v2": "người giành huy chương vàng olympic được trông đợi sẽ tham dự các nội dung bơi một trăm mét và hai trăm mét tự do và ba lần thi tiếp sức tại đại hội thể thao khối thịnh vượng chung nhưng theo lời phàn nàn của anh ấy thể lực của anh ấy đang không đảm bảo",
+      "reviewed": "người giành huy chương vàng olympic được trông đợi sẽ tham dự các nội dung hơn một trăm mét và hai trăm mét tự do và ba lần thi tiếp sức tại đại hội thể thao khối thịnh vượng chung nhưng theo lời phàn nàn của anh ấy thể lực của anh ấy đang không đảm bảo",
+      "spans": [
+        [
+          "bơi một trăm mét và hai trăm mét",
+          "hơn một trăm mét và hai trăm mét"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "validation:231",
+      "original_id": 1618,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "976b8e7b0cf0c06653c6e0e34b7822df35f5633a64272e7051bbf016b4b4994a",
+      "raw": "phần phía bắc của dãy núi sentinel có những ngọn núi cao nhất bắc băng dương vinson massif có đỉnh vinson cao 4892 m",
+      "old_v2": "phần phía bắc của dãy núi sentinel có những ngọn núi cao nhất bắc băng dương vinson massif có đỉnh vinson cao bốn nghìn tám trăm chín mươi hai mét",
+      "reviewed": "phần phía bắc của dãy núi sentinel có những ngọn núi cao nhất bắc băng dương vinson massif có đỉnh vinson cao bốn ngàn tám trăm chín mươi hai mét",
+      "spans": [
+        [
+          "bốn nghìn tám trăm chín mươi hai mét",
+          "bốn ngàn tám trăm chín mươi hai mét"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "validation:126",
+      "original_id": 1580,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "7e2ed0caa3730de96d670e0ad81c8506b4cecc968a31ad713314cc97cde1ed8f",
+      "raw": "trên khắp nước mỹ hiện có khoảng 400.000 trường hợp mắc bệnh đa xơ cứng ms. con số này đã khiến đa xơ cứng trở thành căn bệnh liên quan đến các tế bào thần kinh phổ biến hàng đầu ở những người trẻ tuổi và trung niên",
+      "old_v2": "trên khắp nước mỹ hiện có khoảng bốn trăm nghìn trường hợp mắc bệnh đa xơ cứng ms. con số này đã khiến đa xơ cứng trở thành căn bệnh liên quan đến các tế bào thần kinh phổ biến hàng đầu ở những người trẻ tuổi và trung niên",
+      "reviewed": "trên khắp nước mỹ hiện có khoảng bốn trăm ngàn trường hợp mắc bệnh đa xơ cứng ms. con số này đã khiến đa xơ cứng trở thành căn bệnh liên quan đến các tế bào thần kinh phổ biến hàng đầu ở những người trẻ tuổi và trung niên",
+      "spans": [
+        [
+          "bốn trăm nghìn",
+          "bốn trăm ngàn"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "validation:237",
+      "original_id": 1637,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "2705388fa58746aed6a2ddf018b6b51061d388775cd4c70c6f7f913785c97ba1",
+      "raw": "ngày 6 tháng 10 năm 1789 khi đang ở cung điện versaille vua louis xvi nữ hoàng marie antoinette cùng hai con nhỏ marie therese 11 tuổi và louis-charles 4 tuổi và em gái của mình - madam elizabeth đã bị một đám đông phụ nữ buôn bán ở chợ buộc phải quay lại paris trong hoảng sợ",
+      "old_v2": "ngày sáu tháng mười năm một nghìn bảy trăm tám mươi chín khi đang ở cung điện versaille vua louis xvi nữ hoàng marie antoinette cùng hai con nhỏ marie therese mười một tuổi và louis-charles bốn tuổi và em gái của mình - madam elizabeth đã bị một đám đông phụ nữ buôn bán ở chợ buộc phải quay lại paris trong hoảng sợ",
+      "reviewed": "ngày sáu tháng mười năm một ngàn bảy trăm tám mươi chín khi đang ở cung điện versaille vua louis xvi nữ hoàng marie antoinette cùng hai con nhỏ marie therese mười một tuổi và louis-charles bốn tuổi và em gái của mình - madam elizabeth đã bị một đám đông phụ nữ buôn bán ở chợ buộc phải quay lại paris trong hoảng sợ",
+      "spans": [
+        [
+          "một nghìn bảy trăm tám mươi chín",
+          "một ngàn bảy trăm tám mươi chín"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "validation:73",
+      "original_id": 1532,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "a081ef40b9a81e02a03ddb87f8b84efbc10a1c2d7a8414afc18af4b1e138e56a",
+      "raw": "108 đĩa chhappan bhog trong ấn độ giáo 56 món ăn như đồ ngọt trái cây các loại hạt các món ăn... được dâng lên thần linh được phụ vụ cho baba shyam",
+      "old_v2": "một trăm linh tám đĩa chhappan bhog trong ấn độ giáo năm mươi sáu món ăn như đồ ngọt trái cây các loại hạt các món ăn... được dâng lên thần linh được phụ vụ cho baba shyam",
+      "reviewed": "một trăm lẻ tám đĩa chhappan bhog trong ấn độ giáo năm mươi sáu món ăn như đồ ngọt trái cây các loại hạt các món ăn... được dâng lên thần linh được phụ vụ cho baba shyam",
+      "spans": [
+        [
+          "một trăm linh tám",
+          "một trăm lẻ tám"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "validation:260",
+      "original_id": 1556,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "d2707db4ef2e49a8a03b7be10708a0ff24c0c44f1808bea99b78ea623630772c",
+      "raw": "con tem thứ 1.000 của anh ấy là bức tranh tráng lệ chứng thư vĩ đại của các vị vua thụy điển của david klöcker ehrenstrahl năm 2000 được liệt kê trong sách kỷ lục guinness thế giới",
+      "old_v2": "con tem thứ một nghìn của anh ấy là bức tranh tráng lệ chứng thư vĩ đại của các vị vua thụy điển của david klöcker ehrenstrahl năm hai nghìn được liệt kê trong sách kỷ lục guinness thế giới",
+      "reviewed": "con tem thứ một ngàn của anh ấy là bức tranh tráng lệ chứng thư vĩ đại của các vị vua thụy điển của david klöcker ehrenstrahl năm hai ngàn được liệt kê trong sách kỷ lục guinness thế giới",
+      "spans": [
+        [
+          "một nghìn",
+          "một ngàn"
+        ],
+        [
+          "hai nghìn",
+          "hai ngàn"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "test:153",
+      "original_id": 1924,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "3c27e4b064f5431b65cb8ef9055c42d4558700afa82593904ef2e2a65fa8f4af",
+      "raw": "bốn vận động viên trượt tuyết trong đội nữ đã không hoàn tất được cuộc đua và 45 trong tổng số 117 vận động viên trượt tuyết ở môn giant slalom không giành được vị trí trong bảng xếp hạng",
+      "old_v2": "bốn vận động viên trượt tuyết trong đội nữ đã không hoàn tất được cuộc đua và bốn mươi lăm trong tổng số một trăm mười bảy vận động viên trượt tuyết ở môn giant slalom không giành được vị trí trong bảng xếp hạng",
+      "reviewed": "bốn vận động viên trượt tuyết trong đội nữ đã không hoàn tất được cuộc đua và bốn lăm trong tổng số một trăm mười bảy vận động viên trượt tuyết ở môn giant slalom không giành được vị trí trong bảng xếp hạng",
+      "spans": [
+        [
+          "bốn mươi lăm",
+          "bốn lăm"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "test:266",
+      "original_id": 1852,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "c0ba7f585bae0bf1ae330bac209a4a6173bf8b04cc50b9e4a81d0c895c90a36c",
+      "raw": "việc sử dụng các trang blog một cách thích hợp có thể giúp học sinh nhạy bén hơn về khả năng phân tích và lý luận; qua những phản ứng tích cực với tài liệu trên internet học sinh có thể xác định vai trò của mình trong ngữ cảnh bài viết của người khác cũng như trình bày quan điểm của mình về những vấn đề cụ thể oravec 2002",
+      "old_v2": "việc sử dụng các trang blog một cách thích hợp có thể giúp học sinh nhạy bén hơn về khả năng phân tích và lý luận; qua những phản ứng tích cực với tài liệu trên internet học sinh có thể xác định vai trò của mình trong ngữ cảnh bài viết của người khác cũng như trình bày quan điểm của mình về những vấn đề cụ thể oravec hai nghìn không trăm linh hai",
+      "reviewed": "việc sử dụng các trang blog một cách thích hợp có thể giúp học sinh nhạy bén hơn về khả năng phân tích và lý luận; qua những phản ứng tích cực với tài liệu trên internet học sinh có thể xác định vai trò của mình trong ngữ cảnh bài viết của người khác cũng như trình bày quan điểm của mình về những vấn đề cụ thể oravec hai không không hai",
+      "spans": [
+        [
+          "hai nghìn không trăm linh hai",
+          "hai không không hai"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "test:813",
+      "original_id": 1795,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "4c5c1abec5174b57c0df67adca35520e56c96abd2d5c2486e45beb9d10226ae6",
+      "raw": "kể từ năm 1988 các thùng phiếu phải trong suốt để cử tri và các quan sát viên có thể làm chứng rằng không có phong bì nào có sẵn khi bắt đầu bỏ phiếu và không có phong bì nào được bỏ thêm vào ngoại trừ những phong bì của các cử tri hợp lệ và được cho phép",
+      "old_v2": "kể từ năm một nghìn chín trăm tám mươi tám các thùng phiếu phải trong suốt để cử tri và các quan sát viên có thể làm chứng rằng không có phong bì nào có sẵn khi bắt đầu bỏ phiếu và không có phong bì nào được bỏ thêm vào ngoại trừ những phong bì của các cử tri hợp lệ và được cho phép",
+      "reviewed": "kể từ năm một ngàn chín trăm tám tám các thùng phiếu phải trong suốt để cử tri và các quan sát viên có thể làm chứng rằng không có phong bì nào có sẵn khi bắt đầu bỏ phiếu và không có phong bì nào được bỏ thêm vào ngoại trừ những phong bì của các cử tri hợp lệ và được cho phép",
+      "spans": [
+        [
+          "một nghìn chín trăm tám mươi tám",
+          "một ngàn chín trăm tám tám"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    },
+    {
+      "source": "google/fleurs",
+      "id": "test:472",
+      "original_id": 1951,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "audio_sha256": "216305e87245956db06704abdcb3250a82549d8bc1a81184ed33442571893073",
+      "raw": "năm 2002 thành phố goma bị san bằng bởi núi lửa nyiragongo thảm họa núi lửa phun trào này đã chôn vùi phần lớn thành phố này đặc biệt là khu vực trung tâm thành phố",
+      "old_v2": "năm hai nghìn không trăm linh hai thành phố goma bị san bằng bởi núi lửa nyiragongo thảm họa núi lửa phun trào này đã chôn vùi phần lớn thành phố này đặc biệt là khu vực trung tâm thành phố",
+      "reviewed": "năm hai ngàn lẻ hai thành phố goma bị san bằng bởi núi lửa nyiragongo thảm họa núi lửa phun trào này đã chôn vùi phần lớn thành phố này đặc biệt là khu vực trung tâm thành phố",
+      "spans": [
+        [
+          "hai nghìn không trăm linh hai",
+          "hai ngàn lẻ hai"
+        ]
+      ],
+      "span_verification": "user-confirmed",
+      "whole_sentence_verification": "limited, not independent audit"
+    }
+  ],
+  "unchanged_v2_user_assertion_ids": [
+    "test:121",
+    "test:653",
+    "test:661"
+  ],
+  "scope": "User-confirmed listed spans; other original13 cases asserted correct v2. No all60/fresh30 human audit; remaining spans pending."
+}

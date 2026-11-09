@@ -1,0 +1,26 @@
+{
+  "checkpoint": {
+    "path": "/home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/models/phowhisper-base.pt",
+    "bytes": 290454061,
+    "sha256": "e46e8147bdc39c239206f89e61a6b6759ca07141d120c1337fc1410bf25b8d3d"
+  },
+  "beam_size": 5,
+  "alpha": 0.2,
+  "beta": -0.02,
+  "gamma": -0.2,
+  "confidence_threshold": -0.02,
+  "fp16": true,
+  "ranking": "descending sum_logprob",
+  "lm_prefix": "tokenizer.encode default specials; NO explicit model-config prefix",
+  "lm": "NlpHUST/gpt2-vietnamese",
+  "revision": "65818d14816b42be09e2201933bf07106d9a2647",
+  "scoring": "avg_logprob + .2 * negative mean causal loss - .02 * normalized word count",
+  "source_hashes": {
+    "src/inference.py": "8fe1dbf2f759dfbcadf083ccf514428bc4008c2aec977ecdcf17459ca0805375",
+    "src/rescorer.py": "597f400fd46a19b3abdadddd15c3bd53f6bd8fbf016971c53031b603a99b5844",
+    "tools/long_audio_benchmark.py": "4823c7a252eae650fbe397cd5d580b364ffbba64108fcf1c5e8c19162aee6380",
+    "tools/generate_dev_nbest.py": "c99acc6740fbd9ea546934a754e371e89878ccaab53939c1899737c26107af1f",
+    "tools/gpt2_optimization.py": "87119320e5f8178f7cac7ea12af08346ef1f7df88f2237e02aecfc50f29eff77"
+  },
+  "production_status": "unchanged; fast remains default, rescoring opt-in"
+}

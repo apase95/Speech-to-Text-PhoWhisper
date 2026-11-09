@@ -1,0 +1,63 @@
+{
+  "version": "fleurs60-spoken-v2",
+  "expected_samples": 60,
+  "base_sha256": "af3e58d1ef614093e62009b4d62b3a2fc830bd17d57675e6c67f2894bf2b0186",
+  "policy": "Inherit hash-bound v1 measurements; add exact source-semantic dates, years, counts, ages and ordinal spans. Text-only convention, not audio validation. Canonical nghìn and linh; dialect variants are not collapsed. Roman numerals and abbreviations remain unresolved.",
+  "unresolved": ["Roman louis xvi and lealofi iii: preserve identifiers, no inferred reading", "knp, ms, npws, nsw inc, mp, usoc, cep, faa, fkp, gbp, vv, v.v.: preserve; spoken realization unaudited"],
+  "entries": [
+    {
+      "source": "google/fleurs", "id": "validation:126", "original_id": 1580,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "trên khắp nước mỹ hiện có khoảng 400.000 trường hợp mắc bệnh đa xơ cứng ms. con số này đã khiến đa xơ cứng trở thành căn bệnh liên quan đến các tế bào thần kinh phổ biến hàng đầu ở những người trẻ tuổi và trung niên",
+      "spans": [["400.000", "bốn trăm nghìn", "grouped-case-count"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "validation:237", "original_id": 1637,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "ngày 6 tháng 10 năm 1789 khi đang ở cung điện versaille vua louis xvi nữ hoàng marie antoinette cùng hai con nhỏ marie therese 11 tuổi và louis-charles 4 tuổi và em gái của mình - madam elizabeth đã bị một đám đông phụ nữ buôn bán ở chợ buộc phải quay lại paris trong hoảng sợ",
+      "spans": [["ngày 6 tháng 10 năm 1789", "ngày sáu tháng mười năm một nghìn bảy trăm tám mươi chín", "explicit-day-month-year"], ["11 tuổi", "mười một tuổi", "child-age"], ["4 tuổi", "bốn tuổi", "child-age"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "validation:73", "original_id": 1532,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "108 đĩa chhappan bhog trong ấn độ giáo 56 món ăn như đồ ngọt trái cây các loại hạt các món ăn... được dâng lên thần linh được phụ vụ cho baba shyam",
+      "spans": [["108", "một trăm linh tám", "plate-count"], ["56", "năm mươi sáu", "dish-count"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "validation:260", "original_id": 1556,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "con tem thứ 1.000 của anh ấy là bức tranh tráng lệ chứng thư vĩ đại của các vị vua thụy điển của david klöcker ehrenstrahl năm 2000 được liệt kê trong sách kỷ lục guinness thế giới",
+      "spans": [["1.000", "một nghìn", "stamp-ordinal-after-thứ"], ["2000", "hai nghìn", "explicit-year"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:153", "original_id": 1924,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "bốn vận động viên trượt tuyết trong đội nữ đã không hoàn tất được cuộc đua và 45 trong tổng số 117 vận động viên trượt tuyết ở môn giant slalom không giành được vị trí trong bảng xếp hạng",
+      "spans": [["45", "bốn mươi lăm", "athlete-subset-count"], ["117", "một trăm mười bảy", "athlete-total-count"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:266", "original_id": 1852,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "việc sử dụng các trang blog một cách thích hợp có thể giúp học sinh nhạy bén hơn về khả năng phân tích và lý luận; qua những phản ứng tích cực với tài liệu trên internet học sinh có thể xác định vai trò của mình trong ngữ cảnh bài viết của người khác cũng như trình bày quan điểm của mình về những vấn đề cụ thể oravec 2002",
+      "spans": [["2002", "hai nghìn không trăm linh hai", "author-citation-year-no-inserted-năm"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:813", "original_id": 1795,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "kể từ năm 1988 các thùng phiếu phải trong suốt để cử tri và các quan sát viên có thể làm chứng rằng không có phong bì nào có sẵn khi bắt đầu bỏ phiếu và không có phong bì nào được bỏ thêm vào ngoại trừ những phong bì của các cử tri hợp lệ và được cho phép",
+      "spans": [["1988", "một nghìn chín trăm tám mươi tám", "explicit-year"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:472", "original_id": 1951,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "năm 2002 thành phố goma bị san bằng bởi núi lửa nyiragongo thảm họa núi lửa phun trào này đã chôn vùi phần lớn thành phố này đặc biệt là khu vực trung tâm thành phố",
+      "spans": [["2002", "hai nghìn không trăm linh hai", "explicit-year"]], "audio_validated": false
+    },
+    {
+      "source": "google/fleurs", "id": "test:661", "original_id": 1759,
+      "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "raw": "bác sĩ malar balasubramanian 29 tuổi được phát hiện nằm trên mặt đất ven đường trong trang phục áo thun và đồ lót nồng nặc thuốc ở blue ash một vùng ngoại ô cách cincinnati 15 dặm về phía bắc",
+      "spans": [["29 tuổi", "hai mươi chín tuổi", "adult-age"]], "audio_validated": false
+    }
+  ]
+}

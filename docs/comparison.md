@@ -1,5 +1,8 @@
 # So Sánh PhoWhisper Gốc vs. PhoWhisper + GPT-2 Pipeline
 
+Các kết quả dưới đây là kết quả lịch sử, không được kiểm chứng lại trong migration.
+Xem [kiến trúc hiện tại](architecture.md) và [chỉ mục báo cáo](../benchmarks/README.md).
+
 Tài liệu này đối chiếu toàn diện giữa **mô hình PhoWhisper ban đầu** (phiên bản thuần túy trên Hugging Face / GitHub) và **hệ sinh thái PhoWhisper + GPT-2** (phiên bản tối ưu hóa Native PyTorch kết hợp GPT-2 Gated Rescoring Pipeline) trên 4 phương diện: Kiến trúc, Quy trình, Mô hình thành phần, và Kết quả đánh giá thực nghiệm.
 
 ---

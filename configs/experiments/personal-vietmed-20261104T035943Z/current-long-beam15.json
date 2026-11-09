@@ -1,0 +1,95 @@
+{
+  "frozen": {
+    "alpha": 0.3,
+    "beta": -0.02,
+    "errors": 281,
+    "chars": 792,
+    "protocol": {
+      "acoustic": {
+        "checkpoint_sha256": "e46e8147bdc39c239206f89e61a6b6759ca07141d120c1337fc1410bf25b8d3d",
+        "decoding": {
+          "beam_size": 15,
+          "language": "vi",
+          "task": "transcribe",
+          "temperature": 0,
+          "without_timestamps": true,
+          "fp16": false,
+          "ranker": "MaximumLikelihoodRanker:length",
+          "mel": "standard-fp32-v1"
+        },
+        "runtime": {
+          "python": "3.14.8",
+          "torch": "2.14.1",
+          "openai-whisper": "20250625",
+          "numpy": "2.5.3"
+        }
+      },
+      "lm": {
+        "model_id": "NlpHUST/gpt2-vietnamese",
+        "revision": "65818d14816b42be09e2201933bf07106d9a2647",
+        "tokenizer_id": "NlpHUST/gpt2-vietnamese",
+        "tokenizer_revision": "65818d14816b42be09e2201933bf07106d9a2647",
+        "scoring": "normalized-mean-v3-model-prefix-or-special-excluded-pll",
+        "prefix_id": 50256,
+        "prefix_policy": "model-config-bos",
+        "vocabulary": {
+          "embedding_size": 50257,
+          "config_size": 50257,
+          "tokenizer_size": 50258,
+          "tokenizer_sha256": "bb89c3bdb61460573e315986d3091c6167291b2ff35bc9b534945fe6c4768179"
+        },
+        "segmentation": "none",
+        "runtime": {
+          "python": "3.14.8",
+          "torch": "2.14.1",
+          "transformers": "4.57.6",
+          "tokenizers": "0.22.2",
+          "pyvi": "0.1.1",
+          "numpy": "2.5.3"
+        }
+      }
+    },
+    "revision": "65818d14816b42be09e2201933bf07106d9a2647",
+    "grid": {
+      "alpha": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "beta": [
+        -0.02,
+        -0.01,
+        0,
+        0.01,
+        0.02
+      ]
+    },
+    "scoring": "avg_logprob + alpha * mean_LM + beta * normalized_word_count",
+    "manifest_sha256": "239eafdea5fee1158856dba94f4b4cfeae220b8d620eb3edb190287010b09bf0",
+    "scores_sha256": "230a04bc68dbfb119ad84fb8ea0754cf09a72a2dfc392295132e8d61f0f7caa7",
+    "nbest_sha256": "00d791501a3d81a001b66b1cc3152d1b359e73885f3e22f93f90fd55b719724a",
+    "fingerprint": "977af5a0d71aa95e31af894c90b1cea208729f5ba6f1917c30d184a95a5e8656"
+  },
+  "winner": {
+    "beam": 15,
+    "freeze_sha256": "0c6c857c36496449d1dbf6f374f9355e880c64f841a5969024f6839b45200158",
+    "selection": "validation errors, character errors, smaller beam",
+    "fingerprint": "8dc36d30581412c73c2052b3f0b9711edd6070288ccfa040f9cd1334cd739ae0"
+  },
+  "checkpoint": {
+    "path": "/home/hodangthaiduy/Workspace/AI/phowhisper-pytorch/models/phowhisper-base.pt",
+    "bytes": 290454061,
+    "sha256": "e46e8147bdc39c239206f89e61a6b6759ca07141d120c1337fc1410bf25b8d3d"
+  },
+  "normalization": "NFC lowercase; non-alphanumeric to space; collapse whitespace",
+  "candidate_ranking": "installed MaximumLikelihoodRanker length; stable original order ties",
+  "gate": null,
+  "context": "independent chunks, no cross-chunk LM context"
+}
