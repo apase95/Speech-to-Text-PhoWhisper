@@ -1,13 +1,11 @@
-import torch
-import whisper
+"""Legacy environment diagnostic command and import alias."""
+import sys
+from pathlib import Path
 
-from src.inference import model_path
-
-print("PyTorch:", torch.__version__)
-print("OpenAI Whisper:", getattr(whisper, "__version__", "unknown"))
-print("CUDA available:", torch.cuda.is_available())
-if torch.cuda.is_available():
-    print("GPU:", torch.cuda.get_device_name(0))
-    print("VRAM:", torch.cuda.get_device_properties(0).total_memory / 1024**3, "GB")
-print("Checkpoint:", model_path())
-print("Checkpoint exists:", model_path().is_file())
+if __name__ == '__main__':
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    import runpy
+    runpy.run_module('scripts.env.check_environment', run_name='__main__')
+else:
+    from scripts.env import check_environment as implementation
+    sys.modules[__name__] = implementation

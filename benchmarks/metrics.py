@@ -1,58 +1,24 @@
-import re
-import unicodedata
+"""Chuẩn hóa văn bản và đo sai số nhận dạng bằng jiwer.
+
+WER/CER trả tỷ lệ, không phải phần trăm. Chuẩn hóa mặc định giữ dấu tiếng
+Việt và chữ số; hài hòa vị trí dấu thanh là lựa chọn riêng, không tự bật.
+"""
 
 from jiwer import cer, wer
-
-
-TONE_MARKS = {"\u0300", "\u0301", "\u0303", "\u0309", "\u0323"}
-
-
-def harmonize_vietnamese_tone_placement(text: str) -> str:
-    """Normalize Vietnamese tone mark placement to modern canonical standard.
-
-    In modern standard, tone marks in 'oa', 'oe', 'uy' diphthongs are placed on
-    the second vowel (e.g., 'hoá', 'khoẻ', 'thuỷ', 'toà') rather than the first.
-    """
-    nfd = unicodedata.normalize("NFD", text)
-    chars = list(nfd)
-    result = []
-    i = 0
-    while i < len(chars):
-        c = chars[i]
-        if (
-            i + 2 < len(chars)
-            and c in ("o", "O")
-            and chars[i + 1] in TONE_MARKS
-            and chars[i + 2] in ("a", "e", "A", "E")
-        ):
-            result.extend([c, chars[i + 2], chars[i + 1]])
-            i += 3
-        elif (
-            i + 2 < len(chars)
-            and c in ("u", "U")
-            and chars[i + 1] in TONE_MARKS
-            and chars[i + 2] in ("y", "Y")
-        ):
-            result.extend([c, chars[i + 2], chars[i + 1]])
-            i += 3
-        else:
-            result.append(c)
-            i += 1
-    return unicodedata.normalize("NFC", "".join(result))
-
-
-def normalize_vietnamese_harmonized(text: str) -> str:
-    base = normalize_vietnamese(text)
-    return harmonize_vietnamese_tone_placement(base)
-
-
-def normalize_vietnamese(text: str) -> str:
-    text = unicodedata.normalize("NFC", text).casefold()
-    text = "".join(" " if unicodedata.category(char).startswith("P") else char for char in text)
-    return re.sub(r"\s+", " ", text).strip()
+from phowhisper.text.normalization import (
+    TONE_MARKS,
+    harmonize_vietnamese_tone_placement,
+    normalize_vietnamese,
+    normalize_vietnamese_harmonized,
+)
 
 
 def corpus_error_rates(references: list[str], hypotheses: list[str]) -> dict[str, float]:
+    """Trả wer/cer toàn corpus sau chuẩn hóa mặc định qua jiwer.
+
+    Hai danh sách phải cùng độ dài và không rỗng, nếu không gây ValueError.
+    Không lấy trung bình các tỷ lệ riêng từng câu.
+    """
     if len(references) != len(hypotheses):
         raise ValueError("References and hypotheses must have the same length")
     if not references:
@@ -74,7 +40,15 @@ def paired_bootstrap_test(
     seed: int = 42,
     harmonized: bool = False,
 ) -> dict[str, float | bool]:
-    """Perform paired bootstrap significance test between System A and System B on WER."""
+    """So sánh WER hai hệ thống bằng lấy mẫu lại các cặp câu có hoàn lại.
+
+    Mặc định 2.000 lượt, seed=42, không hài hòa dấu. Danh sách lệch độ dài
+    hoặc rỗng gây ValueError. Mẫu tham chiếu rỗng được tính mẫu số ít nhất
+    một từ. wer_a/wer_b là tỷ lệ; mean_diff và khoảng percentile 95% là
+    chênh lệch B - A theo điểm phần trăm, âm nghĩa là B ít lỗi hơn.
+    p_value là phần lượt có B - A >= 0; cờ ý nghĩa dùng p_value < 0.05,
+    tức kiểm định một phía theo hướng B tốt hơn A, không phải hai phía.
+    """
     import jiwer
     import numpy as np
 

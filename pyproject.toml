@@ -1,3 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phowhisper-pytorch"
+version = "0.1.0"
+description = "Native PhoWhisper inference and optional LM rescoring"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.2", "openai-whisper>=20240930", "numpy>=1.26"]
+
+[project.optional-dependencies]
+web = ["gradio>=5.0", "librosa>=0.10", "matplotlib>=3.8", "soundfile>=0.12"]
+conversion = ["safetensors>=0.4"]
+benchmark = ["jiwer>=4.0", "soundfile>=0.12", "kaggle>=2.2"]
+# Existing benchmark overlay pins; not a training environment or a full lock.
+rescore = ["transformers==4.57.6", "tokenizers==0.22.2", "huggingface-hub==0.36.2"]
+
+[project.scripts]
+phowhisper = "phowhisper.cli:main"
+
+[tool.setuptools]
+packages = ["phowhisper", "phowhisper.text", "app", "app.web"]
+
+[tool.setuptools.package-dir]
+phowhisper = "src/phowhisper"
+app = "app"
+
 [tool.pytest.ini_options]
-pythonpath = ["."]
+pythonpath = [".", "src"]
 testpaths = ["tests"]
