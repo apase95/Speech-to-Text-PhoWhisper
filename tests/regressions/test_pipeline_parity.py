@@ -53,8 +53,10 @@ class PipelineParityTests(unittest.TestCase):
         self.assertLess(result["p_value"], 0.01)
         self.assertTrue(result["statistically_significant"])
 
+    @torch.no_grad()
     def test_end_to_end_parity_with_real_sample(self):
-        model_path = Path("models/phowhisper-base.pt")
+        from src.inference import model_path as runtime_model_path
+        model_path = runtime_model_path()
         sample_audio = Path("data/benchmark/viet-bud500/audio/audio1.wav")
 
         if not model_path.is_file() or not sample_audio.is_file():

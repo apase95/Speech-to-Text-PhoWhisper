@@ -15,9 +15,9 @@ import numpy as np
 import torch
 import whisper
 
-DEFAULT_MODEL_PATH = Path("models/phowhisper-base.pt")
+DEFAULT_MODEL_PATH = Path("models/phowhisper-small.pt")
 def model_path() -> Path:
-    """Lấy PHOWHISPER_MODEL_PATH hoặc models/phowhisper-base.pt theo cwd."""
+    """Lấy PHOWHISPER_MODEL_PATH hoặc models/phowhisper-small.pt theo cwd."""
     return Path(os.environ.get("PHOWHISPER_MODEL_PATH", DEFAULT_MODEL_PATH))
 @lru_cache(maxsize=1)
 def get_model():
@@ -30,7 +30,8 @@ def get_model():
     if not path.is_file():
         raise FileNotFoundError(
             f"Không tìm thấy checkpoint {path}. "
-            "Hãy chạy tools/convert_phowhisper.py trước."
+            "Hãy chuyển đổi bằng scripts/convert/convert_phowhisper.py hoặc "
+            "kích hoạt bản small đã xác minh bằng scripts/models/activate_small.py."
         )
     device = "cuda" if torch.cuda.is_available() else "cpu"
     return whisper.load_model(str(path), device=device)

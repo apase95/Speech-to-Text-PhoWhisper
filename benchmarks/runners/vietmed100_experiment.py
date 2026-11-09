@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 REVISION = 'dc1a2ebef3ffa772a955f2c9b4412ad8722c0b74'
+from benchmarks.checkpoints import legacy_base_file
 
 
 def normalized(value):
@@ -73,11 +74,11 @@ def main():
                       '15 test clips cannot establish general ASR quality or fast-speech improvement.',
                       'VietMed medical-domain speech; label boundaries may omit 1–2 words.',
                       'Near duplicates and pretraining exposure are not excluded.'])
-    base = Path('models/phowhisper-base.pt')
+    base = legacy_base_file()
     report['base_sha256_before'] = sha(base)
     try:
         checkpoint = torch.load(base, map_location='cpu', weights_only=True)
-        state = torch.load('models/pytorch_model.bin', map_location='cpu', weights_only=True)
+        state = torch.load(legacy_base_file('pytorch_model.bin'), map_location='cpu', weights_only=True)
         state = state.get('state_dict', state)
         mapped = {}
         for key, tensor in state.items():
@@ -90,7 +91,7 @@ def main():
         original = checkpoint['model_state_dict']
         assert mapped.keys() == original.keys()
         assert all(v.dtype == original[k].dtype and v.shape == original[k].shape and torch.equal(v, original[k]) for k, v in mapped.items())
-        assert checkpoint['dims'] == whisper_dimensions(json.loads(Path('models/config.json').read_text()))
+        assert checkpoint['dims'] == whisper_dimensions(json.loads(legacy_base_file('config.json').read_text()))
         report['checkpoint_parity'] = dict(passed=True, pt_keys=len(original), hf_keys=len(state),
                                            mapped_keys=len(mapped), tied_projection=True,
                                            duplicates=0, missing=0, unmapped=0, mismatches=0,

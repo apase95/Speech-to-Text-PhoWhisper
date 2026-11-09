@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from benchmarks.metrics import corpus_error_rates, normalize_vietnamese
 from benchmarks.runners.vietmed100_experiment import sha
+from benchmarks.checkpoints import legacy_base_file
 
 
 def summarize(rows):
@@ -75,7 +76,7 @@ def main():
                 assert abs(info.duration-row['actual_duration']) < 1e-6
             splits[split] = rows
             report['integrity'][split] = dict(json_sha256=sha(path), csv_sha256=sha(path.with_suffix('.csv')), count=count)
-        base = Path('models/phowhisper-base.pt')
+        base = legacy_base_file()
         assert sha(base) == historical['base_sha256_before']
         report['base_sha256'] = sha(base)
         report['decode_settings'] = dict(fast='src.inference.transcribe defaults including Whisper temperature fallback',

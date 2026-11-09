@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import time
+from benchmarks.checkpoints import legacy_base_file
 from datetime import datetime, UTC
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -65,7 +66,7 @@ def main():
     hashes = {p: sha(p) for p in sources}
     for p in sources:
         shutil.copyfile(p, snapshot/Path(p).name)
-    checkpoint = ROOT/'models/phowhisper-base.pt'
+    checkpoint = legacy_base_file(root=ROOT/'models')
     ck = dict(path=str(checkpoint), bytes=checkpoint.stat().st_size, sha256=sha(checkpoint))
     freeze = json.loads((FROZEN/'beam15-freeze.json').read_text())
     winner = json.loads((FROZEN/'winner.json').read_text())

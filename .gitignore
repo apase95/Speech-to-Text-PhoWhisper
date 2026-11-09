@@ -8,6 +8,9 @@ outputs/benchmarks/
 models/*.pt
 models/*.safetensors
 models/*.bin
+models/official/
+models/archive/
+models/*.provenance.json
 .env
 .opencode
 .opencode/*
